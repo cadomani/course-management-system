@@ -33,8 +33,8 @@ services:
       - cms-backnet
     volumes:
       - /server/school/cms/backend:/usr/app
-    depends_on:
-      - db
+    # depends_on:
+    #   - db
     environment:
       - NODE_ENV=development
       - MONGO_URL=mongodb://db:27017

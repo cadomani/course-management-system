@@ -1,16 +1,16 @@
 FROM node:bullseye as base
 
 WORKDIR /src
-COPY package*.json .
+COPY package*.json ./
 EXPOSE 3070
 
 FROM base as production
 RUN npm ci
-COPY . .
+COPY . ./
 CMD ["node", "bin/www"]
 
 FROM base as dev
 ENV NODE_ENV=development
 RUN npm install -g nodemon && npm install
-COPY . .
+COPY . ./
 CMD ["nodemon", "bin/www"]
