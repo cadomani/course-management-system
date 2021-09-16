@@ -58,7 +58,7 @@ services:
 
   # MONGODB
   db:
-    image: mongo:latest
+    image: mongo:5.0.2-focal
     container_name: mongodb
     ports:
       - 27017:27017
@@ -68,10 +68,16 @@ services:
     volumes:
       - mongo-data:/data/db
     restart: always
+    environment: 
+      - MONGO_INITDB_ROOT_USERNAME_FILE=/run/secrets/mongodb_username
+      - MONGO_INITDB_ROOT_PASSWORD_FILE=/run/secrets/mongodb_password
+    secrets:
+      - mongodb_username
+      - mongodb_password
 
   # REVERSE PROXY
   traefik:
-    image: traefik:latest
+    image: traefik:v2.5.2
     container_name: traefik
     restart: always
     ports:
@@ -83,8 +89,8 @@ services:
         ipv4_address: 10.0.10.2
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
-      - ./traefik/logs/access.log:/etc/traefik/logs/access.log
+      - ./config/traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./config/traefik/logs/access.log:/etc/traefik/logs/access.log
     environment:
       - CLOUDFLARE_DNS_API_TOKEN=
     labels:
@@ -129,3 +135,10 @@ networks:
 volumes:
   mongo-data:
     external: true
+
+# Load secrets from within configuration
+secrets:
+  mongodb_username:
+    file: ./config/secrets/mongodb_username
+  mongodb_password:
+    file: ./config/secrets/mongodb_password

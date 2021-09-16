@@ -1,4 +1,4 @@
-FROM node:bullseye
+FROM node:16.9.1-bullseye
 
 WORKDIR /usr/app
 COPY package*.json ./
