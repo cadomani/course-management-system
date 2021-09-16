@@ -35,5 +35,5 @@
       "last 1 safari version"
     ]
   },
-  "proxy": "http://express:3070"
+  "proxy": "http://backend:3070"
 }
