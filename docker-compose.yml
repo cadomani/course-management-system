@@ -1,17 +1,17 @@
 version: "3.8" 
 services:
+  # REACT
   frontend:
+    container_name: frontend
     build:
       context: ./frontend
-    container_name: frontend
     command: npm start
     ports:
       - 3080:3080
     networks:
       - cms-proxy
     volumes:
-      - /server/school/cms/frontend/src:/usr/app/src
-      - /server/school/cms/frontend/public:/usr/app/public
+      - /server/school/cms/frontend:/usr/app
     depends_on:
       - backend
     environment:
@@ -20,12 +20,13 @@ services:
       - DEBUG=cms-frontend:*
       - PORT=3080
       
-  
+  # EXPRESS
   backend:
-    command: npm run start:dev
+    container_name: backend
     build:
       context: ./backend
       target: dev
+    command: npm run start:dev
     ports:
       - 3070:3070
     networks:
@@ -42,6 +43,7 @@ services:
       - DEBUG=cms-backend:*
       - PORT=3070
 
+  # MONGODB
   # db:
   #   image: mongo:latest
   #   container_name: mongodb
