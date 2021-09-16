@@ -3,7 +3,8 @@ services:
   frontend:
     build:
       context: ./frontend
-      dockerfile: Dockerfile
+    container_name: frontend
+    command: npm start
     ports:
       - 3080:3080
     networks:
@@ -14,49 +15,49 @@ services:
     depends_on:
       - backend
     environment:
-      - REACT_APP_SERVER=http://localhost:3070
-      - CHOKIDAR_USEPOLLING=true
-    command: npm start
-    stdin_open: true
-    tty: true
-    restart: unless-stopped
+      - NODE_ENV=development
+      - REACT_APP_SERVER=http://backend:3070
+      - DEBUG=cms-frontend:*
+      
   
-  backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
-    ports:
-      - 3070:3070
-    networks:
-      - cms-proxy
-      - cms-backnet
-    volumes:
-      - ./backend/src:/usr/app/src
-    depends_on:
-      - db
-    environment:
-      - MONGO_URL=mongodb://db:27017
-      - CLIENT=http://3080:3080
-    command: /usr/app/node_modules/.bin/nodemon -L src/index.js
-    restart: unless-stopped
+  # backend:
+  #   command: npm run start:dev
+  #   command: ls -lA
+  #   build:
+  #     context: ./backend
+  #     target: dev
+  #   ports:
+  #     - 3070:3070
+  #   networks:
+  #     - cms-proxy
+  #     - cms-backnet
+  #   volumes:
+  #     - /server/school/cms/backend:/usr/app
+  #   depends_on:
+  #     - db
+  #   environment:
+  #     - NODE_ENV=development
+  #     - MONGO_URL=mongodb://db:27017
+  #     - CLIENT=http://frontend:3080
+  #     - DEBUG=cms-backend:*
 
-  db:
-    image: mongo:latest
-    container_name: mongodb
-    ports:
-      - 27017:27017
-    networks:
-      - cms-backnet
-    volumes:
-      - mongo-data:/data/db
-    restart: always
+  # db:
+  #   image: mongo:latest
+  #   container_name: mongodb
+  #   ports:
+  #     - 27017:27017
+  #   networks:
+  #     - cms-backnet
+  #   volumes:
+  #     - mongo-data:/data/db
+  #   restart: always
 
 networks:
   cms-proxy:
-    driver: host
+    external: true
   cms-backnet:
-    driver: host
+    external: true
 
-volumes:
-  mongo-data:
-    driver: local
+# volumes:
+#   mongo-data:
+#     external: true
