@@ -11,7 +11,8 @@ services:
     networks:
       - cms-proxy
     volumes:
-      - /server/school/cms/frontend:/usr/app
+      - ./frontend/src:/usr/app/src
+      - ./frontend/public:/usr/app/public
     depends_on:
       - backend
     environment:
@@ -19,6 +20,7 @@ services:
       - REACT_APP_SERVER=http://backend:3070
       - DEBUG=cms-frontend:*
       - PORT=3080
+    restart: always
       
   # EXPRESS
   backend:
@@ -33,34 +35,40 @@ services:
       - cms-proxy
       - cms-backnet
     volumes:
-      - /server/school/cms/backend:/usr/app
-    # depends_on:
-    #   - db
+      - ./backend/bin:/usr/app/bin
+      - ./backend/public:/usr/app/public
+      - ./backend/routes:/usr/app/routes
+      - ./backend/views:/usr/app/views
+    depends_on:
+      - db
     environment:
       - NODE_ENV=development
       - MONGO_URL=mongodb://db:27017
       - CLIENT=http://frontend:3080
       - DEBUG=cms-backend:*
       - PORT=3070
+    restart: always
 
   # MONGODB
-  # db:
-  #   image: mongo:latest
-  #   container_name: mongodb
-  #   ports:
-  #     - 27017:27017
-  #   networks:
-  #     - cms-backnet
-  #   volumes:
-  #     - mongo-data:/data/db
-  #   restart: always
+  db:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - 27017:27017
+    networks:
+      - cms-backnet
+    volumes:
+      - mongo-data:/data/db
+    restart: always
 
+# Add a separate network for db <-> backend communication and proxy the rest
 networks:
   cms-proxy:
     external: true
   cms-backnet:
     external: true
 
-# volumes:
-#   mongo-data:
-#     external: true
+# Add a dedicated volume for database
+volumes:
+  mongo-data:
+    external: true

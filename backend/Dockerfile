@@ -1,6 +1,6 @@
 FROM node:bullseye as base
 
-WORKDIR /src
+WORKDIR /usr/app
 COPY package*.json ./
 EXPOSE 3070
 
