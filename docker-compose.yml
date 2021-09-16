@@ -10,8 +10,8 @@ services:
     networks:
       - cms-proxy
     volumes:
-      - ./frontend/src:/usr/app/src
-      - ./frontend/public:/usr/app/public
+      - /server/school/cms/frontend/src:/usr/app/src
+      - /server/school/cms/frontend/public:/usr/app/public
     # depends_on:
     #   - backend
     environment:
