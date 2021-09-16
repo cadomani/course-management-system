@@ -5,11 +5,10 @@ services:
     container_name: frontend
     build:
       context: ./frontend
-    command: npm start
-    ports:
-      - 3080:3080
+    command: npm start --dd
     networks:
-      - cms-proxy
+      proxy:
+        ipv4_address: 10.0.10.3
     volumes:
       - ./frontend/src:/usr/app/src
       - ./frontend/public:/usr/app/public
@@ -18,10 +17,18 @@ services:
     environment:
       - NODE_ENV=development
       - REACT_APP_SERVER=http://backend:3070
-      - DEBUG=cms-frontend:*
+      - HOST=10.0.10.3
       - PORT=3080
+      - DEBUG=cms-frontend:*
     restart: always
-      
+    labels:
+      - "traefik.enable=true"
+      - "traefik.docker.network=proxy"
+      - "traefik.http.services.frontend.loadbalancer.server.port=3080"
+      - "traefik.http.services.frontend.loadbalancer.passhostheader=false"
+      - "traefik.http.routers.frontend.rule=Host(`cms.kltpzyxm.live`)"
+      - "traefik.http.routers.frontend.entrypoints=web"
+
   # EXPRESS
   backend:
     container_name: backend
@@ -29,11 +36,11 @@ services:
       context: ./backend
       target: dev
     command: npm run start:dev
-    ports:
-      - 3070:3070
     networks:
-      - cms-proxy
-      - cms-backnet
+      proxy:
+        ipv4_address: 10.0.10.4
+      backnet:
+        ipv4_address: 10.0.11.4
     volumes:
       - ./backend/bin:/usr/app/bin
       - ./backend/public:/usr/app/public
@@ -56,17 +63,67 @@ services:
     ports:
       - 27017:27017
     networks:
-      - cms-backnet
+      backnet:
+        ipv4_address: 10.0.11.2
     volumes:
       - mongo-data:/data/db
     restart: always
 
+  # REVERSE PROXY
+  traefik:
+    image: traefik:latest
+    container_name: traefik
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+      - 8088:8080
+    networks:
+      proxy:
+        ipv4_address: 10.0.10.2
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/traefik.yml:/etc/traefik/traefik.yml:ro
+      - ./traefik/logs/access.log:/etc/traefik/logs/access.log
+    environment:
+      - CLOUDFLARE_DNS_API_TOKEN=
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.services.frontend.loadbalancer.passhostheader=false"
+      - "traefik.http.routers.http-catchall.rule.hostregexp(`{host:.+}`)"
+      - "traefik.http.routers.http-catchall.entrypoints=web"
+
+  # CLOUDFLARE ARGO TUNNEL
+  # cloudflared:
+  #   image: cloudflare/cloudflared
+  #   container_name: cloudflared
+  #   ports:
+  #       - 80:80
+  #   volumes:
+  #       - /var/run/docker.sock:/tmp/docker.sock:ro
+  #       - ~/.cloudflared:/etc/cloudflared
+  #   restart: always
+  #   logging:
+  #       options:
+  #           max-size: 1g
+
+
 # Add a separate network for db <-> backend communication and proxy the rest
 networks:
-  cms-proxy:
-    external: true
-  cms-backnet:
-    external: true
+  proxy:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: proxy
+    ipam:
+      config:
+        - subnet: 10.0.10.0/27
+  backnet:
+    driver: bridge
+    driver_opts:
+      com.docker.network.bridge.name: backnet
+    ipam:
+      config:
+        - subnet: 10.0.11.0/27
 
 # Add a dedicated volume for database
 volumes:
