@@ -1,9 +1,9 @@
 FROM node:bullseye
 
 WORKDIR /usr/app
-COPY package*.json .
+COPY package*.json ./
 EXPOSE 3080
 
 ENV NODE_ENV=development
 RUN npm install
-COPY . .
+COPY . ./
