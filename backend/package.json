@@ -2,6 +2,7 @@
   "name": "cms-backend",
   "version": "0.0.1",
   "private": true,
+  "type": "module",
   "scripts": {
     "start:prod": "node ./bin/www",
     "start:dev": "nodemon ./bin/www"

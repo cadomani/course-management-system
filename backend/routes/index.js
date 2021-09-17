@@ -1,14 +1,17 @@
-var express = require('express');
-var router = express.Router();
+// Bring in express and define the router for this route path
+import { Router } from 'express';
+var router = Router();
 
-/* GET home page. */
+// Index route
 router.get('/', function(req, res, next) {
+  // Render index.pug view
   res.render('index', { title: 'Express' });
 });
 
-/* Test page. */
-router.get('/test', function(req, res, next) {
+// Login route
+router.get('/login', function(req, res, next) {
   res.render('index', { title: 'Test Page Reached' });
 });
 
-module.exports = router;
+// Export the router for this page
+export default router;
