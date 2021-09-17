@@ -1,16 +1,19 @@
 #!/usr/bin/env node
 
 // Module dependencies.
-import app from '../app';  // Import express instance from app.js
-var debug = require('debug')('backend:server');
-import { createServer } from 'http';
+import app from '../app.js'; // Import express instance from app.js
+import http from 'http';
+
+// Set up debugging
+import Debug from 'debug';
+const debug = Debug('cms-backend:server');
 
 // Get port from environment and store in Express.
 var port = normalizePort(process.env.PORT || '3000');
 app.set('port', port);
 
-// Create HTTP server.
-var server = createServer(app);
+// Create HTTP server
+var server = http.createServer(app);
 
 // Listen on provided port, on all network interfaces.
 server.listen(port);
