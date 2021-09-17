@@ -50,7 +50,7 @@ services:
       - db
     environment:
       - NODE_ENV=development
-      - MONGO_URL=mongodb://db:27017
+      - MONGO_URL=mongodb+srv://${MONGODB_USERNAME:?err}:${MONGODB_PASSWORD:?err}@${MONGODB_SERVER:?err}/${MONGODB_DATABASE:?err}?retryWrites=true&w=majority
       - CLIENT=http://frontend:3080
       - DEBUG=cms-backend:*
       - PORT=3070
@@ -112,7 +112,6 @@ services:
   #   logging:
   #       options:
   #           max-size: 1g
-
 
 # Add a separate network for db <-> backend communication and proxy the rest
 networks:
