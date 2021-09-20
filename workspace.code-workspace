@@ -1,0 +1,82 @@
+{
+	"folders": [
+		{
+			"name": "Express Server",
+			"path": "backend",
+		},
+		{
+			"name": "React Client",
+			"path": "frontend"
+		}
+	],
+	"launch": {
+		"configurations": [
+			{
+				"name": "Debug Server",
+				"request": "launch",
+				"runtimeArgs": [
+					"run-script",
+					"dev"
+				],
+				"runtimeExecutable": "npm",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"type": "pwa-node",
+				"envFile": "${workspaceFolder:Express Server}/.env"
+			}, {
+				"name": "Debug Client",
+				"request": "launch",
+				"runtimeArgs": [
+					"run-script",
+					"start"
+				],
+				"runtimeExecutable": "npm",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"type": "pwa-node",
+				
+				"envFile": "${workspaceFolder:React Client}/.env"
+			}
+
+		],
+		"compounds": [
+			{
+				"name": "Debug Server & Client",
+				"configurations": [
+					"Debug Server",
+					"Debug Client"
+				]
+			}
+		]
+	},
+	"settings": {
+		"files.exclude": {
+			"**/.git": true,
+			"**/.svn": true,
+			"**/.hg": true,
+			"**/CVS": true,
+			"**/.DS_Store": true,
+			"**/Thumbs.db": true,
+			"**/node_modules": true,
+			"**/package-lock.json": true,
+			"**/.eslintrc.js": true,
+		},
+		"files.autoSave": "afterDelay",
+		"files.autoSaveDelay": 1000
+	},
+	"extensions": {
+		"recommendations": [
+			"christian-kohler.npm-intellisense",
+			"christian-kohler.path-intellisense",
+			"dbaeumer.vscode-eslint",
+			"eg2.vscode-npm-script",
+			"GitHub.vscode-pull-request-github",
+			"ms-vscode.js-debug-nightly",
+			"ms-vsliveshare.vsliveshare",
+			"dsznajder.es7-react-js-snippets",
+			"coenraads.bracket-pair-colorizer"
+		]
+	}
+}
