@@ -24,7 +24,8 @@
 				],
 				"type": "pwa-node",
 				"envFile": "${workspaceFolder:Express Server}/.env"
-			}, {
+			},
+			{
 				"name": "Debug Client",
 				"request": "launch",
 				"runtimeArgs": [
@@ -35,18 +36,34 @@
 				"skipFiles": [
 					"<node_internals>/**"
 				],
+				"smartStep": true,
 				"type": "pwa-node",
-				
+				"localRoot": "${workspaceFolder:React Client}",
+				"envFile": "${workspaceFolder:React Client}/.env",
+			},
+			{
+				"name": "Launch Chrome",
+				"request": "launch",
+				"type": "pwa-chrome",
+				"url": "http://localhost:5080",
+				"webRoot": "${workspaceFolder:React Client}/src",
 				"envFile": "${workspaceFolder:React Client}/.env"
 			}
-
 		],
 		"compounds": [
 			{
-				"name": "Debug Server & Client",
+				"name": "Debug Server & Headless Client",
 				"configurations": [
 					"Debug Server",
 					"Debug Client"
+				]
+			},
+			{
+				"name": "Debug Server, Client, and Launch Browser",
+				"configurations": [
+					"Debug Server",
+					"Debug Client",
+					"Launch Chrome"
 				]
 			}
 		]
@@ -64,7 +81,23 @@
 			"**/.eslintrc.js": true,
 		},
 		"files.autoSave": "afterDelay",
-		"files.autoSaveDelay": 1000
+		"files.autoSaveDelay": 1000,
+		"editor.tabSize": 2,
+		"editor.bracketPairColorization.enabled": true,
+		"files.insertFinalNewline": true,
+		"git.autofetch": true,
+		"debug.javascript.autoAttachFilter": "smart",
+		"eslint.alwaysShowStatus": true,
+		"eslint.format.enable": true,
+		"eslint.rules.customizations": [
+			{
+				"rule": "no-unused-vars",
+				"severity": "info"
+			}
+		],
+		"editor.formatOnPaste": true,
+		"editor.formatOnSave": true,
+		"editor.formatOnType": true,
 	},
 	"extensions": {
 		"recommendations": [
@@ -76,7 +109,13 @@
 			"ms-vscode.js-debug-nightly",
 			"ms-vsliveshare.vsliveshare",
 			"dsznajder.es7-react-js-snippets",
-			"coenraads.bracket-pair-colorizer"
-		]
+			"coenraads.bracket-pair-colorizer",
+			"eamodio.gitlens",
+			"mhutchie.git-graph"
+		],
+	},
+	"tasks": {
+		"version": "2.0.0",
+		"tasks": []
 	}
 }
