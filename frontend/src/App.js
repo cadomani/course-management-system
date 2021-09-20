@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
 import 'bulma/css/bulma.min.css';
-// eslint-disable-next-line
 import { Button, Columns, Notification, Card, Media, Image, Heading, Content, Container, Form, Icon } from 'react-bulma-components';
-// eslint-disable-next-line
 import { listUsers, checkUsernameAvailable } from './API';
 
 const App = () => {
@@ -47,7 +45,7 @@ const App = () => {
                 <i className="fas fa-check" />
               </Icon>
             </Form.Control>
-            <Form.Control>
+            {/* <Form.Control>
               <Form.Input
                 color="failure"
                 value={usernameStatus}
@@ -61,7 +59,7 @@ const App = () => {
               <Icon align="right" size="small">
                 <i className="fas fa-check" />
               </Icon>
-            </Form.Control>
+            </Form.Control> */}
             <Form.Help color="success"></Form.Help>
           </Form.Field>
         </form>
