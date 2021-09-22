@@ -1,10 +1,15 @@
 const { Router } = require('express');
-
 const User = require('../models/user');
 
+// /API/USERS/
 const router = Router();
 
-// Get a list of all users added to database
+/*
+################
+  REGISTRATION
+################
+*/
+// DEBUG: Get a list of all users on database
 router.get('/', async (req, res, next) => {
   try {
     const entries = await User.find();
@@ -14,7 +19,18 @@ router.get('/', async (req, res, next) => {
   }
 });
 
-// Check if a username is available
+// Add a new user to the users database
+router.post('/', async (req, res, next) => {
+  try {
+    const user = new User(req.body);
+    const createdEntry = await user.save();
+    res.json(createdEntry);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// Check if a username is available TODO: Need rate limiting for security and database health
 router.get('/checkUsernameAvailable', async (req, res, next) => {
   try {
     // TODO: Disabled to avoid excessive calls to database, should cache
@@ -28,17 +44,6 @@ router.get('/checkUsernameAvailable', async (req, res, next) => {
     //   res.status(409);
     // }
     res.json(null);
-  } catch (error) {
-    next(error);
-  }
-});
-
-// Add a new user to the users database
-router.post('/', async (req, res, next) => {
-  try {
-    const user = new User(req.body);
-    const createdEntry = await user.save();
-    res.json(createdEntry);
   } catch (error) {
     next(error);
   }

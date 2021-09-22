@@ -1,0 +1,580 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Course Management System
+  description: The main objective of the project is to facilitate the interaction between students and instructors related to the presentation of projects, tasks, thesis and allows instructors to give feedback to students.
+servers:
+  - url: 'http://192.168.1.8:5070/api'
+    description: Home Server
+  - url: 'http://localhost:5070/api'
+    description: Development server
+  - url: 'https://cms.kltpzyxm.live/api'
+    description: Production server
+paths:
+  # USERS
+  /user:
+    get:
+      summary: 'DEBUG: List all users in database'
+      operationId: listUsers
+      tags:
+        - user
+      security:
+        - MasterKeyAuth: []
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfUsers'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+    post:
+      summary: 'add a new user to database.'
+      operationId: addUser
+      tags:
+        - user
+      responses:
+        '201':
+          description: 'user created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+        '403':
+          description: 'user exists'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/{id}:
+    put:
+      summary: 'replace user by id'
+      operationId: replaceUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'user replaced'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: 'update user by id'
+      operationId: updateUser
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'user updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /user/{id}/uuid:
+    get:
+      summary: 'get user uuid from public id'
+      operationId: getUserUUID
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'user uuid found'
+          content:
+            application/json:
+              schema:
+                type: string
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user uuid not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'  
+  /user/{id}/profile:
+    get:
+      summary: 'get user public profile given id (or public profile given uuid)'
+      operationId: getUserProfile
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-USER-UUID
+          in: header
+          description: User UUID
+          required: false
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'user found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ExtendedUser'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: 'replace user private profile given uuid'
+      operationId: replaceUserProfile
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-USER-UUID
+          in: header
+          description: User UUID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'user replaced'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: 'update user profile given by uuid'
+      operationId: updateUserProfile
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-USER-UUID
+          in: header
+          description: User UUID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'user updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+  
+  # COURSES
+  /course:
+    get:
+      summary: 'DEBUG: List all courses in database'
+      operationId: listCourses
+      tags:
+        - course
+      security:
+        - MasterKeyAuth: []
+      responses:
+        '200':
+          description: 'success'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ArrayOfCourses'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    post:
+      summary: 'create course'
+      operationId: createCourse
+      tags:
+        - course
+      responses:
+        '201':
+          description: 'course created'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '403':
+          description: 'course exists'  
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /course/{id}:
+    put:
+      summary: 'replace course by id'
+      operationId: replaceCourse
+      tags:
+        - course
+      parameters:
+        - name: id
+          in: path
+          description: Course ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'course replaced'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'course not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    patch:
+      summary: 'update course by id'
+      operationId: updateCourse
+      tags:
+        - course
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'course updated'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'course not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+  # STATIC
+  /static/{id}/profile-photo:
+    get:
+      summary: 'get profile photo'
+      operationId: getUserProfilePhoto
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+      responses:
+        '200':
+          description: 'user found'
+          content:
+            image/*:
+              schema: 
+               type: string
+               format: binary
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+    put:
+      summary: 'replace profile photo given uuid'
+      operationId: replaceUserProfilePhoto
+      tags:
+        - user
+      parameters:
+        - name: id
+          in: path
+          description: User ID
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: X-USER-UUID
+          in: header
+          description: User UUID
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: 'user found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StatusDetail'
+        '400':
+          description: 'bad request'   
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '404':
+          description: 'user not found'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  #/static/{id}/class-icons
+  #/static/{id}/class-thumbnails
+
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - _id
+        - firstName
+        - lastName
+        - username
+      properties:
+        _id:
+          type: string
+        firstName:
+          type: string
+        middleName:
+          type: string
+        lastName:
+          type: string
+        nickname:
+          type: string
+        username:
+          type: string
+    ExtendedUser:
+      allOf:
+        - $ref: '#/components/schemas/User'
+        - type: object
+          required:
+            - email
+          properties:
+            email:
+              type: string
+            coursesTaken:
+              type: array
+              items:
+                $ref: '#/components/schemas/ArrayOfCourses'
+              minItems: 0
+    ArrayOfUsers:
+      type: array
+      items:
+        $ref: '#/components/schemas/User'
+    Course:
+      type: object
+      required:
+        - _id
+        - descriptiveName
+        - courseNumber
+        - shortName
+        - department
+        - category
+      properties:
+        _id:
+          type: string
+        descriptiveName:
+          type: string
+        courseNumber:
+          type: integer
+        shortName:
+          type: string
+        department:
+          type: string
+        category:
+          type: string
+        semestersOffered:
+          type: array
+          items:
+            properties:
+              semester:
+                type: string
+            minItems: 1
+            maxItems: 3
+        prerequisites:
+          type: array
+          items:
+            properties:
+              courseNum:
+                type: integer
+            minItems: 0
+    ArrayOfCourses:
+      type: array
+      items:
+        $ref: '#/components/schemas/Course'
+    StatusDetail:
+      type: object
+      properties:
+        status:
+          type: string
+        detail:
+          type: string
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: integer
+          format: int32
+        message:
+          type: string
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+    ApiKeyAuth: 
+      type: apiKey
+      in: header
+      name: X-API-KEY
+    MasterKeyAuth: 
+      type: apiKey
+      in: header
+      name: X-MASTER-KEY
+security:
+  # User Authentication
+  - JWTAuth: []
+  # Frontend/Backend exclusivity
+  - ApiKeyAuth: []
