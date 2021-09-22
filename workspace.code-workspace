@@ -125,7 +125,7 @@
 			"dsznajder.es7-react-js-snippets",
 			"coenraads.bracket-pair-colorizer",
 			"eamodio.gitlens",
-			"mhutchie.git-graph"
+			"mhutchie.git-graph",
 		],
 	},
 	"tasks": {
