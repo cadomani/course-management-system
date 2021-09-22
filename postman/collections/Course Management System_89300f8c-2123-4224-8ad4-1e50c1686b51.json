@@ -1,0 +1,2183 @@
+{
+    "info": {
+        "_postman_id": "900b63c4-da93-4e25-8b45-649cac903607",
+        "name": "Course Management System",
+        "description": "The main objective of the project is to facilitate the interaction between students and instructors related to the presentation of projects, tasks, thesis and allows instructors to give feedback to students.",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "user",
+            "item": [
+                {
+                    "name": "{id}",
+                    "item": [
+                        {
+                            "name": "profile",
+                            "item": [
+                                {
+                                    "name": "get user public profile given id (or public profile given uuid)",
+                                    "id": "1cdd0c28-d015-49a0-9a11-00cc025ce1fd",
+                                    "request": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "description": "User UUID",
+                                                "key": "X-USER-UUID",
+                                                "value": "ad labore "
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/profile",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "profile"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "id": "a0c47923-1bc7-45cf-8900-4fe85d1fbf76",
+                                                    "key": "id",
+                                                    "value": "73319061",
+                                                    "description": "(Required) User ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "94a5e197-02bf-419a-93b4-0848bbb60ab0",
+                                            "name": "user found",
+                                            "originalRequest": {
+                                                "method": "GET",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"_id\": \"minim nisi sunt aliquip\",\n \"email\": \"velit Lorem anim aliqua\",\n \"firstName\": \"consequat veniam\",\n \"lastName\": \"labore ipsum laboris in tempor\",\n \"username\": \"culpa amet\",\n \"middleName\": \"aliqua\",\n \"nickname\": \"dolor dolore\",\n \"coursesTaken\": [\n  [\n   {\n    \"_id\": \"commodo\",\n    \"descriptiveName\": \"adipisicing ut labore veniam\",\n    \"courseNumber\": -59512151,\n    \"shortName\": \"Lorem\",\n    \"department\": \"in\",\n    \"category\": \"et aliquip\",\n    \"semestersOffered\": [\n     {\n      \"semester\": \"enim fugiat adipisicing\"\n     },\n     {\n      \"semester\": \"ut commodo irure enim anim\"\n     }\n    ],\n    \"prerequisites\": [\n     {\n      \"courseNum\": -12206653\n     },\n     {\n      \"courseNum\": -60368645\n     }\n    ]\n   },\n   {\n    \"_id\": \"do deserunt non exercitation\",\n    \"descriptiveName\": \"incididunt nisi\",\n    \"courseNumber\": -40197926,\n    \"shortName\": \"sunt laboris\",\n    \"department\": \"Duis in laboris\",\n    \"category\": \"Ut quis\",\n    \"semestersOffered\": [\n     {\n      \"semester\": \"commo\"\n     },\n     {\n      \"semester\": \"nulla reprehenderit\"\n     }\n    ],\n    \"prerequisites\": [\n     {\n      \"courseNum\": -68689951\n     },\n     {\n      \"courseNum\": 40442445\n     }\n    ]\n   }\n  ],\n  [\n   {\n    \"_id\": \"pariatur dolore consequat magna\",\n    \"descriptiveName\": \"do commodo\",\n    \"courseNumber\": -27387682,\n    \"shortName\": \"laboris ad adipisicing qui\",\n    \"department\": \"consectetur occaecat tempor\",\n    \"category\": \"officia sint proident\",\n    \"semestersOffered\": [\n     {\n      \"semester\": \"velit cillum dolore ad laboris\"\n     },\n     {\n      \"semester\": \"cupidatat exercitation dolore est\"\n     }\n    ],\n    \"prerequisites\": [\n     {\n      \"courseNum\": -13501861\n     },\n     {\n      \"courseNum\": 22548819\n     }\n    ]\n   },\n   {\n    \"_id\": \"in\",\n    \"descriptiveName\": \"nulla laborum magna\",\n    \"courseNumber\": -14643400,\n    \"shortName\": \"ad adipisicing\",\n    \"department\": \"mo\",\n    \"category\": \"eiusmod labore cupidatat\",\n    \"semestersOffered\": [\n     {\n      \"semester\": \"pariatur et\"\n     },\n     {\n      \"semester\": \"a\"\n     }\n    ],\n    \"prerequisites\": [\n     {\n      \"courseNum\": -51297463\n     },\n     {\n      \"courseNum\": -69356230\n     }\n    ]\n   }\n  ]\n ]\n}"
+                                        },
+                                        {
+                                            "id": "f9bf338b-6f02-459e-9019-6f27a54a14e1",
+                                            "name": "bad request",
+                                            "originalRequest": {
+                                                "method": "GET",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Bad Request",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                        },
+                                        {
+                                            "id": "c0ab8c0e-9668-4236-a9cc-bc5bc2c16f50",
+                                            "name": "user not found",
+                                            "originalRequest": {
+                                                "method": "GET",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Not Found",
+                                            "code": 404,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "replace user private profile given uuid",
+                                    "id": "5325fc27-5e76-4b5c-ab38-f35a8006747a",
+                                    "request": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "(Required) User UUID",
+                                                "key": "X-USER-UUID",
+                                                "value": "ad labore "
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/profile",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "profile"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "id": "d334c152-0237-4dde-b290-a9a3a7fde0ef",
+                                                    "key": "id",
+                                                    "value": "73319061",
+                                                    "description": "(Required) User ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "37612a60-96b3-4d11-87ce-14aa476e4042",
+                                            "name": "user replaced",
+                                            "originalRequest": {
+                                                "method": "PUT",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                        },
+                                        {
+                                            "id": "e6b5f427-ce59-4692-8137-c17eb2ddcdf9",
+                                            "name": "bad request",
+                                            "originalRequest": {
+                                                "method": "PUT",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Bad Request",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                        },
+                                        {
+                                            "id": "28d64220-fe15-4a81-ba52-9eec0c9962f3",
+                                            "name": "user not found",
+                                            "originalRequest": {
+                                                "method": "PUT",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Not Found",
+                                            "code": 404,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "name": "update user profile given by uuid",
+                                    "id": "cbad701b-d00a-49b0-8d01-cfd6cefe23b1",
+                                    "request": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "(Required) User UUID",
+                                                "key": "X-USER-UUID",
+                                                "value": "ad labore "
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/profile",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "profile"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "id": "c3b80df2-8cbb-40ce-99d5-fea339b327b9",
+                                                    "key": "id",
+                                                    "value": "73319061",
+                                                    "description": "(Required) User ID"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "response": [
+                                        {
+                                            "id": "4eaf4ff6-8ad3-4877-bde5-37bd624573da",
+                                            "name": "user updated",
+                                            "originalRequest": {
+                                                "method": "PATCH",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "OK",
+                                            "code": 200,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                        },
+                                        {
+                                            "id": "b0bb6a01-7d38-48b8-bdf9-ef4a8cc88d84",
+                                            "name": "bad request",
+                                            "originalRequest": {
+                                                "method": "PATCH",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Bad Request",
+                                            "code": 400,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                        },
+                                        {
+                                            "id": "639246be-c21b-48e6-9d28-b3f1f2c9989e",
+                                            "name": "user not found",
+                                            "originalRequest": {
+                                                "method": "PATCH",
+                                                "header": [
+                                                    {
+                                                        "description": "Added as a part of security scheme: bearer",
+                                                        "key": "Authorization",
+                                                        "value": "Bearer <token>"
+                                                    },
+                                                    {
+                                                        "description": "(Required) User UUID",
+                                                        "key": "X-USER-UUID",
+                                                        "value": "ad labore "
+                                                    }
+                                                ],
+                                                "url": {
+                                                    "raw": "{{baseUrl}}/user/:id/profile",
+                                                    "host": [
+                                                        "{{baseUrl}}"
+                                                    ],
+                                                    "path": [
+                                                        "user",
+                                                        ":id",
+                                                        "profile"
+                                                    ],
+                                                    "variable": [
+                                                        {
+                                                            "key": "id"
+                                                        }
+                                                    ]
+                                                }
+                                            },
+                                            "status": "Not Found",
+                                            "code": 404,
+                                            "_postman_previewlanguage": "json",
+                                            "header": [
+                                                {
+                                                    "key": "Content-Type",
+                                                    "value": "application/json"
+                                                }
+                                            ],
+                                            "cookie": [],
+                                            "responseTime": null,
+                                            "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                        }
+                                    ]
+                                }
+                            ],
+                            "id": "149f5743-0d12-48ae-a14e-6679ec1e6969"
+                        },
+                        {
+                            "name": "replace user by id",
+                            "id": "26ae5cbf-c29e-4d60-96f4-c7fcefe262ca",
+                            "request": {
+                                "method": "PUT",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "e6d79998-03e9-4dce-bc36-a0318ba59d9a",
+                                            "key": "id",
+                                            "value": "73319061",
+                                            "description": "(Required) User ID"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "3104d891-6ab6-4d48-8865-eb5a1be09254",
+                                    "name": "user replaced",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                },
+                                {
+                                    "id": "191a931a-b821-44e9-8567-4359a1781078",
+                                    "name": "bad request",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                },
+                                {
+                                    "id": "2409d8b3-e9b1-49ef-af0f-ffe724009371",
+                                    "name": "user not found",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update user by id",
+                            "id": "adc629a6-5ae7-4c7d-9764-a6d35afad3bd",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "20c82201-e683-47cd-874b-15351731dc4e",
+                                            "key": "id",
+                                            "value": "73319061",
+                                            "description": "(Required) User ID"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "c03359f1-a6da-42f1-9368-be96b75c5ea4",
+                                    "name": "user updated",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                },
+                                {
+                                    "id": "9351144b-2556-4d6d-98ec-d2d9d462f9ef",
+                                    "name": "bad request",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                },
+                                {
+                                    "id": "c331b8ea-ca2a-40e4-9b1a-1f77387fc3e7",
+                                    "name": "user not found",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "get user uuid from public id",
+                            "id": "7e88f629-53c2-49e1-82c1-f9a10dc71358",
+                            "request": {
+                                "method": "GET",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user/:id/uuid",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user",
+                                        ":id",
+                                        "uuid"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "81a8c459-2ae0-4295-b254-a50eaed82de0",
+                                            "key": "id",
+                                            "value": "73319061",
+                                            "description": "(Required) User ID"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "d92f9739-87bd-4c4c-b704-be33087d9fbb",
+                                    "name": "user uuid found",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/uuid",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "uuid"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "\"ad labore \""
+                                },
+                                {
+                                    "id": "d7d7cff7-6787-4e38-bfa1-91a4a12a19ae",
+                                    "name": "bad request",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/uuid",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "uuid"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                },
+                                {
+                                    "id": "cd79a1c8-db88-4aa1-9cc1-46158354fd4c",
+                                    "name": "user uuid not found",
+                                    "originalRequest": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/user/:id/uuid",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "user",
+                                                ":id",
+                                                "uuid"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "13230ade-c021-40f1-8c45-527bc579f2ab"
+                },
+                {
+                    "name": "DEBUG: List all users in database",
+                    "id": "87d16607-256a-475b-a1f6-a048580baaa4",
+                    "request": {
+                        "auth": {
+                            "type": "apikey",
+                            "apikey": [
+                                {
+                                    "key": "key",
+                                    "value": "X-MASTER-KEY",
+                                    "type": "string"
+                                },
+                                {
+                                    "key": "value",
+                                    "value": "<API Key>",
+                                    "type": "string"
+                                },
+                                {
+                                    "key": "in",
+                                    "value": "header",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/user",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "user"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "c205b2c0-8eee-4c1e-b0c9-b5e868966d31",
+                            "name": "success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-MASTER-KEY",
+                                        "value": "<API Key>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "[\n {\n  \"_id\": \"Lorem sed aute\",\n  \"firstName\": \"consectetur veniam in\",\n  \"lastName\": \"exercitation occaecat incididunt\",\n  \"username\": \"qui id ex\",\n  \"middleName\": \"ad do qui\",\n  \"nickname\": \"Excepteur Duis culpa\"\n },\n {\n  \"_id\": \"et ad\",\n  \"firstName\": \"laborum co\",\n  \"lastName\": \"in dolor reprehenderit mollit\",\n  \"username\": \"veniam anim in ad\",\n  \"middleName\": \"sit magna\",\n  \"nickname\": \"velit enim\"\n }\n]"
+                        },
+                        {
+                            "id": "c87e66ee-8d36-41a5-baf2-2c608ff54723",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-MASTER-KEY",
+                                        "value": "<API Key>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "add a new user to database.",
+                    "id": "4d1be16c-5981-4d9a-8d1b-43af0ffaa989",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/user",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "user"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "4ca32093-af14-4901-966f-b8962ebc44ee",
+                            "name": "user created",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"_id\": \"sunt Excepteur\",\n \"firstName\": \"sunt non\",\n \"lastName\": \"est incididunt Duis Excepteur culpa\",\n \"username\": \"mollit ut ut\",\n \"middleName\": \"amet officia Duis nisi tempor\",\n \"nickname\": \"ex veniam nisi d\"\n}"
+                        },
+                        {
+                            "id": "e8046741-ec5e-466d-8444-23ba5c0e0431",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        },
+                        {
+                            "id": "967a0c11-d87d-492f-81a9-16e1e741bc9f",
+                            "name": "user exists",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "Forbidden",
+                            "code": 403,
+                            "_postman_previewlanguage": "text",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "text/plain"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": ""
+                        },
+                        {
+                            "id": "4b07828e-d09d-4452-9733-8e14c9fc4ebc",
+                            "name": "Unexpected error",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/user",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "user"
+                                    ]
+                                }
+                            },
+                            "status": "Internal Server Error",
+                            "code": 500,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                }
+            ],
+            "id": "d20b2baa-9993-40b8-b1eb-a4f0cf31fcb1"
+        },
+        {
+            "name": "course",
+            "item": [
+                {
+                    "name": "{id}",
+                    "item": [
+                        {
+                            "name": "replace course by id",
+                            "id": "dcf0002e-2432-4ddc-b712-83f9c9b95c43",
+                            "request": {
+                                "method": "PUT",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "ff4d10b8-43b7-4034-a654-daa394c13bd0",
+                                            "key": "id",
+                                            "value": "73319061",
+                                            "description": "(Required) Course ID"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "b503ffd0-ebe7-4de0-b44b-346011a8fb53",
+                                    "name": "course replaced",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                },
+                                {
+                                    "id": "452f51c3-cd87-4ee8-a02c-915f66f16694",
+                                    "name": "bad request",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                },
+                                {
+                                    "id": "c7f70941-0c54-4c71-8529-166303148afe",
+                                    "name": "course not found",
+                                    "originalRequest": {
+                                        "method": "PUT",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                }
+                            ]
+                        },
+                        {
+                            "name": "update course by id",
+                            "id": "7c209a83-bea0-4f3e-93a2-30448811647e",
+                            "request": {
+                                "method": "PATCH",
+                                "header": [],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course/:id",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course",
+                                        ":id"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "id": "1e496302-4713-4a18-a099-7ef74381b2e2",
+                                            "key": "id",
+                                            "value": "73319061",
+                                            "description": "(Required) User ID"
+                                        }
+                                    ]
+                                }
+                            },
+                            "response": [
+                                {
+                                    "id": "a7461145-8e01-46df-9588-53bf73977af0",
+                                    "name": "course updated",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "OK",
+                                    "code": 200,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                                },
+                                {
+                                    "id": "826fd431-7d3c-404a-8c18-a03a65ece3d5",
+                                    "name": "bad request",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Bad Request",
+                                    "code": 400,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                },
+                                {
+                                    "id": "98561151-8ab0-4a10-ad9c-274cf3827e4d",
+                                    "name": "course not found",
+                                    "originalRequest": {
+                                        "method": "PATCH",
+                                        "header": [
+                                            {
+                                                "description": "Added as a part of security scheme: bearer",
+                                                "key": "Authorization",
+                                                "value": "Bearer <token>"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{baseUrl}}/course/:id",
+                                            "host": [
+                                                "{{baseUrl}}"
+                                            ],
+                                            "path": [
+                                                "course",
+                                                ":id"
+                                            ],
+                                            "variable": [
+                                                {
+                                                    "key": "id"
+                                                }
+                                            ]
+                                        }
+                                    },
+                                    "status": "Not Found",
+                                    "code": 404,
+                                    "_postman_previewlanguage": "json",
+                                    "header": [
+                                        {
+                                            "key": "Content-Type",
+                                            "value": "application/json"
+                                        }
+                                    ],
+                                    "cookie": [],
+                                    "responseTime": null,
+                                    "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                                }
+                            ]
+                        }
+                    ],
+                    "id": "fca7f986-81f2-454e-9f1f-8487065901d7"
+                },
+                {
+                    "name": "DEBUG: List all courses in database",
+                    "id": "d7f8e3da-58bb-43d3-bcd3-7caf2f27f256",
+                    "request": {
+                        "auth": {
+                            "type": "apikey",
+                            "apikey": [
+                                {
+                                    "key": "key",
+                                    "value": "X-MASTER-KEY",
+                                    "type": "string"
+                                },
+                                {
+                                    "key": "value",
+                                    "value": "<API Key>",
+                                    "type": "string"
+                                },
+                                {
+                                    "key": "in",
+                                    "value": "header",
+                                    "type": "string"
+                                }
+                            ]
+                        },
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/course",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "course"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "8426e750-cb50-4315-b681-da7d02e44609",
+                            "name": "success",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-MASTER-KEY",
+                                        "value": "<API Key>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course"
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "[\n {\n  \"_id\": \"ut sunt aute\",\n  \"descriptiveName\": \"ut velit\",\n  \"courseNumber\": -13291529,\n  \"shortName\": \"voluptate tempor aliqua\",\n  \"department\": \"Excepteur\",\n  \"category\": \"dolore esse\",\n  \"semestersOffered\": [\n   {\n    \"semester\": \"consequat do Excepte\"\n   },\n   {\n    \"semester\": \"anim fugiat dolor Ut\"\n   }\n  ],\n  \"prerequisites\": [\n   {\n    \"courseNum\": -43861416\n   },\n   {\n    \"courseNum\": 57464937\n   }\n  ]\n },\n {\n  \"_id\": \"esse dolore mollit consectetur\",\n  \"descriptiveName\": \"tempor aliquip veniam ut\",\n  \"courseNumber\": -70442366,\n  \"shortName\": \"exercitation\",\n  \"department\": \"Ut\",\n  \"category\": \"incididunt quis\",\n  \"semestersOffered\": [\n   {\n    \"semester\": \"laborum sint in velit reprehenderit\"\n   },\n   {\n    \"semester\": \"ullamco ex\"\n   }\n  ],\n  \"prerequisites\": [\n   {\n    \"courseNum\": -86666698\n   },\n   {\n    \"courseNum\": 96400031\n   }\n  ]\n }\n]"
+                        },
+                        {
+                            "id": "8988be4b-652a-4948-8bba-9ddfe328b76e",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: apikey",
+                                        "key": "X-MASTER-KEY",
+                                        "value": "<API Key>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "create course",
+                    "id": "39cdcfd3-26d8-443b-921b-760e06742c40",
+                    "request": {
+                        "method": "POST",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/course",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "course"
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "a1da3aa6-2a2e-4b63-ba2f-f411ef094985",
+                            "name": "course created",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course"
+                                    ]
+                                }
+                            },
+                            "status": "Created",
+                            "code": 201,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                        },
+                        {
+                            "id": "0c7fdd7b-6cdb-40c9-a9ee-58687dee0f50",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course"
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        },
+                        {
+                            "id": "be1cd1fe-0032-47f7-ac61-2b9f5b7d84bd",
+                            "name": "course exists",
+                            "originalRequest": {
+                                "method": "POST",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/course",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "course"
+                                    ]
+                                }
+                            },
+                            "status": "Forbidden",
+                            "code": 403,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                }
+            ],
+            "id": "3d7cc3c8-2688-4442-9c02-15d238a06073"
+        },
+        {
+            "name": "static/{id}/profile-photo",
+            "item": [
+                {
+                    "name": "get profile photo",
+                    "id": "a3c78587-1367-47aa-9599-9ff68294ebf4",
+                    "request": {
+                        "method": "GET",
+                        "header": [],
+                        "url": {
+                            "raw": "{{baseUrl}}/static/:id/profile-photo",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "static",
+                                ":id",
+                                "profile-photo"
+                            ],
+                            "variable": [
+                                {
+                                    "id": "823b9875-4c26-4b74-aeb1-f2e29a7fb866",
+                                    "key": "id",
+                                    "value": "73319061",
+                                    "description": "(Required) User ID"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "ca2bcabb-f4d3-4ea3-a8d7-9b7ecbbb9a0e",
+                            "name": "user found",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "text",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "image/*"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "ad labore "
+                        },
+                        {
+                            "id": "674bcc34-55db-4195-b449-7598efbaed7c",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        },
+                        {
+                            "id": "a65267b8-059a-408b-83f7-146b400b67d9",
+                            "name": "user not found",
+                            "originalRequest": {
+                                "method": "GET",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                },
+                {
+                    "name": "replace profile photo given uuid",
+                    "id": "a93aa2d3-904b-4cd9-8252-7d2fcbbdf60c",
+                    "request": {
+                        "method": "PUT",
+                        "header": [
+                            {
+                                "description": "(Required) User UUID",
+                                "key": "X-USER-UUID",
+                                "value": "ad labore "
+                            }
+                        ],
+                        "url": {
+                            "raw": "{{baseUrl}}/static/:id/profile-photo",
+                            "host": [
+                                "{{baseUrl}}"
+                            ],
+                            "path": [
+                                "static",
+                                ":id",
+                                "profile-photo"
+                            ],
+                            "variable": [
+                                {
+                                    "id": "c8d25331-6422-400c-a574-e72971c9d943",
+                                    "key": "id",
+                                    "value": "73319061",
+                                    "description": "(Required) User ID"
+                                }
+                            ]
+                        }
+                    },
+                    "response": [
+                        {
+                            "id": "fa7782f2-8849-457e-a58f-0497448821aa",
+                            "name": "user found",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    },
+                                    {
+                                        "description": "(Required) User UUID",
+                                        "key": "X-USER-UUID",
+                                        "value": "ad labore "
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "OK",
+                            "code": 200,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"status\": \"mollit \",\n \"detail\": \"sint est veniam esse\"\n}"
+                        },
+                        {
+                            "id": "a37455b3-3862-4118-9d37-cbbc3c3a5022",
+                            "name": "bad request",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    },
+                                    {
+                                        "description": "(Required) User UUID",
+                                        "key": "X-USER-UUID",
+                                        "value": "ad labore "
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Bad Request",
+                            "code": 400,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        },
+                        {
+                            "id": "0896aa51-749d-47e8-816a-11defd42248c",
+                            "name": "user not found",
+                            "originalRequest": {
+                                "method": "PUT",
+                                "header": [
+                                    {
+                                        "description": "Added as a part of security scheme: bearer",
+                                        "key": "Authorization",
+                                        "value": "Bearer <token>"
+                                    },
+                                    {
+                                        "description": "(Required) User UUID",
+                                        "key": "X-USER-UUID",
+                                        "value": "ad labore "
+                                    }
+                                ],
+                                "url": {
+                                    "raw": "{{baseUrl}}/static/:id/profile-photo",
+                                    "host": [
+                                        "{{baseUrl}}"
+                                    ],
+                                    "path": [
+                                        "static",
+                                        ":id",
+                                        "profile-photo"
+                                    ],
+                                    "variable": [
+                                        {
+                                            "key": "id"
+                                        }
+                                    ]
+                                }
+                            },
+                            "status": "Not Found",
+                            "code": 404,
+                            "_postman_previewlanguage": "json",
+                            "header": [
+                                {
+                                    "key": "Content-Type",
+                                    "value": "application/json"
+                                }
+                            ],
+                            "cookie": [],
+                            "responseTime": null,
+                            "body": "{\n \"code\": -68352922,\n \"message\": \"irure aliquip\"\n}"
+                        }
+                    ]
+                }
+            ],
+            "id": "9df017b6-8234-4b74-a0ac-aec0c78461e1"
+        }
+    ],
+    "auth": {
+        "type": "bearer",
+        "bearer": [
+            {
+                "key": "token",
+                "value": "<Bearer Token>",
+                "type": "string"
+            }
+        ]
+    },
+    "variable": [
+        {
+            "id": "a512204f-e163-4e0d-b34c-203f249949eb",
+            "key": "baseUrl",
+            "value": "http://192.168.1.8:5070/api",
+            "type": "string"
+        }
+    ]
+}
