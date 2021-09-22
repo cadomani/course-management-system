@@ -11,5 +11,8 @@ module.exports = {
     ecmaVersion: 12,
   },
   rules: {
+    'no-unused-expressions': 'off',
+    'newline-after-import': 'off',
+    'no-console': 'off',
   },
 };
