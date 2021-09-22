@@ -95,7 +95,19 @@
 			{
 				"rule": "no-unused-vars",
 				"severity": "info"
-			}
+			},
+			{
+				"rule": "import/newline-after-import",
+				"severity": "off"
+			},
+			{
+				"rule": "no-unused-expressions",
+				"severity": "info"
+			},
+			{
+				"rule": "no-console",
+				"severity": "info"
+			},
 		],
 		"editor.formatOnPaste": true,
 		"editor.formatOnSave": true,
