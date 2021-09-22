@@ -126,6 +126,7 @@
 			"coenraads.bracket-pair-colorizer",
 			"eamodio.gitlens",
 			"mhutchie.git-graph",
+			"42crunch.vscode-openapi"
 		],
 	},
 	"tasks": {
