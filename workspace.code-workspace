@@ -23,7 +23,9 @@
 					"<node_internals>/**"
 				],
 				"type": "pwa-node",
-				"envFile": "${workspaceFolder:Express Server}/.env"
+				"localRoot": "${workspaceFolder:Express Server}",
+				"envFile": "${workspaceFolder:Express Server}/.env",
+				"console": "integratedTerminal"
 			},
 			{
 				"name": "Debug Client",
