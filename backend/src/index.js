@@ -14,7 +14,9 @@ require('dotenv').config();
 const middlewares = require('./middlewares');
 
 // API routers
-const users = require('./api/user');
+const courseRoute = require('./routes/course.route');
+const staticRoute = require('./routes/static.route');
+const userRoute = require('./routes/user.route');
 
 // Define express application
 const app = express();
@@ -39,12 +41,14 @@ app.use(express.json());
 // DEBUG: Main route
 app.get('/', (req, res) => {
   res.json({
-    message: 'Hello World!',
+    message: 'Hello World!!',
   });
 });
 
 // Define router to route mappings
-app.use('/api/user', users);
+app.use('/api/course', courseRoute);
+app.use('/api/static', staticRoute);
+app.use('/api/user', userRoute);
 
 // Load OpenAPI route documentation
 // const apiSchema = require('./docs/openapi');
