@@ -10,11 +10,7 @@
     + [Windows Terminal](https://www.microsoft.com/en-us/p/windows-terminal/9n0dx20hk701?activetab=pivot:overviewtab)
     + [WSL2](https://docs.microsoft.com/en-us/windows/wsl/install-win10)
     + [Ubuntu on WSL](https://ubuntu.com/wsl)
-    + [VSCode (Ubuntu remote)]()
-        ```sh
-        # Install VSCode inside Ubuntu WSL
-        > sudo snap install code --classic
-        ```
+    + [VSCode (Needed for Ubuntu remote, installed in setup)]()
     + Node.js
         ```sh
         # Run within Ubuntu on WSL
@@ -92,39 +88,18 @@
     ```sh
     # Navigate to where the repository should be cloned
     > git clone git@github.com:cadomani/course-management-system.git
-    XXXXX
+    GIT CLONE XXXX
     
     # Navigate inside the newly cloned git repository
     > cd course-management-system
     
-    # Run vscode remote from this directory 
+    # Run vscode remote from this directory (this will install it on WSL if it wasn't already and load the workspace)
     # (if this doesn't work, check that it is installed from tools, otherwise open it within windows and use Ctrl + Shift + P
     # to bring up the menu, and select Remote-WSL: Open folder in WSL...
     # You may get a dialog that a workspace was found, allow it to open that.
     > code workspace.code-workspace
     ```
-  + Allow VSCode to install all recommended extensions and open up the workspace, this is so we can run the server/client and be able to use debug configurations
-  + Add environment values
-    - Create a new file inside the frontend folder (AKA Express Server inside VSCode) and call it *.env* (the dot is required). Fill in these values:
-        ```sh
-        # FRONTEND
-        NODE_ENV=development
-        PORT=5070
-        CORS_ORIGIN=http://localhost:5080
-
-        # DATABASE 
-        MONGODB_USERNAME=YOUR_MONGODB_USERNAME
-        MONGODB_PASSWORD=YOUR_MONGODB_PASSWORD
-        MONGODB_DATABASE=cms
-        MONGODB_SERVER=cms-db.dv0vb.mongodb.net
-        ```
-     - Repeat the same steps for the backend folder (AKA React Client inside VSCode) and call it *.env* (the dot is required). Fill in these values:
-        ```sh
-        # BACKEND
-        NODE_ENV=development
-        PORT=5080
-        REACT_APP_SERVER_URL=http://localhost:5070
-        ```
+  ### IMPORTANT! **Allow VSCode to install all recommended extensions and open up the workspace, this is so we can run the server/client and be able to use debug configurations**
 - **Configure and run**
   + Initialize, install, and launch React and Express
     - Install and run Express
@@ -132,28 +107,52 @@
         # Navigate to the backend folder and install dependencies (ignore warnings)
         > cd backend
         > npm install
-        
-        # Try to launch server (don't close terminal after this)
-        > npm run dev
-        ```
+        ```        
+    - Add environment values for backend
+        + Create a new file inside the backend folder (AKA Express Server inside VSCode) and call it *.env* (the dot is required). Fill in these values:
+          ```sh
+          # BACKEND
+          NODE_ENV=development
+          PORT=5070
+          CORS_ORIGIN=http://localhost:5080
+
+          # DATABASE 
+          MONGODB_USERNAME=YOUR_MONGODB_USERNAME
+          MONGODB_PASSWORD=YOUR_MONGODB_PASSWORD
+          MONGODB_DATABASE=cms
+          MONGODB_SERVER=cms-db.dv0vb.mongodb.net
+          MONGODB_URL=mongodb+srv://YOUR_MONGODB_USERNAME:YOUR_MONGODB_PASSWORD@cms-db.dv0vb.mongodb.net/cms?retryWrites=true&w=majority
+          ```
+        + Run react app
+          ```sh
+          # Navigate to the backend folder and try to launch server (don't close terminal after this)
+          > npm run dev
+          ```
         + You should get a screen like this:
         ![image](https://user-images.githubusercontent.com/7801988/134072431-ba52c755-63d8-46e6-bdd4-5470d9bbaa59.png)
-        
         + Open up a browser and browse to [http://localhost:5070](http://localhost:5070)
         + The Express Server is up and running, type Ctrl + C to shut it down or close the terminal *(IMPORTANT)*
-        
      - Install and run React
         ```sh
         # Navigate to the frontend folder and install dependencies (ignore warnings)
         > cd frontend
         > npm install
-        
-        # Try to launch client (don't close terminal after this)
-        > npm start
         ```
+      - Add environment values for frontend
+        + Repeat the same steps for creating a file for the frontend folder (AKA React Client inside VSCode) and call it *.env* (the dot is required). Fill in these values:
+          ```sh
+          # FRONTEND
+          NODE_ENV=development
+          PORT=5080
+          REACT_APP_SERVER_URL=http://localhost:5070
+          ```
+        + Run react app
+          ```sh
+          # Navigate to the frontend folder and try to launch client (don't close terminal after this)
+          > npm start
+          ```
         + You should get a screen like this:
           -![image](https://user-images.githubusercontent.com/7801988/134072360-48896642-1c54-4efa-b2b4-e0b3bcf0ab29.png)
-        
         + Open up a browser and browse to [http://localhost:5080](http://localhost:5080)
         + The React Client is being served by Node.js, type Ctrl + C to shut it down or close the terminal *(IMPORTANT)*
   + Run program from within VSCode to test hot-reloading
