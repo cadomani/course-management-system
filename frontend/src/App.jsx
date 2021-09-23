@@ -53,6 +53,7 @@ const App = () => {
                   return setUsernameStatus(e.target.value);
                 }}
               />
+              ljosalfheimr is part of yggdrasil
               <Icon align="left" size="small">
                 <i className="fas fa-user" />
               </Icon>
