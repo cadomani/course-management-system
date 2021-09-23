@@ -72,7 +72,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'user replaced'
@@ -104,7 +104,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'user updated'
@@ -137,7 +137,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'user uuid found'
@@ -170,7 +170,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
         - name: X-USER-UUID
           in: header
           description: User UUID
@@ -208,7 +208,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
         - name: X-USER-UUID
           in: header
           description: User UUID
@@ -246,7 +246,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
         - name: X-USER-UUID
           in: header
           description: User UUID
@@ -332,7 +332,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'course replaced'
@@ -360,11 +360,11 @@ paths:
       parameters:
         - name: id
           in: path
-          description: User ID
+          description: Course ID
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'course updated'
@@ -399,7 +399,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
       responses:
         '200':
           description: 'user found'
@@ -432,7 +432,7 @@ paths:
           required: true
           schema:
             type: integer
-            format: int64
+            format: int32
         - name: X-USER-UUID
           in: header
           description: User UUID
