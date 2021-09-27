@@ -6,7 +6,7 @@
     "concurrently": "^6.2.1"
   },
   "scripts": {
-    "start": "concurrently 'npm start --prefix ./backend' 'npm start --prefix ./frontend'",
+    "start": "concurrently 'PORT=5070 npm start --prefix ./backend' 'PORT=5080 npm start --prefix ./frontend'",
     "build": "NODE_VERBOSE=true && concurrently 'cd frontend && npm run self-install' 'cd backend && npm run self-install'"
   },
   "engines": {
