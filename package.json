@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "start": "npm start --prefix ./backend",
-    "runbackend": "npm start --prefix ./backend",
+    "runbackend": "npm i && npm start --prefix ./backend",
     "runfrontent": "npm start --prefix ./frontend",
     "build": "npm run runbackend"  
   },
@@ -12,7 +12,7 @@
     "./backend/*"
   ],
   "engines": {
-    "node": "16.x",
-    "npm": "7.x"
+    "node": "16.10.x",
+    "npm": "7.24.x"
   }
 }
