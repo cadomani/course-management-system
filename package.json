@@ -6,7 +6,7 @@
     "concurrently": "^6.2.1"
   },
   "scripts": {
-    "start": "concurrently 'npm start --workspace=backend' 'npm start --workspace=frontend'",
+    "start": "concurrently 'npm start --prefix ./backend' 'npm start --prefix ./frontend'",
     "backend-build": "npm run build --workspace=backend",
     "frontent-build": "npm run build --workspace=frontend",
     "build": "npm install && npm run frontend-build"  
