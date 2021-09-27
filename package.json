@@ -2,14 +2,18 @@
   "name": "cms",
   "version": "0.0.1",
   "private": true,
+  "dependencies": {
+    "concurrently": "^6.2.1"
+  },
   "scripts": {
-    "start": "npm start --prefix ./backend",
-    "backend-build": "npm run build --prefix ./backend",
-    "runfrontent": "npm start --prefix ./frontend",
-    "build": "npm run backend-build"  
+    "start": "concurrently 'npm start --workspace=backend' 'npm start --workspace=frontend'",
+    "backend-build": "npm run build --workspace=backend",
+    "frontent-build": "npm run build --workspace=frontend",
+    "build": "npm install && npm run frontend-build"  
   },
   "workspaces": [
-    "./backend/*"
+    "./backend/*",
+    "./frontend/*"
   ],
   "engines": {
     "node": "16.10.x",
