@@ -7,9 +7,9 @@
   },
   "scripts": {
     "start": "concurrently 'npm start --prefix ./backend' 'npm start --prefix ./frontend'",
-    "backend-build": "npm run build --workspace=backend",
-    "frontent-build": "npm run build --workspace=frontend",
-    "build": "npm install && npm run frontend-build"  
+    "backend-build": "cd backend && npm run build",
+    "frontent-build": "cd frontend && npm install && npm run build",
+    "build": "npm install && npm run frontend-build && npm run backend-build"  
   },
   "workspaces": [
     "./backend/*",
