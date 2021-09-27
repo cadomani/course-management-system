@@ -7,7 +7,7 @@
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "eslint src/index.js",
-    "build": "npm install"
+    "self-install": "npm install"
   },
   "author": "Carlos Domani et al",
   "license": "ISC",

@@ -7,14 +7,8 @@
   },
   "scripts": {
     "start": "concurrently 'npm start --prefix ./backend' 'npm start --prefix ./frontend'",
-    "backend-build": "cd backend && npm run build",
-    "frontent-build": "cd frontend && npm install && npm run build",
-    "build": "npm install && npm run frontend-build && npm run backend-build"  
+    "build": "NODE_VERBOSE=true && concurrently 'cd frontend && npm run self-install' 'cd backend && npm run self-install'"
   },
-  "workspaces": [
-    "./backend/*",
-    "./frontend/*"
-  ],
   "engines": {
     "node": "16.10.x",
     "npm": "7.24.x"
