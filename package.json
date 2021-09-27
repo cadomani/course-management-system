@@ -3,8 +3,16 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "start": "npm start --prefix ./backend",
     "runbackend": "npm start --prefix ./backend",
     "runfrontent": "npm start --prefix ./frontend",
     "build": "npm install && npm runbackend"  
+  },
+  "workspaces": [
+    "./backend/*"
+  ],
+  "engines": {
+    "node": "16.x",
+    "npm": "7.x"
   }
 }
