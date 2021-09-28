@@ -22,11 +22,11 @@ const userRoute = require('./routes/user.route');
 const app = express();
 
 // Connect to database
-// mongoose.connect(process.env.MONGODB_URL, {
-//   useNewUrlParser: true,
-//   useUnifiedTopology: true,
-// });
-// console.log(mongoose.connection.readyState === 4 ? 'Database connection failed.' : 'Database connection was successful.'); // eslint-disable-line no-console
+mongoose.connect(process.env.MONGODB_URL, {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
+console.log(mongoose.connection.readyState === 4 ? 'Database connection failed.' : 'Database connection was successful.'); // eslint-disable-line no-console
 
 // Load request logger, server hardener, and CORS origin setter
 app.use(morgan('common'));
