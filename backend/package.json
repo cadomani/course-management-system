@@ -1,16 +1,23 @@
 {
   "name": "backend",
-  "version": "0.0.1",
   "description": "Express backend for CMS",
   "main": "src/index.js",
+  "private": true,
+  "contributors": [
+    "Carlos Domani",
+    "Isaiah Burkes",
+    "Micah Still",
+    "Midas Oden",
+    "Trejon Goldsborough"
+  ],
+  "license": "UNLICENSED",
+  "homepage": "https://cms.kltpzyxm.live/",
   "scripts": {
     "start": "node src/index.js",
     "dev": "nodemon src/index.js",
     "lint": "eslint src/index.js",
     "self-install": "npm install"
   },
-  "author": "Carlos Domani et al",
-  "license": "ISC",
   "dependencies": {
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
@@ -25,5 +32,9 @@
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
     "nodemon": "^2.0.12"
+  },
+  "engines": {
+    "node": ">=16.10.0",
+    "npm": ">=7.24.0"
   }
 }
