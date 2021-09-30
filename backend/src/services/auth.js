@@ -4,7 +4,7 @@ module.exports = {
   */
   authenticate: async (options) => {
     const data = {
-      username: options.username,
+      email: options.email,
       password: options.password,
     };
     const status = '200';

@@ -4,9 +4,11 @@ const auth = require('../services/auth');
 
 const router = new express.Router();
 
-router.use(express.json());
+router.use(express.urlencoded());
 router.post('/', async (req, res, next) => {
   const options = {
+    email: req.body.email,
+    password: req.body.password,
   };
 
   try {
