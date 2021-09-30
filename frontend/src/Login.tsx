@@ -1,4 +1,6 @@
+import React from 'react'
 import { useState } from 'react'
+import ReactDOM from 'react-dom'
 import "tailwindcss/tailwind.css"
 
 function App() {
@@ -57,4 +59,9 @@ function App() {
   )
 }
 
-export default App
+ReactDOM.render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+  document.getElementById('root')
+)
