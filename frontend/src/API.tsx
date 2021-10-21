@@ -1,20 +1,11 @@
-const API_URL = process.env.REACT_APP_SERVER_URL;
+const API_URL = import.meta.env.VITE_SERVER_URL;
 
 export async function listUsers() {
   const response = await fetch(`${API_URL}/api/users`);
   return response.json();
 }
 
-export async function createUser(entry) {
-  const createContext = entry.createContext;
-  if (!createContext) {
-    const error = new Error("Missing context");
-    error.response = "A context value must be passed along with the createUser request.";
-    throw error;
-  }
-}
-
-export async function checkUsernameAvailable(username) {
+export async function checkUsernameAvailable(username: string) {
   const response = await fetch(`${API_URL}/api/users/checkUsernameAvailable?` + new URLSearchParams({
     username: username,
   }), {

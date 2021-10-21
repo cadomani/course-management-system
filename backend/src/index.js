@@ -1,6 +1,6 @@
 const express = require('express'); // Main express application
 const morgan = require('morgan'); // Log incoming requests
-const helmet = require('helmet'); // Protect against common web attacks
+// const helmet = require('helmet'); // Protect against common web attacks (TODO: Disabled because it breaks static serve)
 const cors = require('cors'); // Allow cross-origin requests from frontend
 const mongoose = require('mongoose'); // ORM to interface with MongoDB
 const { initialize } = require('express-openapi');
@@ -17,6 +17,7 @@ const middlewares = require('./middlewares');
 const courseRoute = require('./routes/course.route');
 const staticRoute = require('./routes/static.route');
 const userRoute = require('./routes/user.route');
+const authRoute = require('./routes/auth.route');
 
 // Define express application
 const app = express();
@@ -30,7 +31,7 @@ console.log(mongoose.connection.readyState === 4 ? 'Database connection failed.'
 
 // Load request logger, server hardener, and CORS origin setter
 app.use(morgan('common'));
-app.use(helmet());
+// app.use(helmet({ hsts: false }));
 app.use(cors({
   origin: process.env.CORS_ORIGIN,
 }));
@@ -39,16 +40,21 @@ app.use(cors({
 app.use(express.json());
 
 // DEBUG: Main route
-app.get('/', (req, res) => {
-  res.json({
-    message: 'Hello World!!',
+if (process.env.NODE_ENV === 'production') {
+  app.use('/', express.static(path.join(__dirname, '../../frontend/dist')));
+} else {
+  app.get('/', (req, res) => {
+    res.json({
+      message: 'Hello World!!',
+    });
   });
-});
+}
 
 // Define router to route mappings
 app.use('/api/course', courseRoute);
 app.use('/api/static', staticRoute);
 app.use('/api/user', userRoute);
+app.use('/login', authRoute);
 
 // Load OpenAPI route documentation
 // const apiSchema = require('./docs/openapi');
