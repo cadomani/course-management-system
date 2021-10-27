@@ -16,7 +16,23 @@
 				"request": "launch",
 				"runtimeArgs": [
 					"run-script",
-					"dev"
+					"start:dev"
+				],
+				"runtimeExecutable": "npm",
+				"skipFiles": [
+					"<node_internals>/**"
+				],
+				"type": "pwa-node",
+				"localRoot": "${workspaceFolder:Express Server}",
+				"envFile": "${workspaceFolder:Express Server}/.env",
+				"console": "integratedTerminal"
+			},
+			{
+				"name": "Debug Seed",
+				"request": "launch",
+				"runtimeArgs": [
+					"run-script",
+					"seeding"
 				],
 				"runtimeExecutable": "npm",
 				"skipFiles": [
@@ -90,7 +106,7 @@
 		"git.autofetch": true,
 		"debug.javascript.autoAttachFilter": "smart",
 		"eslint.alwaysShowStatus": true,
-		"eslint.format.enable": true,
+		"eslint.format.enable": false,
 		"eslint.rules.customizations": [
 			{
 				"rule": "no-unused-vars",
@@ -112,6 +128,7 @@
 		"editor.formatOnPaste": true,
 		"editor.formatOnSave": true,
 		"editor.formatOnType": true,
+		"eslint.enable": false,
 	},
 	"extensions": {
 		"recommendations": [
