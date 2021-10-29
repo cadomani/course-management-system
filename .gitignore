@@ -3,6 +3,7 @@
 secrets/
 traefik/logs/*
 .env*
+masterlist*
 
 # Vite
 dist-ssr
