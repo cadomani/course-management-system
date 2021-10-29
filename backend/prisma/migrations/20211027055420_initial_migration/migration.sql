@@ -245,6 +245,7 @@ ALTER TABLE `messaging` ADD CONSTRAINT `messaging_ibfk_1` FOREIGN KEY (`enrollme
 
 -- AddForeignKey
 ALTER TABLE `profile` ADD CONSTRAINT `profile_ibfk_1` FOREIGN KEY (`credentials_id`) REFERENCES `credentials`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+ALTER TABLE `profile` AUTO_INCREMENT = 100000;
 
 -- AddForeignKey
 ALTER TABLE `section` ADD CONSTRAINT `section_ibfk_1` FOREIGN KEY (`availability_id`) REFERENCES `availability`(`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
