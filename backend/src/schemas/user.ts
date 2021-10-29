@@ -12,15 +12,16 @@ interface BaseProfile {
   biography: string;
   university: string;
   password: string;
+  college_id: number;
 }
 
 /** Student Interface */
 interface BaseStudentProfile extends BaseProfile {
-  major: string;
+  major_id: number;
 }
 
 /** Create / Replace */
-interface CreateStudentProfile extends BaseStudentProfile { }
+export interface CreateStudentProfile extends BaseStudentProfile { }
 
 /** Read / Get */
 interface ReadStudentProfile {
@@ -33,12 +34,12 @@ interface UpdateStudentProfile extends Omit<BaseStudentProfile, 'email' | 'passw
 
 
 /** Instructor interface */
-interface BaseInstructorProfile extends BaseProfile {
-  college: string;
-}
+interface BaseInstructorProfile extends BaseProfile { }
 
 /** Create / Replace */
-interface CreateInstructorProfile extends BaseInstructorProfile { }
+export interface CreateInstructorProfile extends BaseInstructorProfile {
+  major_id?: never
+}
 
 
 /** Update */
