@@ -1,14 +1,16 @@
-const express = require('express');
-const course = require('../services/course');
+import logger from '@shared/Logger';
+import { Router, urlencoded } from 'express';
+import { listCourses, createCourse, replaceCourse, updateCourse } from '../services/course';
 
-const router = new express.Router();
+const router = Router();
+router.use(urlencoded({ extended: true }));
 
 router.get('/', async (req, res, next) => {
   const options = {
   };
 
   try {
-    const result = await course.listCourses(options);
+    const result = await listCourses(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
@@ -23,7 +25,7 @@ router.post('/', async (req, res, next) => {
   };
 
   try {
-    const result = await course.createCourse(options);
+    const result = await createCourse(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
@@ -39,7 +41,7 @@ router.put('/:id', async (req, res, next) => {
   };
 
   try {
-    const result = await course.replaceCourse(options);
+    const result = await replaceCourse(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
@@ -55,7 +57,7 @@ router.patch('/:id', async (req, res, next) => {
   };
 
   try {
-    const result = await course.updateCourse(options);
+    const result = await updateCourse(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
@@ -65,4 +67,4 @@ router.patch('/:id', async (req, res, next) => {
   return res;
 });
 
-module.exports = router;
+export default router;

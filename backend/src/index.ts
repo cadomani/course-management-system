@@ -18,11 +18,11 @@ require('dotenv').config();
 // Define express application
 const app = express();
 
-// // API routers
-// const courseRoute = require('./routes/course.route');
-// const staticRoute = require('./routes/static.route');
-// const userRoute = require('./routes/user.route');
-// const authRoute = require('./routes/auth.route');
+// API routers
+import courseRoute from './routes/course.route';
+import staticRoute from './routes/static.route';
+import userRoute from './routes/user.route';
+import authRoute from './routes/auth.route';
 
 // Plugins
 app.use(express.json()); // Defines exclusive JSON communication when Content-Type is application/json
@@ -32,9 +32,9 @@ app.use(cookieParser());
 // Library Middlewares
 app.use(morgan('common'));
 // app.use(helmet({ hsts: false }));
-app.use(cors({
-  origin: process.env.CORS_ORIGIN,
-}));
+// app.use(cors({
+//   origin: process.env.CORS_ORIGIN,
+// }));
 
 // Add error-handling middleware support
 app.use(errorHandler);
@@ -50,11 +50,11 @@ if (process.env.NODE_ENV === 'production') {
   });
 }
 
-// // Define router to route mappings
-// app.use('/api/course', courseRoute);
-// app.use('/api/static', staticRoute);
-// app.use('/api/user', userRoute);
-// app.use('/login', authRoute);
+// Define router to route mappings
+app.use('/api/course', courseRoute);
+app.use('/api/static', staticRoute);
+app.use('/api/user', userRoute);
+app.use('/login', authRoute);
 
 // DEBUG: Log all requests with morgan and show listening port
 const port = process.env.PORT || 3000;

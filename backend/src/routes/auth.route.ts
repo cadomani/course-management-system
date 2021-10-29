@@ -1,10 +1,10 @@
-const express = require('express');
-const { body, validationResult } = require('express-validator');
-const auth = require('../services/auth');
+import logger from '@shared/Logger';
+import { Router, urlencoded } from 'express';
+import { authenticate } from '../services/auth';
 
-const router = new express.Router();
+const router = Router();
+router.use(urlencoded({ extended: true }));
 
-router.use(express.urlencoded({ extended: true }));
 router.post('/', async (req, res) => {
   // Parse body before authenticating
   const options = {
@@ -13,7 +13,7 @@ router.post('/', async (req, res) => {
   };
 
   try {
-    const result = await auth.authenticate(options);
+    const result = await authenticate(options);
 
     // TODO: Return a session cookie with the private account key
     // (for now just the username or public ID)
@@ -26,4 +26,4 @@ router.post('/', async (req, res) => {
   return res;
 });
 
-module.exports = router;
+export default router;
