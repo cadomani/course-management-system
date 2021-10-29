@@ -5,9 +5,9 @@ import logger from '@shared/Logger';
 (() => {
   async function main() {
     const allUsers = await prisma.college.findMany()
-    if (Object.values(allUsers).length == 0) {
-      logger.err('Database has not been seeded yet. CRUD functionality will be unavailable.');
-    }
+    // if (Object.values(allUsers).length == 0) {
+    //   logger.err('Database has not been seeded yet. CRUD functionality will be unavailable.');
+    // }
   }
 
   main()
