@@ -1,8 +1,7 @@
 import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import { listUsers, createUser, replaceUser, updateUser, getUserProfile, updateUserProfile, getUserUUID } from '../services/user';
-import profileCreateInput, { Prisma } from '@prisma/client';
-
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
@@ -19,20 +18,34 @@ router.get('/', async (req, res, next) => {
   return res;
 });
 
+/**
+ * Create a new user, either as an administrator or as a routine through registration.
+ * major_id and college_id form data are numerical to access specific records and are mapped from course listing.
+ */
 router.post('/', async (req, res, next) => {
-  let user: Prisma.profileCreateInput = {
+  const options = {
     name: req.body.name,
     email: req.body.email,
     biography: req.body.biography,
-    university: req.body.university, // TODO: This will be a global variable based on the subdomain
-    // password: 'NOT_IMPLEMENTED', // TODO: Need hashing and salting for this
-    // college: req.body.college,
+    university: process.env.UNIVERSITY as string,
+    password: 'NOT_IMPLEMENTED', // TODO: Need hashing and salting before using this
+    major_id: req.body.major_id as number,
+    college_id: req.body.college_id as number,
   };
 
   try {
-    const result = await createUser(user);
+    const result = await createUser(options);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
+    if (err instanceof PrismaClientKnownRequestError) {
+      if (err.code === 'P2002') {
+        logger.err('A user already exists with this email.');
+        return res.status(403).send({
+          status: 'failure',
+          detail: 'An account already exists with this email address. Please log in instead.'
+        });
+      }
+    }
     return res.status(500).send({
       error: err || 'Something went wrong.',
     });
@@ -49,9 +62,10 @@ router.put('/:id', async (req, res, next) => {
     name: req.body.name,
     email: req.body.email,
     biography: req.body.biography,
-    university: req.body.university, // TODO: This will be a global variable based on the domain
+    university: process.env.UNIVERSITY as string,
     password: 'NOT_IMPLEMENTED', // TODO: Need hashing and salting for this
-    major: req.body.major,
+    major_id: req.body.major_id,
+    college_id: req.body.college_id,
   };
 
   try {
@@ -74,8 +88,8 @@ router.patch('/:id', async (req, res, next) => {
   const options = {
     name: req.body.name,
     biography: req.body.biography,
-    university: req.body.university, // TODO: This will be a global variable based on the domain
-    college: req.body.college,
+    university: process.env.UNIVERSITY as string,
+    college_id: req.body.college,
   };
 
   try {
@@ -134,8 +148,8 @@ router.patch('/:id/profile', async (req, res, next) => {
   const options = {
     name: req.body.name,
     biography: req.body.biography,
-    university: req.body.university, // TODO: This will be a global variable based on the domain
-    college: req.body.college,
+    university: process.env.UNIVERSITY as string,
+    college_id: req.body.college,
   };
 
   try {
