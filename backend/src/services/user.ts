@@ -1,9 +1,12 @@
+import { Prisma } from '@prisma/client';
 import prisma from '@shared/Database';
 import logger from '@shared/Logger';
 import {
   ProfileIdentity,
   CreateProfile,
   UpdateProfile,
+  CreateStudentProfile,
+  CreateInstructorProfile,
   QualifiedProfile,
   NonQualifiedProfile,
   ResponseFormat
@@ -49,16 +52,53 @@ export async function listUsers(): Promise<ResponseFormat> {
  * @returns 
  */
 export async function createUser(
-  // options: CreateProfile
-  user: any
+  options: CreateProfile
 ): Promise<ResponseFormat> {
+  // Create the base profile from options
+  let profile: Prisma.profileCreateInput = {
+    name: options.name,
+    email: options.email,
+    biography: options.biography,
+    university: options.university,
+    credentials: {
+      create: {
+        password_hash: options.password,
+        signup_date: '1970-01-01T00:00:00.000Z',
+      }
+    },
+  };
+
+  if (options as CreateStudentProfile) {
+    profile.student = {
+      create: {
+        major: {
+          connect: {
+            id: 1,
+          }
+        }
+      }
+    }
+  } else if (options as CreateInstructorProfile) {
+    profile.instructor = {
+      create: {
+        department: {
+          connect: {
+            id: 1
+          }
+        }
+      }
+    }
+  }
+
   const data = await User.create({
-    data: user
+    data: profile
   })
 
   return {
     status: 201,
-    data,
+    data: {
+      publicId: data.id,
+    },
   };
 }
 
@@ -72,15 +112,52 @@ export async function replaceUser(
   profile: NonQualifiedProfile,
   options: CreateProfile,
 ): Promise<ResponseFormat> {
-  const data = {
-    detail: 'success',
-    status: 'operation was successful',
+  // Create the base profile from options
+  let newProfile: Prisma.profileUpdateInput = {
+    name: options.name,
+    email: options.email,
+    biography: options.biography,
+    university: options.university,
+    credentials: {
+      update: {
+        password_hash: options.password,
+        signup_date: '1970-01-01T00:00:00.000Z',
+      }
+    }
   };
-  const status = 200;
+
+  // if (options as CreateStudentProfile) {
+  //   newProfile.student = {
+  //     update: {
+  //       where: {
+  //         id: 4,
+  //       }
+  //     }
+  //   }
+  // } else if (options as CreateInstructorProfile) {
+  //   newProfile.instructor = {
+  //     update: {
+  //       department: {
+  //         connect: {
+  //           id: 1
+  //         }
+  //       }
+  //     }
+  //   }
+  // }
+
+  const data = await User.update({
+    where: {
+      id: Number.parseInt(profile.publicId)
+    },
+    data: newProfile
+  })
 
   return {
-    status,
-    data,
+    status: 200,
+    data: {
+      publicId: data.id,
+    },
   };
 }
 
@@ -129,7 +206,7 @@ export async function getUserProfile(
         university: true,
       }
     });
-  } else {
+  } else if (identity as NonQualifiedProfile) {
     data = await User.findFirst({
       where: {
         id: Number.parseInt(identity.publicId),
@@ -140,6 +217,8 @@ export async function getUserProfile(
         university: true,
       }
     });
+  } else {
+    data = [];
   }
 
   // Send success in either case
@@ -178,13 +257,26 @@ export async function updateUserProfile(
 export async function getUserUUID(
   identity: ProfileIdentity
 ): Promise<ResponseFormat> {
-  const data = {
-    uuid: ''
-  };
-  const status = 200;
+  const data = await User.findFirst({
+    where: {
+      id: Number.parseInt(identity.publicId)
+    },
+    // select: {
+    //   //uuid: true
+    // }
+  })
+  if (data === null) {
+    return {
+      status: 404,
+      data: {},
+    };
+  }
 
   return {
-    status,
-    data,
+    status: 200,
+    data: {
+      publicId: identity.publicId,
+      uuid: 'NOT_IMPLEMENTED' // TODO: uuid column needs to be added to table - data.uuid
+    },
   };
 }
