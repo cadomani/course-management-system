@@ -78,10 +78,11 @@ model building {
 }
 
 model college {
-  id       Int        @id @default(autoincrement())
-  name     String     @unique(map: "college_name_uindex") @db.VarChar(255)
-  building building[]
-  major    major[]
+  id         Int          @id @default(autoincrement())
+  name       String       @unique(map: "college_name_uindex") @db.VarChar(255)
+  building   building[]
+  major      major[]
+  department department[]
 }
 
 model course {
@@ -107,7 +108,8 @@ model credentials {
 model department {
   id            Int         @id @default(autoincrement())
   instructor_id Int?
-  college_id    String?     @db.VarChar(255)
+  college_id    Int
+  college       college     @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_2")
   instructor    instructor? @relation(fields: [instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_1")
 
   @@index([instructor_id], map: "instructor_id")
@@ -144,6 +146,7 @@ model major {
   course     course[]
   student    student[]
 
+  @@unique(fields: [college_id, name], name: "uniqueMajor")
   @@index([college_id], map: "college_id")
 }
 
