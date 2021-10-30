@@ -1,4 +1,5 @@
 import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 import fs from 'fs';
 import parse from 'csv-parse';
 import * as _ from 'lodash';
@@ -32,6 +33,7 @@ async function main() {
   let collegeFilteredView: any[] = [];
   let courseFilteredView: any[] = [];
   let profileInstructorDepartmentFV: any[] = [];
+  let buildingFilteredView: any[] = [];
   for (let row of records) {
     if (row['college'] === '') {
       console.log(row);
@@ -40,6 +42,20 @@ async function main() {
       college: row['college'],
       major: row['major'],
     })
+
+    // Process building first
+    let buildingRoom = row['where'];
+    if (buildingRoom !== 'TBA' && buildingRoom !== '') {
+      let building = buildingRoom.split(" ");
+      let room = Number.parseInt(building.pop());
+      building = building.join(" ");
+
+      buildingFilteredView.push({
+        college: row['college'],
+        building: building
+      })
+    }
+
     courseFilteredView.push({
       college: row['college'],
       major: row['major'],
@@ -71,7 +87,7 @@ async function main() {
               name: c['college']
             },
             create: {
-              name: c['college']
+              name: c['college'],
             }
           }
         }
@@ -79,7 +95,32 @@ async function main() {
     })
   }
 
-  // Load courses and majors
+  // Load buildings
+  let buildings = _.compact(_.uniqWith(buildingFilteredView, _.isEqual));
+  for (let c of buildings) {
+    let college = await prisma.college.findUnique({ where: { name: c['college'] }, select: { id: true } });
+    if (college === null) {
+      continue;
+    }
+
+    try {
+      await prisma.building.create({
+        data: {
+          name: c['building'],
+          college_id: college.id
+        }
+      })
+    } catch (err) {
+      if (err instanceof PrismaClientKnownRequestError) {
+        if (err.code === 'P2002') {
+          console.log('Failed on unique constraint with ' + c['building']);
+        }
+      }
+    }
+
+  }
+
+  // Load courses, majors, and availability
   let courses = _.compact(_.uniqWith(courseFilteredView, _.isEqual));
   for (let c of courses) {
     let college = await prisma.college.findUnique({ where: { name: c['college'] }, select: {id: true} });
