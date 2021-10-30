@@ -69,12 +69,13 @@ model availability {
 
 model building {
   id         Int       @id @default(autoincrement())
-  name       String    @unique(map: "name") @db.VarChar(255)
+  name       String    @db.VarChar(255)
   college_id Int?
   college    college?  @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "building_ibfk_1")
   section    section[]
 
   @@index([college_id], map: "college_id")
+  @@unique(fields: [college_id, name], name: "uniqueBuilding")
 }
 
 model college {
