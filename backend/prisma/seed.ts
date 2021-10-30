@@ -2,6 +2,7 @@ import { PrismaClient, Prisma } from "@prisma/client";
 import fs from 'fs';
 import parse from 'csv-parse';
 import * as _ from 'lodash';
+import { DateTime } from "luxon";
 
 const prisma = new PrismaClient({
   log: ['query', 'info', 'warn', 'error'],
@@ -9,6 +10,7 @@ const prisma = new PrismaClient({
 
 
 const processFile = async () => {
+  // name|course_id|credit_hours|crn|college|major|levels|reg_start|reg_end|term|year|campus|section|course_type|time|days|where|course_start|course_end|sched_type|instructors|instr_email|info_url|options
   var records = []
   const parser = fs
     .createReadStream(`/server/school/cms/backend/src/core/db/masterlist_fall_v1.1.csv`)
@@ -42,7 +44,11 @@ async function main() {
       college: row['college'],
       major: row['major'],
       course: row['name'],
-      credit_hours: Number.parseInt(row['credit_hours'])
+      credit_hours: Number.parseInt(row['credit_hours']),
+      reg_start: DateTime.fromFormat(row['reg_start'], "LLL dd, yyyy").toJSDate(),
+      reg_end: DateTime.fromFormat(row['reg_end'], "LLL dd, yyyy").toJSDate(),
+      year: Number.parseInt(row['year']),
+      term: (row['term']).toString().toLowerCase()
     })
     if (row['instructors'] !== 'TBA' && row['instr_email'] !== '') {
       profileInstructorDepartmentFV.push({
@@ -90,6 +96,14 @@ async function main() {
               name: c['major'],
               college_id: college.id
             }
+          }
+        },
+        availability: {
+          create: {
+            term: c['term'],
+            academic_year: c['year'],
+            registration_start: c['reg_start'],
+            registration_end: c['reg_end'],
           }
         }
       }
