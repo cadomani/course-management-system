@@ -50,6 +50,7 @@
     "jet-logger": "^1.0.6",
     "jsonfile": "^6.1.0",
     "lodash": "^4.17.21",
+    "luxon": "^2.0.2",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0"
   },
@@ -63,6 +64,7 @@
     "@types/jasmine": "^3.10.1",
     "@types/jsonfile": "^6.0.1",
     "@types/lodash": "^4.14.176",
+    "@types/luxon": "^2.0.5",
     "@types/morgan": "^1.9.3",
     "@types/node": "^16.11.4",
     "@types/supertest": "^2.0.11",
