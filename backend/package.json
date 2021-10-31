@@ -1,28 +1,91 @@
 {
   "name": "backend",
-  "version": "0.0.1",
   "description": "Express backend for CMS",
-  "main": "src/index.js",
+  "main": "src/index.ts",
+  "private": true,
+  "contributors": [
+    "Carlos Domani",
+    "Isaiah Burkes",
+    "Micah Still",
+    "Midas Oden",
+    "Trejon Goldsborough"
+  ],
+  "license": "UNLICENSED",
+  "homepage": "https://cms.kltpzyxm.live/",
   "scripts": {
-    "start": "node src/index.js",
-    "dev": "nodemon src/index.js",
-    "lint": "eslint src/index.js"
+    "build": "./node_modules/.bin/ts-node build.ts",
+    "lint": "eslint . --ext .ts",
+    "start": "node -r module-alias/register ./dist --env=production",
+    "start:dev": "nodemon",
+    "test": "nodemon --config ./spec/nodemon.json",
+    "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec",
+    "self-install": "npm install",
+    "seeding": "ts-node ./prisma/seed.ts"
   },
-  "author": "Carlos Domani et al",
-  "license": "ISC",
+  "prisma": {
+    "seed": "ts-node prisma/seed.ts"
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts, html",
+    "ignore": [
+      "src/public"
+    ],
+    "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src"
+  },
   "dependencies": {
+    "@prisma/client": "3.3.0",
+    "command-line-args": "^5.2.0",
+    "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",
     "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
     "express-openapi": "^9.3.0",
+    "express-validator": "^6.12.2",
     "helmet": "^4.6.0",
-    "mongoose": "^6.0.6",
+    "http-status-codes": "^2.1.4",
+    "jet-logger": "^1.0.6",
+    "jsonfile": "^6.1.0",
+    "lodash": "^4.17.21",
+    "luxon": "^2.0.2",
+    "module-alias": "^2.2.2",
     "morgan": "^1.10.0"
   },
   "devDependencies": {
-    "eslint": "^7.32.0",
+    "@types/command-line-args": "^5.2.0",
+    "@types/cookie-parser": "^1.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/find": "^0.2.1",
+    "@types/fs-extra": "^9.0.13",
+    "@types/jasmine": "^3.10.1",
+    "@types/jsonfile": "^6.0.1",
+    "@types/lodash": "^4.14.176",
+    "@types/luxon": "^2.0.5",
+    "@types/morgan": "^1.9.3",
+    "@types/node": "^16.11.4",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.1.0",
+    "@typescript-eslint/parser": "^5.1.0",
+    "csv": "^5.5.3",
+    "eslint": "^8.1.0",
     "eslint-config-airbnb-base": "^14.2.1",
     "eslint-plugin-import": "^2.24.2",
-    "nodemon": "^2.0.12"
+    "find": "^0.3.0",
+    "fs-extra": "^10.0.0",
+    "jasmine": "^3.10.0",
+    "nodemon": "^2.0.14",
+    "prisma": "^3.3.0",
+    "supertest": "^6.1.6",
+    "ts-node": "^10.4.0",
+    "tsconfig-paths": "^3.11.0",
+    "typescript": "^4.4.4"
+  },
+  "engines": {
+    "node": ">=16.10.0",
+    "npm": ">=7.24.0"
   }
 }

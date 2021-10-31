@@ -3,7 +3,7 @@
 ## Tools
 - **Development Environment**
   + IDE &rarr; [Visual Studio Code](https://code.visualstudio.com/)
-
+<br></br>
 - **Tooling**
   + Windows (Preferred)
     + [Overview](https://docs.microsoft.com/en-us/windows/dev-environment/javascript/nodejs-on-wsl) (covers everything below)
@@ -36,9 +36,9 @@
 - **Application / Database Design**
   + Software UML Design &rarr; [Lucidchart](https://lucid.app/lucidchart/invitations/accept/inv_c5fecb92-6aba-4db5-a2cf-bbb834c1133a)
 
-
+<br></br>
 ## Setup
-- **Configure git**
+### Configure git ###
   + Generate SSH Key - [Reference](https://docs.github.com/en/github/authenticating-to-github/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent#generating-a-new-ssh-key)
     ```sh
     # 1. Start ssh-agent if it is not running
@@ -100,7 +100,8 @@
     > code workspace.code-workspace
     ```
   ### IMPORTANT! **Allow VSCode to install all recommended extensions and open up the workspace, this is so we can run the server/client and be able to use debug configurations**
-- **Configure and run**
+<br></br>
+### Initialize and Run ###
   + Initialize, install, and launch React and Express
     - Install and run Express
         ```sh
@@ -159,16 +160,19 @@
     - Run debugger from within VSCode by clicking Ctrl + Shift + D and selecting *Debug Server, Client, and Launch Browser*
       + A browser window should open up (Chrome most likely) and show the React homepage.
     - Make small changes in either the **App.jsx** or **index.js** file (change something that won't break) and verify that the page changed after the changes were made without restarting.
-
+<br></br>
 ## Standards
 - Create and checkout a new branch before working on any code, never commit to main (it will fail). The main branch will be used for CI and production code so we can merge or squash commits to it after reviewing all code. 
   + When creating branches name them however you like but preferably keep them short and add a tag for what was worked on. i.e. if we added a login system, your branch can be called *loginform* or *auth*
 - Commit often and add don't just commit everything without a message. Instead, stage files that correspond to work that was done and make multiple commits with descriptive messages.
 - Avoid pushing unfinished code. If you need to switch gears, stash code using VSCode or git and commit it at a later time. If unfinished code must be pushed, indicate as such or commit to a throwaway local branch.
 - Never hardcode credentials in code (sensitive data should originate from .env file) or commit any files that contain any credentials. Any other sensitive information like emails should be excluded from commits by selectively choosing lines to commit or by changing the information.
- 
-
-# Problem Statement
+<br></br>
+## References
++ **[Branching/Merging](https://www.varonis.com/blog/git-branching/)**
+  
+<br></br>
+## Problem Statement
 
 - **Introduction**
 
