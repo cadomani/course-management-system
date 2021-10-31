@@ -23,6 +23,7 @@ import courseRoute from './routes/course.route';
 import staticRoute from './routes/static.route';
 import userRoute from './routes/user.route';
 import authRoute from './routes/auth.route';
+import registrationRoute from './routes/registration.route';
 
 // Plugins
 app.use(express.json()); // Defines exclusive JSON communication when Content-Type is application/json
@@ -54,7 +55,8 @@ if (process.env.NODE_ENV === 'production') {
 app.use('/api/course', courseRoute);
 app.use('/api/static', staticRoute);
 app.use('/api/user', userRoute);
-app.use('/login', authRoute);
+app.use('/api/login', authRoute);
+app.use('/api/registration', registrationRoute);
 
 // DEBUG: Log all requests with morgan and show listening port
 const port = process.env.PORT || 3000;
