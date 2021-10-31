@@ -185,7 +185,7 @@ model section {
   section_start   DateTime?    @db.Date
   section_end     DateTime?    @db.Date
   building_id     Int?
-  room_num        Int?
+  room_num        String?
   schedule        String?      @db.VarChar(255)
   online          Boolean
   availability    availability @relation(fields: [availability_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "section_ibfk_1")
