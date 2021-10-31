@@ -74,16 +74,16 @@ model building {
   college    college?  @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "building_ibfk_1")
   section    section[]
 
+  @@unique([college_id, name], name: "uniqueBuilding")
   @@index([college_id], map: "college_id")
-  @@unique(fields: [college_id, name], name: "uniqueBuilding")
 }
 
 model college {
   id         Int          @id @default(autoincrement())
   name       String       @unique(map: "college_name_uindex") @db.VarChar(255)
   building   building[]
-  major      major[]
   department department[]
+  major      major[]
 }
 
 model course {
@@ -113,6 +113,7 @@ model department {
   college       college     @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_2")
   instructor    instructor? @relation(fields: [instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_1")
 
+  @@index([college_id], map: "department_ibfk_2")
   @@index([instructor_id], map: "instructor_id")
 }
 
@@ -121,7 +122,7 @@ model enrollment {
   student_id Int?
   section_id Int?
   section    section?    @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "enrollment_ibfk_2")
-  student    student?    @relation(fields: [student_id], references: [enrollment_id], onDelete: NoAction, onUpdate: NoAction, map: "enrollment_ibfk_1")
+  student    student?    @relation(fields: [student_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "enrollment_ibfk_1")
   assigned   assigned[]
   messaging  messaging[]
 
@@ -147,7 +148,7 @@ model major {
   course     course[]
   student    student[]
 
-  @@unique(fields: [college_id, name], name: "uniqueMajor")
+  @@unique([college_id, name], name: "uniqueMajor")
   @@index([college_id], map: "college_id")
 }
 
@@ -199,13 +200,12 @@ model section {
 }
 
 model student {
-  id            Int          @id @default(autoincrement())
-  major_id      Int?
-  enrollment_id Int?         @unique(map: "enrollment_id")
-  profile_id    Int
-  major         major?       @relation(fields: [major_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_1")
-  profile       profile      @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_2")
-  enrollment    enrollment[]
+  id         Int          @id @default(autoincrement())
+  major_id   Int?
+  profile_id Int
+  major      major?       @relation(fields: [major_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_1")
+  profile    profile      @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_2")
+  enrollment enrollment[]
 
   @@index([major_id], map: "major_id")
   @@index([profile_id], map: "profile_id")
