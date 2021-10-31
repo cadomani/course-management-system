@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { DateTime } from "luxon";
 
 const prisma = new PrismaClient({
-  log: ['query', 'info', 'warn', 'error'],
+  log: ['info', 'warn', 'error'],
 })
 
 
@@ -76,6 +76,7 @@ async function main() {
   }
 
   // Load colleges and majors
+  console.log('Loading colleges and majors...')
   let colleges = _.compact(_.uniqWith(collegeFilteredView, _.isEqual));
   for (let c of colleges) {
     await prisma.major.create({
@@ -96,6 +97,7 @@ async function main() {
   }
 
   // Load buildings
+  console.log('Loading buildings...')
   let buildings = _.compact(_.uniqWith(buildingFilteredView, _.isEqual));
   for (let c of buildings) {
     let college = await prisma.college.findUnique({ where: { name: c['college'] }, select: { id: true } });
@@ -121,6 +123,7 @@ async function main() {
   }
 
   // Load courses, majors, and availability
+  console.log('Loading courses, majors, and availability...');
   let courses = _.compact(_.uniqWith(courseFilteredView, _.isEqual));
   for (let c of courses) {
     let college = await prisma.college.findUnique({ where: { name: c['college'] }, select: {id: true} });
@@ -152,6 +155,7 @@ async function main() {
   }
 
   // Load profiles, instructors, and departments
+  console.log('Loading profiles, instructors, and departments...')
   let instructors = _.compact(_.uniqWith(profileInstructorDepartmentFV, _.isEqual));
   for (let c of instructors) {
     let college = await prisma.college.findUnique({ where: { name: c['college'] }, select: { id: true } });
@@ -182,6 +186,84 @@ async function main() {
     })
   }
 
+  // Write sections (all records)
+  console.log('Loading sections...')
+  for (let c of records) {
+    let coll = await prisma.college.findUnique({ where: { name: c['college'] } });
+    if (coll === null) {
+      continue;
+    }
+    let maj = await prisma.major.findUnique({
+      where: {
+        uniqueMajor: {
+          name: c['major'], college_id: coll.id
+        }
+      }
+    });
+    if (maj === null) {
+      continue;
+    }
+    let inst = await prisma.instructor.findFirst({
+      where: {
+        profile: {
+          name: c['instructors'],
+          email: c['instr_email'],
+        }
+      },
+    });
+    if (inst === null) {
+      continue;
+    }
+    let crse = await prisma.course.findFirst({
+      where: {
+        major_id: maj.id,
+        name: c['name'],
+        credit_hours: c['cred'],
+      },
+      select: {
+        availability: true,
+      }
+    });
+    if (crse === null) {
+      continue;
+    }
+    let online = false;
+    if ((c['options'] as string).includes('Asynchronous') || (c['options'] as string).includes('Synchronous')) {
+      online = true;
+    }
+
+    let builf = undefined;
+    let room = undefined;
+    if (c['where'] !== 'TBA' && c['where'] !== '') {
+      let building = c['where'].split(" ");
+      room = building.pop();
+      builf = building.join(" ");
+    }
+    let buil = await prisma.building.findFirst({
+      where: {
+        college_id: coll.id,
+        name: builf
+      }
+    })
+    if (buil === null) {
+      continue;
+    }
+
+    await prisma.section.create({
+      data: {
+        instructor_id: inst.id,
+        availability_id: crse.availability[0].id,
+        building_id: buil.id,
+        course_tag: c['course_id'],
+        section_crn: Number.parseInt(c['crn']),
+        room_num: room,
+        schedule: c['days'],
+        section_start: DateTime.fromFormat(c['course_start'], "LLL dd, yyyy").toJSDate(),
+        section_end: DateTime.fromFormat(c['course_end'], "LLL dd, yyyy").toJSDate(),
+        online: online,
+      }
+    })
+  }
 
 }
 
