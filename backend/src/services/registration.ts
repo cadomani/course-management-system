@@ -111,7 +111,7 @@ export async function rollbackStudent(publicId: any): Promise<ResponseFormat> {
   // Cascade delete
   let profileId = await Profile.delete({
     where: {
-      id: publicId
+      id: Number.parseInt(publicId)
     }
   })
 
