@@ -48,7 +48,7 @@
 				"request": "launch",
 				"runtimeArgs": [
 					"run-script",
-					"start"
+					"dev"
 				],
 				"runtimeExecutable": "npm",
 				"skipFiles": [
