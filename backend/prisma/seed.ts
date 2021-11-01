@@ -257,7 +257,7 @@ async function main() {
         course_tag: c['course_id'],
         section_crn: Number.parseInt(c['crn']),
         room_num: room,
-        schedule: c['days'],
+        schedule: (c['days'] as string).trim(),
         section_start: DateTime.fromFormat(c['course_start'], "LLL dd, yyyy").toJSDate(),
         section_end: DateTime.fromFormat(c['course_end'], "LLL dd, yyyy").toJSDate(),
         online: online,
