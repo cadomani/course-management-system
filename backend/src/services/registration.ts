@@ -11,11 +11,12 @@ const College = prisma.college;
 const Profile = prisma.profile;
 const Enrollment = prisma.enrollment;
 const Student = prisma.student;
+const Sections = prisma.section;
 
 /**
  * Lists colleges and majors along with id's to present during registration.
  */
-export async function getSelections(): Promise<ResponseFormat> {
+export async function getPrograms(): Promise<ResponseFormat> {
   const data = await College.findMany({
     select: {
       name: true,
@@ -31,6 +32,65 @@ export async function getSelections(): Promise<ResponseFormat> {
   // Send response
   return {
     status: (data === null || Object.keys(data).length == 0) ? 500: 200,
+    data: (data === null || Object.keys(data).length == 0) ? [] : data,
+  };
+}
+
+/**
+ * Lists available sections pertaining to a particular major
+ */
+export async function getSections(major_id: string): Promise<ResponseFormat> {
+  const data = await Sections.findMany({
+    where: {
+      availability: {
+        course: {
+          major_id: Number.parseInt(major_id)
+        }
+      }
+    },
+    select: {
+      id: true,
+      course_tag: true,
+      online: true,
+      room_num: true,
+      schedule: true,
+      section_crn: true,
+      section_start: true,
+      section_end: true,
+      building: {
+        select: {
+          name: true
+        }
+      },
+      instructor: {
+        select: {
+          profile: {
+            select: {
+              name: true
+            }
+          }
+        }
+      },
+      availability: {
+        select: {
+          registration_start: true,
+          registration_end: true,
+          academic_year: true,
+          term: true,
+          course: {
+            select: {
+              name: true,
+              credit_hours: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Send response
+  return {
+    status: (data === null || Object.keys(data).length == 0) ? 500 : 200,
     data: (data === null || Object.keys(data).length == 0) ? [] : data,
   };
 }
