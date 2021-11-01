@@ -3,7 +3,7 @@ import { Router, urlencoded } from 'express';
 import { result } from 'lodash';
 import passport from 'passport';
 import { IVerifyOptions } from "passport-local";
-import { getSelections } from '../services/login';
+//import { getSelections } from '../services/login';
 import '../core/auth';
 
 

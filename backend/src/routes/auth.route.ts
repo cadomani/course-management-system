@@ -2,7 +2,7 @@ import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import passport from 'passport';
 import { IVerifyOptions } from "passport-local";
-import { getSelections } from '../services/login';
+//import { getSelections } from '../services/login';
 import '../core/auth';
 
 
