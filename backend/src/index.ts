@@ -13,6 +13,7 @@ import { initialize } from 'express-openapi'; // TODO: will be replaced by expre
 import { errorHandler } from './core/middlewares';  // Import custom middlewares
 import passport from 'passport';
 import * as passportSettings from './core/auth';
+import session from 'express-session';
 
 // Import and process .env variables (as process.env.VAR_NAME)
 require('dotenv').config();
@@ -42,6 +43,13 @@ app.use(morgan('common'));
 
 // Add error-handling middleware support
 app.use(errorHandler);
+app.use(session({
+  secret: (process.env.APP_SECRET as string),
+  resave: false,
+  cookie: {
+    maxAge: Number.parseInt(process.env.COOKIE_MAX_AGE as string)
+  }
+}));
 app.use(passport.initialize())
 
 

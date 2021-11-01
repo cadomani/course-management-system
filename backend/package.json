@@ -37,6 +37,7 @@
   },
   "dependencies": {
     "@prisma/client": "3.3.0",
+    "@types/express-session": "^1.17.4",
     "bcrypt": "^5.0.1",
     "command-line-args": "^5.2.0",
     "cookie-parser": "^1.4.5",
@@ -45,6 +46,7 @@
     "express": "^4.17.1",
     "express-async-errors": "^3.1.1",
     "express-openapi": "^9.3.0",
+    "express-session": "^1.17.2",
     "express-validator": "^6.12.2",
     "helmet": "^4.6.0",
     "http-status-codes": "^2.1.4",
