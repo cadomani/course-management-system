@@ -237,6 +237,11 @@ async function main() {
     if (c['where'] !== 'TBA' && c['where'] !== '') {
       let building = c['where'].split(" ");
       room = building.pop();
+      if (room === '') {
+        room = undefined;
+      } else {
+        room = (room as string).toUpperCase();
+      }
       builf = building.join(" ");
     }
     let buil = await prisma.building.findFirst({
