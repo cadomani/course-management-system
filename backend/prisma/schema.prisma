@@ -11,7 +11,7 @@ model administrator {
   id         Int      @id @default(autoincrement())
   authority  Int
   profile_id Int?
-  profile    profile? @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "administrator_ibfk_1")
+  profile    profile? @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "administrator_ibfk_1")
 
   @@index([profile_id], map: "profile_id")
 }
@@ -35,9 +35,9 @@ model assigned {
   enrollment_id Int?
   assignment_id Int?
   assessment_id Int?
-  assessment    assessment? @relation(fields: [assessment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "assigned_ibfk_3")
-  assignment    assignment? @relation(fields: [assignment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "assigned_ibfk_2")
-  enrollment    enrollment? @relation(fields: [enrollment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "assigned_ibfk_1")
+  assessment    assessment? @relation(fields: [assessment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "assigned_ibfk_3")
+  assignment    assignment? @relation(fields: [assignment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "assigned_ibfk_2")
+  enrollment    enrollment? @relation(fields: [enrollment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "assigned_ibfk_1")
 
   @@index([assessment_id], map: "assessment_id")
   @@index([assignment_id], map: "assignment_id")
@@ -61,7 +61,7 @@ model availability {
   academic_year      Int
   registration_start DateTime          @db.Date
   registration_end   DateTime          @db.Date
-  course             course?           @relation(fields: [course_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "availability_ibfk_1")
+  course             course?           @relation(fields: [course_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "availability_ibfk_1")
   section            section[]
 
   @@index([course_id], map: "course_id")
@@ -74,16 +74,16 @@ model building {
   college    college?  @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "building_ibfk_1")
   section    section[]
 
+  @@unique([college_id, name], name: "uniqueBuilding")
   @@index([college_id], map: "college_id")
-  @@unique(fields: [college_id, name], name: "uniqueBuilding")
 }
 
 model college {
   id         Int          @id @default(autoincrement())
   name       String       @unique(map: "college_name_uindex") @db.VarChar(255)
   building   building[]
-  major      major[]
   department department[]
+  major      major[]
 }
 
 model course {
@@ -111,8 +111,9 @@ model department {
   instructor_id Int?
   college_id    Int
   college       college     @relation(fields: [college_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_2")
-  instructor    instructor? @relation(fields: [instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "department_ibfk_1")
+  instructor    instructor? @relation(fields: [instructor_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "department_ibfk_1")
 
+  @@index([college_id], map: "department_ibfk_2")
   @@index([instructor_id], map: "instructor_id")
 }
 
@@ -120,8 +121,8 @@ model enrollment {
   id         Int         @id @default(autoincrement())
   student_id Int?
   section_id Int?
-  section    section?    @relation(fields: [section_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "enrollment_ibfk_2")
-  student    student?    @relation(fields: [student_id], references: [enrollment_id], onDelete: NoAction, onUpdate: NoAction, map: "enrollment_ibfk_1")
+  section    section?    @relation(fields: [section_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "enrollment_ibfk_2")
+  student    student?    @relation(fields: [student_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "enrollment_ibfk_1")
   assigned   assigned[]
   messaging  messaging[]
 
@@ -132,7 +133,7 @@ model enrollment {
 model instructor {
   id         Int          @id @default(autoincrement())
   profile_id Int?
-  profile    profile?     @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "instructor_ibfk_1")
+  profile    profile?     @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "instructor_ibfk_1")
   department department[]
   section    section[]
 
@@ -147,7 +148,7 @@ model major {
   course     course[]
   student    student[]
 
-  @@unique(fields: [college_id, name], name: "uniqueMajor")
+  @@unique([college_id, name], name: "uniqueMajor")
   @@index([college_id], map: "college_id")
 }
 
@@ -156,7 +157,7 @@ model messaging {
   enrollment_id Int?
   sent_date     DateTime    @db.DateTime(0)
   content       String      @db.VarChar(1000)
-  enrollment    enrollment? @relation(fields: [enrollment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "messaging_ibfk_1")
+  enrollment    enrollment? @relation(fields: [enrollment_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "messaging_ibfk_1")
 
   @@index([enrollment_id], map: "enrollment_id")
 }
@@ -168,7 +169,7 @@ model profile {
   biography      String?         @db.VarChar(300)
   university     String?         @db.VarChar(255)
   credentials_id Int?
-  credentials    credentials?    @relation(fields: [credentials_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "profile_ibfk_1")
+  credentials    credentials?    @relation(fields: [credentials_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profile_ibfk_1")
   administrator  administrator[]
   instructor     instructor[]
   student        student[]
@@ -185,12 +186,12 @@ model section {
   section_start   DateTime?    @db.Date
   section_end     DateTime?    @db.Date
   building_id     Int?
-  room_num        Int?
+  room_num        String?
   schedule        String?      @db.VarChar(255)
   online          Boolean
-  availability    availability @relation(fields: [availability_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "section_ibfk_1")
+  availability    availability @relation(fields: [availability_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "section_ibfk_1")
   building        building?    @relation(fields: [building_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "section_ibfk_3")
-  instructor      instructor   @relation(fields: [instructor_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "section_ibfk_2")
+  instructor      instructor   @relation(fields: [instructor_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "section_ibfk_2")
   enrollment      enrollment[]
 
   @@index([availability_id], map: "availability_id")
@@ -199,13 +200,12 @@ model section {
 }
 
 model student {
-  id            Int          @id @default(autoincrement())
-  major_id      Int?
-  enrollment_id Int?         @unique(map: "enrollment_id")
-  profile_id    Int
-  major         major?       @relation(fields: [major_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_1")
-  profile       profile      @relation(fields: [profile_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_2")
-  enrollment    enrollment[]
+  id         Int          @id @default(autoincrement())
+  major_id   Int?
+  profile_id Int
+  major      major?       @relation(fields: [major_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "student_ibfk_1")
+  profile    profile      @relation(fields: [profile_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "student_ibfk_2")
+  enrollment enrollment[]
 
   @@index([major_id], map: "major_id")
   @@index([profile_id], map: "profile_id")
