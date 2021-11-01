@@ -4,6 +4,7 @@ import {
   ResponseFormat
 } from '../schemas/user';
 import { DateTime } from "luxon";
+import { generatePasswordHash } from '../core/auth';
 
 // ORM convenience mapping
 const College = prisma.college;
@@ -66,7 +67,7 @@ export async function createStudent(newStudent: any): Promise<ResponseFormat> {
           email: newStudent.email,
           credentials: {
             create: {
-              password_hash: 'NOT_IMPLEMENTED',
+              password_hash: await generatePasswordHash(newStudent.password),
               signup_date: DateTime.now().toJSDate(),
               last_login: DateTime.now().toJSDate()
             }
