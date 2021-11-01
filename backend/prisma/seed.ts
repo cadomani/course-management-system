@@ -239,6 +239,9 @@ async function main() {
       room = building.pop();
       if (room === '') {
         room = undefined;
+      } else if (room === 'Pool' || room === 'Center' || room === 'campus)') {
+        building.push(room)
+        room = undefined;
       } else {
         room = (room as string).toUpperCase();
       }
