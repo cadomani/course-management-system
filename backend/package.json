@@ -40,6 +40,8 @@
   },
   "dependencies": {
     "@prisma/client": "3.3.0",
+    "@sentry/node": "^6.13.3",
+    "@sentry/tracing": "^6.13.3",
     "@types/express-session": "^1.17.4",
     "bcrypt": "^5.0.1",
     "command-line-args": "^5.2.0",
