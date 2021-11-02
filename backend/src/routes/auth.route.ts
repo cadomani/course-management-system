@@ -23,7 +23,7 @@ router.post(
   }),
   function (req, res, next) {
     try {
-      res.status(200).send();
+      res.status(200).send(req.user);
     } catch (err) {
       logger.err('An error occurred while attempting to log in: ' + err);
       return res.status(500).send({
