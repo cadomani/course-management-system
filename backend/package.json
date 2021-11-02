@@ -13,9 +13,9 @@
   "license": "UNLICENSED",
   "homepage": "https://cms.kltpzyxm.live/",
   "scripts": {
-    "build": "./node_modules/.bin/ts-node build.ts",
+    "build": "tsc --build tsconfig.prod.json ./",
     "lint": "eslint . --ext .ts",
-    "start": "node -r module-alias/register ./dist --env=production",
+    "start": "node -r module-alias/register ./dist",
     "start:dev": "nodemon",
     "test": "nodemon --config ./spec/nodemon.json",
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec",
@@ -34,6 +34,9 @@
       "src/public"
     ],
     "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src"
+  },
+  "_moduleAliases": {
+    "@shared": "dist/common"
   },
   "dependencies": {
     "@prisma/client": "3.3.0",
