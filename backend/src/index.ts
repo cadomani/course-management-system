@@ -1,7 +1,20 @@
+declare global {
+  namespace NodeJS {
+    interface Global {
+      __rootdir__: string;
+    }
+  }
+}
+// @ts-ignore
+global.__rootdir__ = __dirname || process.cwd();
+// @ts-ignore
+console.log(global.__rootdir__);
+
 import './core/pre-launch'; // Run pre-launch checks
 import express, { NextFunction, Request, Response, urlencoded } from 'express'; // Main express application
 import * as Sentry from '@sentry/node'; // Issue tracking and ingestion platform
 import * as Tracing from '@sentry/tracing'; // Frontend to backend tracing module
+import { RewriteFrames } from '@sentry/integrations'
 import logger from '@shared/Logger'; // Global logger
 import prisma from '@shared/Database'; // Database ORM
 import fs from 'fs'; // Allow filesystem access
@@ -29,6 +42,8 @@ logger.info(`Backend Sentry DSN ${process.env.EXPRESS_SENTRY_DSN} for environmen
 Sentry.init({
   dsn: process.env.EXPRESS_SENTRY_DSN,
   integrations: [
+    // @ts-ignore
+    new RewriteFrames({ root: global.__rootdir__ }),
     new Sentry.Integrations.Http({ tracing: true }), // enable HTTP calls tracing
     new Tracing.Integrations.Express({ app }), // enable Express.js middleware tracing
   ],
@@ -81,6 +96,10 @@ app.use('/api/course', courseRoute);
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/registration', registrationRoute);
+
+app.get("/debug-sentry", function mainHandler(req, res) {
+  throw new Error("My first Sentry error!");
+});
 
 // Add error-handling middleware support
 app.use(Sentry.Handlers.errorHandler());

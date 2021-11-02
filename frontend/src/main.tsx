@@ -2,6 +2,7 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
+import { RewriteFrames } from "@sentry/integrations";
 import App from './App'
 import './index.css'
 
@@ -13,10 +14,14 @@ if (typeof (SENTRY_DSN) !== 'string' || typeof (SENTRY_ENVIRONMENT) !== 'string'
   console.log(SENTRY_DSN);
   Sentry.init({
     dsn: SENTRY_DSN,
-    integrations: [new Integrations.BrowserTracing()],
+    integrations: [
+      new Integrations.BrowserTracing(),
+      new RewriteFrames({
+        root: "/app/frontend/dist"
+      })],
     tracesSampleRate: 1.0,
     environment: SENTRY_ENVIRONMENT
-  });
+  })
 }
 
 ReactDOM.render(

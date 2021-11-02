@@ -1,7 +1,9 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
-    "sourceMap": true
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
   },
   "exclude": [
     "prisma/*.ts"

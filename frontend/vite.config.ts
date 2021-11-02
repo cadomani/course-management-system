@@ -12,7 +12,7 @@ export default defineConfig({
         Login: path.resolve(__dirname, 'login.html'),
       }
     },
-    sourcemap: 'inline',
+    sourcemap: true,
     manifest: true,
     minify: false,
     emptyOutDir: true,
