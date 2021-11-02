@@ -24,7 +24,6 @@ app.use(urlencoded({ extended: true }));
 
 // API routers
 import courseRoute from './routes/course.route';
-import staticRoute from './routes/static.route';
 import userRoute from './routes/user.route';
 import authRoute from './routes/auth.route';
 import registrationRoute from './routes/registration.route';
@@ -66,7 +65,6 @@ if (process.env.NODE_ENV === 'production') {
 
 // Define router to route mappings
 app.use('/api/course', courseRoute);
-app.use('/api/static', staticRoute);
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/registration', registrationRoute);
