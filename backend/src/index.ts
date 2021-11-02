@@ -1,15 +1,3 @@
-declare global {
-  namespace NodeJS {
-    interface Global {
-      __rootdir__: string;
-    }
-  }
-}
-// @ts-ignore
-global.__rootdir__ = __dirname || process.cwd();
-// @ts-ignore
-console.log(global.__rootdir__);
-
 import './core/pre-launch'; // Run pre-launch checks
 import express, { NextFunction, Request, Response, urlencoded } from 'express'; // Main express application
 import * as Sentry from '@sentry/node'; // Issue tracking and ingestion platform
@@ -43,7 +31,7 @@ Sentry.init({
   dsn: process.env.EXPRESS_SENTRY_DSN,
   integrations: [
     // @ts-ignore
-    new RewriteFrames({ root: global.__rootdir__ }),
+    new RewriteFrames({ root: process.env.HEROKU_ROOT_BACKEND_DIR}),
     new Sentry.Integrations.Http({ tracing: true }), // enable HTTP calls tracing
     new Tracing.Integrations.Express({ app }), // enable Express.js middleware tracing
   ],
