@@ -70,22 +70,11 @@ app.use(session({
 }));
 app.use(passport.initialize())
 
-
-
-// DEBUG: Main route
+// Main route
 if (process.env.NODE_ENV === 'production') {
-  app.use('/', express.static(path.join(__dirname, '../../frontend/dist')));
-} else {
-  app.get('/', (req: Request, res: Response) => {
-    res.json({
-      message: 'Hello World!!',
-    });
-  });
+  logger.info('Production server running...')
 }
-
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
-});
+app.use('/', express.static(path.join(__dirname, '../../frontend/dist')));
 
 // Define router to route mappings
 app.use('/api/course', courseRoute);
@@ -95,7 +84,7 @@ app.use('/api/registration', registrationRoute);
 
 // Add error-handling middleware support
 app.use(Sentry.Handlers.errorHandler());
-// app.use(errorHandler);
+app.use(errorHandler);
 
 // DEBUG: Log all requests with morgan and show listening port
 const port = process.env.PORT || 3000;
