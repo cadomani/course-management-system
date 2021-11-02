@@ -25,8 +25,9 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 
 // Initialize Sentry
+logger.info(`Backend Sentry DSN ${process.env.EXPRESS_SENTRY_DSN} for environment ${process.env.EXPRESS_SENTRY_ENVIRONMENT}`);
 Sentry.init({
-  dsn: process.env.SENTRY_DSN,
+  dsn: process.env.EXPRESS_SENTRY_DSN,
   integrations: [
     new Sentry.Integrations.Http({ tracing: true }), // enable HTTP calls tracing
     new Tracing.Integrations.Express({ app }), // enable Express.js middleware tracing
@@ -34,6 +35,7 @@ Sentry.init({
 
   // Capture every transaction
   tracesSampleRate: 1.0,
+  environment: process.env.EXPRESS_SENTRY_ENVIRONMENT
 });
 
 // Sentry middlewares loaded first
