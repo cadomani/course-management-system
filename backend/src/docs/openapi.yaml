@@ -1,612 +1,514 @@
 openapi: 3.0.0
 info:
-  version: 1.0.0
   title: Course Management System
-  description: The main objective of the project is to facilitate the interaction between students and instructors related to the presentation of projects, tasks, thesis and allows instructors to give feedback to students.
+  description: >-
+    The main objective of the project is to facilitate the interaction between
+    students and instructors related to the presentation of projects, tasks,
+    thesis and allows instructors to give feedback to students.
+  version: 0.0.1
 servers:
-  - url: 'http://192.168.1.8:5070/api'
-    description: Home Server
-  - url: 'http://localhost:5070/api'
+  - url: 'http://localhost:5070'
     description: Development server
-  - url: 'https://cms.kltpzyxm.live/api'
+  - url: 'https://cms.kltpzyxm.live'
     description: Production server
-paths:
-  # USERS
-  /user:
-    get:
-      summary: 'DEBUG: List all users in database'
-      operationId: listUsers
-      tags:
-        - user
-      security:
-        - MasterKeyAuth: []
-      responses:
-        '200':
-          description: 'success'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ArrayOfUsers'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'  
-    post:
-      summary: 'add a new user to database.'
-      operationId: addUser
-      tags:
-        - user
-      responses:
-        '201':
-          description: 'user created'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/User'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'  
-        '403':
-          description: 'user exists'
-        default:
-          description: Unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /user/{id}:
-    put:
-      summary: 'replace user by id'
-      operationId: replaceUser
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'user replaced'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    patch:
-      summary: 'update user by id'
-      operationId: updateUser
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'user updated'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /user/{id}/uuid:
-    get:
-      summary: 'get user uuid from public id'
-      operationId: getUserUUID
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'user uuid found'
-          content:
-            application/json:
-              schema:
-                type: string
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user uuid not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'  
-  /user/{id}/profile:
-    get:
-      summary: 'get user public profile given id (or public profile given uuid)'
-      operationId: getUserProfile
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: X-USER-UUID
-          in: header
-          description: User UUID
-          required: false
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'user found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ExtendedUser'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    put:
-      summary: 'replace user private profile given uuid'
-      operationId: replaceUserProfile
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: X-USER-UUID
-          in: header
-          description: User UUID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'user replaced'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    patch:
-      summary: 'update user profile given by uuid'
-      operationId: updateUserProfile
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: X-USER-UUID
-          in: header
-          description: User UUID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'user updated'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-  
-  # COURSES
-  /course:
-    get:
-      summary: 'DEBUG: List all courses in database'
-      operationId: listCourses
-      tags:
-        - course
-      security:
-        - MasterKeyAuth: []
-      responses:
-        '200':
-          description: 'success'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/ArrayOfCourses'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    post:
-      summary: 'create course'
-      operationId: createCourse
-      tags:
-        - course
-      responses:
-        '201':
-          description: 'course created'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '403':
-          description: 'course exists'  
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  /course/{id}:
-    get:
-      summary: 'retrieve course by id'
-      operationId: getCourse
-      tags:
-        - course
-      parameters:
-        - name: id
-          in: path
-          description: Course ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'course found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'course not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    put:
-      summary: 'replace course by id'
-      operationId: replaceCourse
-      tags:
-        - course
-      parameters:
-        - name: id
-          in: path
-          description: Course ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'course replaced'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'course not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    patch:
-      summary: 'update course by id'
-      operationId: updateCourse
-      tags:
-        - course
-      parameters:
-        - name: id
-          in: path
-          description: Course ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'course updated'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'course not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-
-  # STATIC
-  /static/{id}/profile-photo:
-    get:
-      summary: 'get profile photo'
-      operationId: getUserProfilePhoto
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-      responses:
-        '200':
-          description: 'user found'
-          content:
-            image/*:
-              schema: 
-               type: string
-               format: binary
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-    put:
-      summary: 'replace profile photo given uuid'
-      operationId: replaceUserProfilePhoto
-      tags:
-        - user
-      parameters:
-        - name: id
-          in: path
-          description: User ID
-          required: true
-          schema:
-            type: integer
-            format: int32
-        - name: X-USER-UUID
-          in: header
-          description: User UUID
-          required: true
-          schema:
-            type: string
-      responses:
-        '200':
-          description: 'user found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/StatusDetail'
-        '400':
-          description: 'bad request'   
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-        '404':
-          description: 'user not found'
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Error'
-  #/static/{id}/class-icons
-  #/static/{id}/class-thumbnails
-
 components:
-  schemas:
-    User:
-      type: object
-      required:
-        - _id
-        - firstName
-        - lastName
-        - username
-      properties:
-        _id:
-          type: string
-        firstName:
-          type: string
-        middleName:
-          type: string
-        lastName:
-          type: string
-        nickname:
-          type: string
-        username:
-          type: string
-    ExtendedUser:
-      allOf:
-        - $ref: '#/components/schemas/User'
-        - type: object
-          required:
-            - email
-          properties:
-            email:
-              type: string
-            coursesTaken:
-              type: array
-              items:
-                $ref: '#/components/schemas/ArrayOfCourses'
-              minItems: 0
-    ArrayOfUsers:
-      type: array
-      items:
-        $ref: '#/components/schemas/User'
-    Course:
-      type: object
-      required:
-        - _id
-        - descriptiveName
-        - courseNumber
-        - shortName
-        - department
-        - category
-      properties:
-        _id:
-          type: string
-        descriptiveName:
-          type: string
-        courseNumber:
-          type: integer
-        shortName:
-          type: string
-        department:
-          type: string
-        category:
-          type: string
-        semestersOffered:
-          type: array
-          items:
-            properties:
-              semester:
-                type: string
-            minItems: 1
-            maxItems: 3
-        prerequisites:
-          type: array
-          items:
-            properties:
-              courseNum:
-                type: integer
-            minItems: 0
-    ArrayOfCourses:
-      type: array
-      items:
-        $ref: '#/components/schemas/Course'
-    StatusDetail:
-      type: object
-      properties:
-        status:
-          type: string
-        detail:
-          type: string
-    Error:
-      type: object
-      required:
-        - code
-        - message
-      properties:
-        code:
-          type: integer
-          format: int32
-        message:
-          type: string
   securitySchemes:
-    JWTAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-    ApiKeyAuth: 
+    cookieAuth: 
       type: apiKey
-      in: header
-      name: X-API-KEY
-    MasterKeyAuth: 
-      type: apiKey
-      in: header
-      name: X-MASTER-KEY
-security:
-  # User Authentication
-  - JWTAuth: []
-  # Frontend/Backend exclusivity
-  - ApiKeyAuth: []
+      in: cookie
+      name: connect.sid
+tags:
+  - name: User
+    description: Operations pertaining to user accounts, public or authenticated
+  - name: Course
+    description: Operations on courses
+  - name: Register
+    description: Routes for new student registration
+  - name: Login
+    description: Login request
+paths:
+  /api/user/{id}/profilePhoto:
+    put:
+      tags:
+        - User
+      summary: Replace Profile Photo
+      description: A request to replace the currently set profile photo
+      requestBody:
+        content:
+          image/png:
+            schema:
+              type: string
+              format: binary
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '102073'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: success
+        '401':
+          description: Unauthorized response
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: failure
+                reson: unauthorized access
+      security:
+        - cookieAuth: []
+    get:
+      tags:
+        - User
+      summary: Get Profile Photo
+      description: A request to receive the user profile photo as a binary stream
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '102073'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            image/png:
+              schema:
+                type: string
+                format: binary
+        '404':
+          description: Resource does not exist
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: failure
+                reson: resource not found
+  /api/user/{id}/profile:
+    patch:
+      tags:
+        - User
+      summary: Update Profile
+      description: A request to update certain parts of the user profile
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Sample User
+                email:
+                  type: string
+                  example: sample@auburn.edu
+                password:
+                  type: string
+                  example: validpassword1
+                major_id:
+                  type: integer
+                  example: '34'
+                sections:
+                  type: array
+                  items:
+                    type: integer
+                  minItems: 1
+                  maxItems: 7
+                  uniqueItems: true
+                  example: 
+                    - 1988
+                    - 1314
+                    - 1922
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '102073'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: "success"
+      security:
+        - cookieAuth: []
+    get:
+      tags:
+        - User
+      summary: Get Profile
+      description: >-
+        A request to obtain the user profile. A private profile with more
+        information is returned if the user is authenticated and retrieving
+        their own profile.
+      parameters:
+        - name: id
+          in: path
+          schema:
+            type: integer
+          required: true
+          example: '102073'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: success
+        '404':
+          description: Resource does not exist
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: failure
+                reson: resource not found
+  /api/registration/validate:
+    get:
+      tags:
+        - Register
+      summary: Check Email Availability
+      description: >-
+        A request should be sent here once the email textbox loses focus and
+        after email validation has occurred to check proper syntax. A boolean
+        response will indicate if the email already exists in the database.
+      parameters:
+        - name: available
+          in: query
+          schema:
+            type: string
+          description: Email address that we should check availability for
+          example: sample@auburn.edu
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: boolean
+              examples:
+                example-0:
+                  summary: email not available
+                  value:
+                    available: false
+                example-1:
+                  summary: email available
+                  value:
+                    available: true
+  /api/registration/programs:
+    get:
+      tags:
+        - Register
+      summary: Get Programs
+      description: >-
+        Get programs available for registration. They include majors and their
+        respective colleges.
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  minItems: 1
+                  uniqueItems: true
+                  properties:
+                    id:
+                      type: integer
+                    name:
+                      type: string
+                    major:
+                      type: array
+                      minItems: 1
+                      uniqueItems: true
+                      items:
+                        type: object
+                        properties:
+                          id:
+                            type: integer
+                          name:
+                            type: string
+                
+                
+              example:
+                - id: 13
+                  name: College of Veterinary Medicine
+                  major:
+                    - id: 150
+                      name: Veterinary Medicine
+                    - id: 148
+                      name: VM-Biomedical Sciences
+                - id: 9
+                  name: School of Forestry & Wildlife Sciences
+                  major:
+                    - id: 20
+                      name: Biomaterials and Packaging
+                    - id: 74
+                      name: Forest Engineering
+                    - id: 75
+                      name: Forestry
+                    - id: 76
+                      name: Forestry & Wildlife Sci.
+                    - id: 80
+                      name: Geospatial and Env Informatics
+                    - id: 119
+                      name: Natural Resources Management
+                    - id: 151
+                      name: Wildlife Sciences
+                - id: 12
+                  name: School of Nursing
+                  major:
+                    - id: 121
+                      name: Nursing
+                - id: 11
+                  name: School of Pharmacy
+                  major:
+                    - id: 40
+                      name: Drug Discovery and Development
+                    - id: 85
+                      name: Health Outcomes Research & Pol
+                    - id: 98
+                      name: Interdept Pharmacy
+                    - id: 123
+                      name: Pharmacy PharmD
+  /api/registration/sections:
+    get:
+      tags:
+        - Register
+      summary: Get Sections
+      description: >-
+        Get the sections pertaining to a specific major and college. No courses
+        from other colleges can be taken at this time.
+      parameters:
+        - name: major
+          in: query
+          schema:
+            type: integer
+          description: The major id to get sections for
+          example: '23'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                - id: 976
+                  course_tag: BSCI 1100
+                  online: false
+                  room_num: B6
+                  schedule: MWF
+                  section_crn: 10788
+                  section_start: '2021-08-16T00:00:00.000Z'
+                  section_end: '2021-12-10T00:00:00.000Z'
+                  building:
+                    name: Dudley Hall
+                  instructor:
+                    profile:
+                      name: Lauren Wybenga Redden
+                  availability:
+                    registration_start: '2021-04-05T00:00:00.000Z'
+                    registration_end: '2021-08-20T00:00:00.000Z'
+                    academic_year: 2021
+                    term: fall
+                    course:
+                      name: Introduction to Construction
+                      credit_hours: 3
+                - id: 977
+                  course_tag: BSCI 2200
+                  online: false
+                  room_num: '107'
+                  schedule: MW
+                  section_crn: 14933
+                  section_start: '2021-08-16T00:00:00.000Z'
+                  section_end: '2021-12-10T00:00:00.000Z'
+                  building:
+                    name: Gorrie Center
+                  instructor:
+                    profile:
+                      name: Keith A Rahn
+                  availability:
+                    registration_start: '2021-04-05T00:00:00.000Z'
+                    registration_end: '2021-08-20T00:00:00.000Z'
+                    academic_year: 2021
+                    term: fall
+                    course:
+                      name: Construction Documents
+                      credit_hours: 3
+                - id: 978
+                  course_tag: BSCI 2200
+                  online: false
+                  room_num: SITE
+                  schedule: MW
+                  section_crn: 14934
+                  section_start: '2021-08-16T00:00:00.000Z'
+                  section_end: '2021-12-10T00:00:00.000Z'
+                  building:
+                    name: Various Sites (off campus)
+                  instructor:
+                    profile:
+                      name: Scott W Kramer
+                  availability:
+                    registration_start: '2021-04-05T00:00:00.000Z'
+                    registration_end: '2021-08-20T00:00:00.000Z'
+                    academic_year: 2021
+                    term: fall
+                    course:
+                      name: Construction Documents
+                      credit_hours: 3
+  /api/registration:
+    post:
+      tags:
+        - Register
+      summary: Register
+      description: Begin registration request for a new student
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                name:
+                  type: string
+                  example: Sample User
+                email:
+                  type: string
+                  example: sample@auburn.edu
+                password:
+                  type: string
+                  example: validpassword1
+                major_id:
+                  type: integer
+                  example: '34'
+                sections:
+                  type: array
+                  minItems: 1
+                  maxItems: 7
+                  uniqueItems: true
+                  items:
+                    type: integer
+                  example: 
+                    - 1988
+                    - 1314
+                    - 1922
+              required:
+                - name
+                - email
+                - password
+                - major_id
+                - sections
+      responses:
+        '201':
+          description: Student created
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                publicId: 102073
+        '403':
+          description: Student creation failed
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: failure
+                detail: account could not be created
+  /api/registration/rollback:
+    post:
+      tags:
+        - Debug
+      summary: Rollback
+      description: Rollback addition of a given user.
+      parameters:
+        - name: publicId
+          in: query
+          schema:
+            type: integer
+          example: '102075'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: success
+        '404':
+          description: Resource does not exist
+          content:
+            application/json: 
+              schema:
+                type: object
+              example:
+                status: failure
+                reson: resource not found
+  /api/auth:
+    post:
+      tags:
+        - Login
+      summary: Login
+      description: >-
+        Send email and password. Sets cookie that must be retrieved on every
+        subsequent request and expires after some time.
+      requestBody:
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              properties:
+                email:
+                  type: string
+                  example: sample@auburn.edu
+                password:
+                  type: string
+                  example: validpassword1
+      responses:
+        '200':
+          description: Successful response
+          headers:
+            Set-Cookie:
+              schema:
+                type: string
+                example: >-
+                  connect.sid=s%3AKEYH7I7SUH09jURJOg-ADPfCUegAZ_bG.FYRngkqVD5236QS%2F93Ij0Nbyn3L0ck0Cuwe3HPfvE64;
+                  Path=/; Expires=Tue, 02 Nov 2021 00:42:54 GMT; HttpOnly
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                id: 102073
+                name: Sample User
+        '401':
+          description: Authentication failure
+          content:
+            application/json:
+              schema:
+                type: object
+              example:
+                status: failure
+                detail: incorrect credentials supplied
