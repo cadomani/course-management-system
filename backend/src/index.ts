@@ -12,7 +12,8 @@ import helmet from "helmet"; // Protect against common web attacks
 import cors from 'cors'; // Allow cross-origin requests from frontend
 import cookieParser from 'cookie-parser' // Request cookie parsing and validation
 import 'express-async-errors'; // Error handling in async context
-import { initialize } from 'express-openapi'; // TODO: will be replaced by express-openapi-validator 
+import * as OpenApiValidator from 'express-openapi-validator';
+
 import { errorHandler } from './core/middlewares';  // Import custom middlewares
 import passport from 'passport'; // Authentication and session management
 import * as passportSettings from './core/auth'; // Authentication configuration
@@ -45,6 +46,19 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler()); // Creates a separate execution context using domains
 app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
 
+// Serve the OpenAPI spec
+app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.yaml')));
+
+// Set up OpenAPI Validator
+app.use(
+  OpenApiValidator.middleware({
+    apiSpec: path.join(__dirname, 'docs/openapi.yaml'),
+    validateResponses: true,
+    validateRequests: true,
+    validateApiSpec: true
+  }),
+);
+
 // API routers
 import courseRoute from './routes/course.route';
 import userRoute from './routes/user.route';
@@ -67,6 +81,7 @@ app.use(morgan('common'));
 app.use(session({
   secret: (process.env.APP_SECRET as string),
   resave: false,
+  saveUninitialized: false,
   cookie: {
     maxAge: Number.parseInt(process.env.COOKIE_MAX_AGE as string)
   }
@@ -93,8 +108,8 @@ app.get("/debug-sentry", function mainHandler(req, res) {
 app.use(Sentry.Handlers.errorHandler());
 app.use(errorHandler);
 
-// DEBUG: Log all requests with morgan and show listening port
+// Log all requests with morgan and show listening port
 const port = process.env.PORT || 3000;
 app.listen(process.env.PORT, () => {
-  console.log(`listening on port ${process.env.PORT}`);
+  logger.info(`listening on port ${process.env.PORT}`);
 });
