@@ -113,24 +113,24 @@
         + Create a new file inside the backend folder (AKA Express Server inside VSCode) and call it *.env* (the dot is required). Fill in these values:
           ```sh
           # BACKEND
-          NODE_ENV=development
+          NODE_ENV="development"
           PORT=5070
           CORS_ORIGIN=http://localhost:5080
+          UNIVERSITY="Auburn University"
+          APP_SECRET="**SHARED SEPARATELY**"
+          COOKIE_MAX_AGE=3600000
+          EXPRESS_SENTRY_DSN="**FROM SENTRY DSN ACCOUNT**"
+          EXPRESS_SENTRY_ENVIRONMENT="development"
+          HEROKU_ROOT_BACKEND_DIR="/app/backend/dist"
 
-          # DATABASE 
-          MONGODB_USERNAME=YOUR_MONGODB_USERNAME
-          MONGODB_PASSWORD=YOUR_MONGODB_PASSWORD
-          MONGODB_DATABASE=cms
-          MONGODB_SERVER=cms-db.dv0vb.mongodb.net
-          MONGODB_URL=mongodb+srv://YOUR_MONGODB_USERNAME:YOUR_MONGODB_PASSWORD@cms-db.dv0vb.mongodb.net/cms?retryWrites=true&w=majority
+          # DATABASE (DigitalOcean)
+          DATABASE_URL="**SHARED SEPARATELY**"
           ```
-        + Run react app
+        + Run express app
           ```sh
           # Navigate to the backend folder and try to launch server (don't close terminal after this)
-          > npm run dev
+          > npm run start:dev
           ```
-        + You should get a screen like this:
-        ![image](https://user-images.githubusercontent.com/7801988/134072431-ba52c755-63d8-46e6-bdd4-5470d9bbaa59.png)
         + Open up a browser and browse to [http://localhost:5070](http://localhost:5070)
         + The Express Server is up and running, type Ctrl + C to shut it down or close the terminal *(IMPORTANT)*
      - Install and run React
@@ -143,23 +143,24 @@
         + Repeat the same steps for creating a file for the frontend folder (AKA React Client inside VSCode) and call it *.env* (the dot is required). Fill in these values:
           ```sh
           # FRONTEND
-          NODE_ENV=development
-          PORT=5080
-          REACT_APP_SERVER_URL=http://localhost:5070
+          VITE_PORT=5080
+          VITE_SERVER_URL="http://localhost:5070"
+          VITE_APP_TITLE="Course Management System (dev)"
+          VITE_SENTRY_DSN="**FROM SENTRY DSN ACCOUNT**"
+          VITE_SENTRY_ENVIRONMENT="development"
+          VITE_HEROKU_ROOT_FRONTEND_DIR="/app/frontend/dist"
           ```
         + Run react app
           ```sh
           # Navigate to the frontend folder and try to launch client (don't close terminal after this)
-          > npm start
+          > npm run dev
           ```
-        + You should get a screen like this:
-          -![image](https://user-images.githubusercontent.com/7801988/134072360-48896642-1c54-4efa-b2b4-e0b3bcf0ab29.png)
         + Open up a browser and browse to [http://localhost:5080](http://localhost:5080)
         + The React Client is being served by Node.js, type Ctrl + C to shut it down or close the terminal *(IMPORTANT)*
   + Run program from within VSCode to test hot-reloading
     - Run debugger from within VSCode by clicking Ctrl + Shift + D and selecting *Debug Server, Client, and Launch Browser*
       + A browser window should open up (Chrome most likely) and show the React homepage.
-    - Make small changes in either the **App.jsx** or **index.js** file (change something that won't break) and verify that the page changed after the changes were made without restarting.
+    - Make small changes in either the **App.tsx** or **index.ts** file (change something that won't break) and verify that the page changed after the changes were made without restarting.
 <br></br>
 ## Standards
 - Create and checkout a new branch before working on any code, never commit to main (it will fail). The main branch will be used for CI and production code so we can merge or squash commits to it after reviewing all code. 
