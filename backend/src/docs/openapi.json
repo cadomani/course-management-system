@@ -1,0 +1,734 @@
+{
+  "openapi" : "3.0.0",
+  "info" : {
+    "title" : "Course Management System",
+    "description" : "The main objective of the project is to facilitate the interaction between students and instructors related to the presentation of projects, tasks, thesis and allows instructors to give feedback to students.",
+    "version" : "0.0.1"
+  },
+  "servers" : [ {
+    "url" : "http://localhost:5070",
+    "description" : "Development server"
+  }, {
+    "url" : "https://cms.kltpzyxm.live",
+    "description" : "Production server"
+  } ],
+  "tags" : [ {
+    "name" : "User",
+    "description" : "Operations pertaining to user accounts, public or authenticated"
+  }, {
+    "name" : "Course",
+    "description" : "Operations on courses"
+  }, {
+    "name" : "Register",
+    "description" : "Routes for new student registration"
+  }, {
+    "name" : "Login",
+    "description" : "Login request"
+  } ],
+  "paths" : {
+    "/api/user/{id}/profilePhoto" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Get Profile Photo",
+        "description" : "A request to receive the user profile photo as a binary stream",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "102073"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "image/png" : {
+                "schema" : {
+                  "type" : "string",
+                  "format" : "binary"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource does not exist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "reson" : "resource not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put" : {
+        "tags" : [ "User" ],
+        "summary" : "Replace Profile Photo",
+        "description" : "A request to replace the currently set profile photo",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "102073"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "image/png" : {
+              "schema" : {
+                "type" : "string",
+                "format" : "binary"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "success"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Unauthorized response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "reson" : "unauthorized access"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cookieAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/user/{id}/profile" : {
+      "get" : {
+        "tags" : [ "User" ],
+        "summary" : "Get Profile",
+        "description" : "A request to obtain the user profile. A private profile with more information is returned if the user is authenticated and retrieving their own profile.",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "102073"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "success"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource does not exist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "reson" : "resource not found"
+                }
+              }
+            }
+          }
+        }
+      },
+      "patch" : {
+        "tags" : [ "User" ],
+        "summary" : "Update Profile",
+        "description" : "A request to update certain parts of the user profile",
+        "parameters" : [ {
+          "name" : "id",
+          "in" : "path",
+          "required" : true,
+          "style" : "simple",
+          "explode" : false,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "102073"
+        } ],
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/id_profile_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "success"
+                }
+              }
+            }
+          }
+        },
+        "security" : [ {
+          "cookieAuth" : [ ]
+        } ]
+      }
+    },
+    "/api/registration/validate" : {
+      "get" : {
+        "tags" : [ "Register" ],
+        "summary" : "Check Email Availability",
+        "description" : "A request should be sent here once the email textbox loses focus and after email validation has occurred to check proper syntax. A boolean response will indicate if the email already exists in the database.",
+        "parameters" : [ {
+          "name" : "available",
+          "in" : "query",
+          "description" : "Email address that we should check availability for",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "string"
+          },
+          "example" : "sample@auburn.edu"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "$ref" : "#/components/schemas/inline_response_200"
+                },
+                "examples" : {
+                  "example-0" : {
+                    "summary" : "email not available",
+                    "value" : {
+                      "available" : false
+                    }
+                  },
+                  "example-1" : {
+                    "summary" : "email available",
+                    "value" : {
+                      "available" : true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/registration/programs" : {
+      "get" : {
+        "tags" : [ "Register" ],
+        "summary" : "Get Programs",
+        "description" : "Get programs available for registration. They include majors and their respective colleges.",
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "array",
+                  "items" : {
+                    "$ref" : "#/components/schemas/inline_response_200_1"
+                  }
+                },
+                "example" : [ {
+                  "id" : 13,
+                  "name" : "College of Veterinary Medicine",
+                  "major" : [ {
+                    "id" : 150,
+                    "name" : "Veterinary Medicine"
+                  }, {
+                    "id" : 148,
+                    "name" : "VM-Biomedical Sciences"
+                  } ]
+                }, {
+                  "id" : 9,
+                  "name" : "School of Forestry & Wildlife Sciences",
+                  "major" : [ {
+                    "id" : 20,
+                    "name" : "Biomaterials and Packaging"
+                  }, {
+                    "id" : 74,
+                    "name" : "Forest Engineering"
+                  }, {
+                    "id" : 75,
+                    "name" : "Forestry"
+                  }, {
+                    "id" : 76,
+                    "name" : "Forestry & Wildlife Sci."
+                  }, {
+                    "id" : 80,
+                    "name" : "Geospatial and Env Informatics"
+                  }, {
+                    "id" : 119,
+                    "name" : "Natural Resources Management"
+                  }, {
+                    "id" : 151,
+                    "name" : "Wildlife Sciences"
+                  } ]
+                }, {
+                  "id" : 12,
+                  "name" : "School of Nursing",
+                  "major" : [ {
+                    "id" : 121,
+                    "name" : "Nursing"
+                  } ]
+                }, {
+                  "id" : 11,
+                  "name" : "School of Pharmacy",
+                  "major" : [ {
+                    "id" : 40,
+                    "name" : "Drug Discovery and Development"
+                  }, {
+                    "id" : 85,
+                    "name" : "Health Outcomes Research & Pol"
+                  }, {
+                    "id" : 98,
+                    "name" : "Interdept Pharmacy"
+                  }, {
+                    "id" : 123,
+                    "name" : "Pharmacy PharmD"
+                  } ]
+                } ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/registration/sections" : {
+      "get" : {
+        "tags" : [ "Register" ],
+        "summary" : "Get Sections",
+        "description" : "Get the sections pertaining to a specific major and college. No courses from other colleges can be taken at this time.",
+        "parameters" : [ {
+          "name" : "major",
+          "in" : "query",
+          "description" : "The major id to get sections for",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "23"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : [ {
+                  "id" : 976,
+                  "course_tag" : "BSCI 1100",
+                  "online" : false,
+                  "room_num" : "B6",
+                  "schedule" : "MWF",
+                  "section_crn" : 10788,
+                  "section_start" : "2021-08-16T00:00:00.000Z",
+                  "section_end" : "2021-12-10T00:00:00.000Z",
+                  "building" : {
+                    "name" : "Dudley Hall"
+                  },
+                  "instructor" : {
+                    "profile" : {
+                      "name" : "Lauren Wybenga Redden"
+                    }
+                  },
+                  "availability" : {
+                    "registration_start" : "2021-04-05T00:00:00.000Z",
+                    "registration_end" : "2021-08-20T00:00:00.000Z",
+                    "academic_year" : 2021,
+                    "term" : "fall",
+                    "course" : {
+                      "name" : "Introduction to Construction",
+                      "credit_hours" : 3
+                    }
+                  }
+                }, {
+                  "id" : 977,
+                  "course_tag" : "BSCI 2200",
+                  "online" : false,
+                  "room_num" : "107",
+                  "schedule" : "MW",
+                  "section_crn" : 14933,
+                  "section_start" : "2021-08-16T00:00:00.000Z",
+                  "section_end" : "2021-12-10T00:00:00.000Z",
+                  "building" : {
+                    "name" : "Gorrie Center"
+                  },
+                  "instructor" : {
+                    "profile" : {
+                      "name" : "Keith A Rahn"
+                    }
+                  },
+                  "availability" : {
+                    "registration_start" : "2021-04-05T00:00:00.000Z",
+                    "registration_end" : "2021-08-20T00:00:00.000Z",
+                    "academic_year" : 2021,
+                    "term" : "fall",
+                    "course" : {
+                      "name" : "Construction Documents",
+                      "credit_hours" : 3
+                    }
+                  }
+                }, {
+                  "id" : 978,
+                  "course_tag" : "BSCI 2200",
+                  "online" : false,
+                  "room_num" : "SITE",
+                  "schedule" : "MW",
+                  "section_crn" : 14934,
+                  "section_start" : "2021-08-16T00:00:00.000Z",
+                  "section_end" : "2021-12-10T00:00:00.000Z",
+                  "building" : {
+                    "name" : "Various Sites (off campus)"
+                  },
+                  "instructor" : {
+                    "profile" : {
+                      "name" : "Scott W Kramer"
+                    }
+                  },
+                  "availability" : {
+                    "registration_start" : "2021-04-05T00:00:00.000Z",
+                    "registration_end" : "2021-08-20T00:00:00.000Z",
+                    "academic_year" : 2021,
+                    "term" : "fall",
+                    "course" : {
+                      "name" : "Construction Documents",
+                      "credit_hours" : 3
+                    }
+                  }
+                } ]
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/registration" : {
+      "post" : {
+        "tags" : [ "Register" ],
+        "summary" : "Register",
+        "description" : "Begin registration request for a new student",
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api_registration_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "201" : {
+            "description" : "Student created",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "publicId" : 102073
+                }
+              }
+            }
+          },
+          "403" : {
+            "description" : "Student creation failed",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "detail" : "account could not be created"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/registration/rollback" : {
+      "post" : {
+        "tags" : [ "Debug" ],
+        "summary" : "Rollback",
+        "description" : "Rollback addition of a given user.",
+        "parameters" : [ {
+          "name" : "publicId",
+          "in" : "query",
+          "required" : false,
+          "style" : "form",
+          "explode" : true,
+          "schema" : {
+            "type" : "integer"
+          },
+          "example" : "102075"
+        } ],
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "success"
+                }
+              }
+            }
+          },
+          "404" : {
+            "description" : "Resource does not exist",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "reson" : "resource not found"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/auth" : {
+      "post" : {
+        "tags" : [ "Login" ],
+        "summary" : "Login",
+        "description" : "Send email and password. Sets cookie that must be retrieved on every subsequent request and expires after some time.",
+        "requestBody" : {
+          "content" : {
+            "application/x-www-form-urlencoded" : {
+              "schema" : {
+                "$ref" : "#/components/schemas/api_auth_body"
+              }
+            }
+          }
+        },
+        "responses" : {
+          "200" : {
+            "description" : "Successful response",
+            "headers" : {
+              "Set-Cookie" : {
+                "style" : "simple",
+                "explode" : false,
+                "schema" : {
+                  "type" : "string",
+                  "example" : "connect.sid=s%3AKEYH7I7SUH09jURJOg-ADPfCUegAZ_bG.FYRngkqVD5236QS%2F93Ij0Nbyn3L0ck0Cuwe3HPfvE64; Path=/; Expires=Tue, 02 Nov 2021 00:42:54 GMT; HttpOnly"
+                }
+              }
+            },
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "id" : 102073,
+                  "name" : "Sample User"
+                }
+              }
+            }
+          },
+          "401" : {
+            "description" : "Authentication failure",
+            "content" : {
+              "application/json" : {
+                "schema" : {
+                  "type" : "object"
+                },
+                "example" : {
+                  "status" : "failure",
+                  "detail" : "incorrect credentials supplied"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components" : {
+    "schemas" : {
+      "api_auth_body" : {
+        "properties" : {
+          "email" : {
+            "type" : "string",
+            "example" : "sample@auburn.edu"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "validpassword1"
+          }
+        }
+      },
+      "id_profile_body" : {
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Sample User"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "sample@auburn.edu"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "validpassword1"
+          },
+          "major_id" : {
+            "type" : "integer",
+            "example" : 34
+          },
+          "sections" : {
+            "maxItems" : 7,
+            "minItems" : 1,
+            "uniqueItems" : true,
+            "type" : "array",
+            "example" : [ 1988, 1314, 1922 ],
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      },
+      "apiregistrationprograms_major" : {
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          }
+        }
+      },
+      "inline_response_200_1" : {
+        "minItems" : 1,
+        "uniqueItems" : true,
+        "type" : "object",
+        "properties" : {
+          "id" : {
+            "type" : "integer"
+          },
+          "name" : {
+            "type" : "string"
+          },
+          "major" : {
+            "minItems" : 1,
+            "uniqueItems" : true,
+            "type" : "array",
+            "items" : {
+              "$ref" : "#/components/schemas/apiregistrationprograms_major"
+            }
+          }
+        }
+      },
+      "inline_response_200" : {
+        "type" : "object",
+        "properties" : {
+          "status" : {
+            "type" : "boolean"
+          }
+        }
+      },
+      "api_registration_body" : {
+        "required" : [ "email", "major_id", "name", "password", "sections" ],
+        "properties" : {
+          "name" : {
+            "type" : "string",
+            "example" : "Sample User"
+          },
+          "email" : {
+            "type" : "string",
+            "example" : "sample@auburn.edu"
+          },
+          "password" : {
+            "type" : "string",
+            "example" : "validpassword1"
+          },
+          "major_id" : {
+            "type" : "integer",
+            "example" : 34
+          },
+          "sections" : {
+            "maxItems" : 7,
+            "minItems" : 1,
+            "uniqueItems" : true,
+            "type" : "array",
+            "example" : [ 1988, 1314, 1922 ],
+            "items" : {
+              "type" : "integer"
+            }
+          }
+        }
+      }
+    },
+    "securitySchemes" : {
+      "cookieAuth" : {
+        "type" : "apiKey",
+        "name" : "connect.sid",
+        "in" : "cookie"
+      }
+    }
+  }
+}

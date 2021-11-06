@@ -78,7 +78,8 @@
   },
   "include": [
     "src/**/*.ts",
-    "prisma/seed.ts"
+    "prisma/seed.ts",
+    "src/docs/openapi.json"
   ],
   "exclude": []
 }

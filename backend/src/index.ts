@@ -47,12 +47,12 @@ app.use(Sentry.Handlers.requestHandler()); // Creates a separate execution conte
 app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
 
 // Serve the OpenAPI spec
-app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.yaml')));
+app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.json')));
 
 // Set up OpenAPI Validator
 app.use(
   OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, 'docs/openapi.yaml'),
+    apiSpec: path.join(__dirname, 'docs/openapi.json'),
     validateResponses: true,
     validateRequests: true,
     validateApiSpec: true

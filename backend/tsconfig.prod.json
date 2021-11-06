@@ -6,9 +6,6 @@
     "sourceRoot": "/",
     "resolveJsonModule": true
   },
-  "include": [
-    "src/**/*.json"
-  ],
   "exclude": [
     "prisma/*.ts"
   ]
