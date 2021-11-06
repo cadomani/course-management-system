@@ -95,6 +95,7 @@ model credentials {
   password_updated DateTime? @db.DateTime(0)
   last_login       DateTime? @db.DateTime(0)
   signup_date      DateTime  @db.DateTime(0)
+  session_token    String?   @db.VarChar(255)
   profile          profile[]
 }
 
