@@ -162,6 +162,7 @@ model profile {
   biography      String?         @db.VarChar(300)
   university     String?         @db.VarChar(255)
   credentials_id Int?
+  photo          Bytes?          @db.MediumBlob
   credentials    credentials?    @relation(fields: [credentials_id], references: [id], onDelete: Cascade, onUpdate: NoAction, map: "profile_ibfk_1")
   administrator  administrator[]
   instructor     instructor[]
