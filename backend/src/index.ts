@@ -64,7 +64,7 @@ app.use(
   OpenApiValidator.middleware({
     apiSpec: path.join(__dirname, 'docs/openapi.json'),
     validateResponses: true,
-    validateRequests: true,
+    validateRequests: false,
     validateApiSpec: true
   }),
 );
@@ -81,11 +81,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 // Add session and authentication middleware
+app.set('trust proxy', 1)
 app.use(session({
   secret: (process.env.APP_SECRET as string),
   resave: false,
   saveUninitialized: false,
+  name: 'cms.session',
   cookie: {
+    secure: process.env.NODE_ENV === 'development' ? false : true,
+    httpOnly: process.env.NODE_ENV === 'development' ? false : true,
+    domain: process.env.DOMAIN,
+    path: '/',
     maxAge: Number.parseInt(process.env.COOKIE_MAX_AGE as string)
   }
 }));
