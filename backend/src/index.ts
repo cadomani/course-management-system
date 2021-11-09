@@ -13,7 +13,6 @@ import cors from 'cors'; // Allow cross-origin requests from frontend
 import cookieParser from 'cookie-parser' // Request cookie parsing and validation
 import 'express-async-errors'; // Error handling in async context
 import * as OpenApiValidator from 'express-openapi-validator';
-
 import { errorHandler } from './core/middlewares';  // Import custom middlewares
 import passport from 'passport'; // Authentication and session management
 import * as passportSettings from './core/auth'; // Authentication configuration
@@ -46,6 +45,17 @@ Sentry.init({
 app.use(Sentry.Handlers.requestHandler()); // Creates a separate execution context using domains
 app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
 
+// Library Middlewares
+app.use(morgan('common'));
+app.use(helmet({
+  hsts: process.env.NODE_ENV === 'development' ? false : true,
+  hidePoweredBy: false
+}));
+app.disable("x-powered-by")
+app.use(cors({
+  origin: process.env.CORS_ORIGIN,
+}));
+
 // Serve the OpenAPI spec
 app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.json')));
 
@@ -69,13 +79,6 @@ import registrationRoute from './routes/registration.route';
 app.use(express.json()); // Defines exclusive JSON communication when Content-Type is application/json
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-
-// Library Middlewares
-app.use(morgan('common'));
-// app.use(helmet({ hsts: false }));
-// app.use(cors({
-//   origin: process.env.CORS_ORIGIN,
-// }));
 
 // Add session and authentication middleware
 app.use(session({
