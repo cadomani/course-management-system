@@ -2,6 +2,13 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import './css/index.css'
 import { App } from './App'
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
+import LoginPage from './components/login/LoginPage';
+import RegistrationPage from './components/registration/RegistrationPage';
 // import * as Sentry from "@sentry/react";
 // import { Integrations } from "@sentry/tracing";
 // import { RewriteFrames } from "@sentry/integrations";
@@ -26,8 +33,13 @@ import { App } from './App'
 // }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+  <Routes>
+    <Route path="/" element={<App />} >
+      <Route path="login" element={<LoginPage />} />
+      <Route path="registration" element={<RegistrationPage />} />
+    </Route>
+  </Routes>
+</BrowserRouter>,
   document.getElementById('root')
 )

@@ -1,38 +1,17 @@
 import {
   ChakraProvider,
-  Box,
-  Text,
-  Link,
-  VStack,
-  Code,
-  Grid,
   theme,
 } from "@chakra-ui/react"
+import { Outlet, Link } from "react-router-dom";
+
+
+
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <VStack spacing={8}>
-          <Link
-            color="teal.500"
-            href="/login.html"
-            fontSize="2xl"
-            target="_self"
-            rel="noopener noreferrer"
-          >
-            Login
-          </Link>
-          <Link
-            color="teal.500"
-            href="/registration.html"
-            fontSize="2xl"
-            target="_self"
-            rel="noopener noreferrer"
-          >
-            Register
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
+ 
+        <Link to="/login">Login</Link> |{" "}
+        <Link to="/registration">Register</Link>
+        <Outlet />
+        
   </ChakraProvider>
 )

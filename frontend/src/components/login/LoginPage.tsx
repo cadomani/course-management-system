@@ -3,7 +3,7 @@ import { useState } from 'react'
 import ReactDOM from 'react-dom'
 import "tailwindcss/tailwind.css"
 
-function App() {
+export default function LoginPage() {
   return (
     <div className="App">
       <div className="min-h-screen flex items-center justify-center bg-gray-800 py-12 px-4 sm:px-6 lg:px-8">
@@ -59,9 +59,3 @@ function App() {
   )
 }
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-  document.getElementById('root')
-)
