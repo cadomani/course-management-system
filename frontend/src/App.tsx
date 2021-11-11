@@ -24,7 +24,7 @@ export const App = () => (
           </Link>
           <Link
             color="teal.500"
-            href="/register.html"
+            href="/registration.html"
             fontSize="2xl"
             target="_self"
             rel="noopener noreferrer"
