@@ -1,16 +1,44 @@
-import { useState } from 'react'
-import "tailwindcss/tailwind.css"
+import * as React from "react"
+import {
+  ChakraProvider,
+  Box,
+  Text,
+  Link,
+  VStack,
+  Code,
+  Grid,
+  theme,
+} from "@chakra-ui/react"
+import { ColorModeSwitcher } from "./ColorModeSwitcher"
+import { Logo } from "./Logo"
 
-function App() {
-  return (
-    <div className="App">
-      <div className="flex flex-col items-center justify-center min-h-screen">
-        <a href="/login.html">
-          <button className="bg-yellow-500 rounded-lg px-8 py-6 text-white font-extrabold hover:bg-yellow-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500">Click Me!</button>
-        </a>
-      </div>
-    </div>
-  )
-}
-
-export default App
+export const App = () => (
+  <ChakraProvider theme={theme}>
+    <Box textAlign="center" fontSize="xl">
+      <Grid minH="100vh" p={3}>
+        <ColorModeSwitcher justifySelf="flex-end" />
+        <VStack spacing={8}>
+          <Logo h="40vmin" pointerEvents="none" />
+          <Link
+            color="teal.500"
+            href="/login.html"
+            fontSize="2xl"
+            target="_self"
+            rel="noopener noreferrer"
+          >
+            Login
+          </Link>
+          <Link
+            color="teal.500"
+            href="/register.html"
+            fontSize="2xl"
+            target="_self"
+            rel="noopener noreferrer"
+          >
+            Register
+          </Link>
+        </VStack>
+      </Grid>
+    </Box>
+  </ChakraProvider>
+)
