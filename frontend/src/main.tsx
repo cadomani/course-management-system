@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import './index.css'
+import { App } from './App'
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { RewriteFrames } from "@sentry/integrations";
-import App from './App'
-import './index.css'
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
@@ -31,3 +31,5 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 )
+
+
