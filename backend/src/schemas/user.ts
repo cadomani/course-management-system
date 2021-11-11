@@ -7,6 +7,7 @@
  * Base profile for which properties are common on the others
  */
 interface BaseProfile {
+  id: number
   name: string;
   email: string;
   biography: string;

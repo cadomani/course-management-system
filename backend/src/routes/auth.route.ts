@@ -1,10 +1,7 @@
 import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import passport from 'passport';
-import { IVerifyOptions } from "passport-local";
-//import { getSelections } from '../services/login';
 import '../core/auth';
-
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
@@ -16,21 +13,17 @@ router.use(urlencoded({ extended: true }));
  * Body: [email*, password*]
  * 
  * Response:
- * JWT + Cookie Authentication (Not yet implemented)
+ * Session Cookie Set
  */
 router.post(
   '/',
   passport.authenticate(
     'local', {
-    session: false,
-    // successRedirect: '/',
-    failureRedirect: '/login',
-    failureMessage: 'The username or password entered was incorrect. Please try again.'
+    session: true
   }),
   function (req, res, next) {
     try {
-      logger.info(`Login successful for user `);
-      res.status(200).send();
+      res.status(200).send(req.user);
     } catch (err) {
       logger.err('An error occurred while attempting to log in: ' + err);
       return res.status(500).send({

@@ -11,6 +11,10 @@ export default defineConfig({
         main: path.resolve(__dirname, 'index.html'),
         Login: path.resolve(__dirname, 'login.html'),
       }
-    }
+    },
+    sourcemap: true,
+    manifest: true,
+    minify: false,
+    emptyOutDir: true,
   }
 })

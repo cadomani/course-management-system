@@ -237,6 +237,14 @@ async function main() {
     if (c['where'] !== 'TBA' && c['where'] !== '') {
       let building = c['where'].split(" ");
       room = building.pop();
+      if (room === '') {
+        room = undefined;
+      } else if (room === 'Pool' || room === 'Center' || room === 'campus)') {
+        building.push(room)
+        room = undefined;
+      } else {
+        room = (room as string).toUpperCase();
+      }
       builf = building.join(" ");
     }
     let buil = await prisma.building.findFirst({
@@ -257,7 +265,7 @@ async function main() {
         course_tag: c['course_id'],
         section_crn: Number.parseInt(c['crn']),
         room_num: room,
-        schedule: c['days'],
+        schedule: (c['days'] as string).trim(),
         section_start: DateTime.fromFormat(c['course_start'], "LLL dd, yyyy").toJSDate(),
         section_end: DateTime.fromFormat(c['course_end'], "LLL dd, yyyy").toJSDate(),
         online: online,

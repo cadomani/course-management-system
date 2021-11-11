@@ -14,10 +14,11 @@
   "scripts": {
     "start": "npm start --prefix ./backend",
     "backend-install": "npm install --prefix ./backend",
+    "backend-build": "npm run build --prefix ./backend",
     "frontend-install": "npm install --prefix ./frontend",
     "frontend-build": "npm run build --prefix ./frontend",
     "heroku-prebuild": "npm run frontend-install && npm run backend-install",
-    "build": "npm run frontend-build"
+    "build": "npm run frontend-build && npm run backend-build"
   },
   "engines": {
     "node": ">=16.10.0",

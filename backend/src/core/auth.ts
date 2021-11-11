@@ -3,6 +3,8 @@ import prisma from '@shared/Database';
 import passport from 'passport';
 import passportLocal from 'passport-local';
 import bcrypt from 'bcrypt';
+import { DateTime } from "luxon";
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
 
 // Constants
 const saltRounds = 10;
@@ -29,12 +31,8 @@ passport.deserializeUser(async function (id: number, done) {
 });
 
 // Set up passport
-passport.use(new passportLocal.Strategy({
-    usernameField: 'email',
-    passwordField: 'password'
-  },
-  async function (email, password, done)
-{
+passport.use(new passportLocal.Strategy({usernameField: 'email', passwordField: 'password'}, async function (email, password, done) {
+  // Find user in database
   const user = await Profile.findFirst({
     where: {
       email: email
@@ -48,7 +46,7 @@ passport.use(new passportLocal.Strategy({
   });
   
   // Account not found
-  if (user === null) {
+  if (user === null || user.credentials === null) {
     return done('not found');
   }
 
@@ -58,35 +56,44 @@ passport.use(new passportLocal.Strategy({
   }
 
   // Validate password against salt
-  logger.info(`login attempted with email: ${email} and password ${password}. Id retrieved is ${user.id}`)
-  if (!validatePassword(user, password)) {
-    return done(null, false, { message: 'The username or password was incorrect.' });
-  }
-  return done(null, user);
-  }
-));
+  bcrypt.compare(password, user.credentials.password_hash, async function (err, result) {
+    if (result === true) {
+      // Update last login time
+      await Profile.update({
+        where: {
+          id: user.id
+        },
+        data: {
+          credentials: {
+            update: {
+              last_login: DateTime.now().toJSDate()
+            }
+          }
+        }
+      })
 
+      // Inject profile into request context
+      return done(
+        null, {
+          id: user.id,
+          name: user.name
+        }
+      );
+    } else {
+      return done(
+        null,
+        false, {
+          message: 'The username or password was incorrect.'
+        }
+      );
+    }
+  });
+}));
 
 /**
- * Compare plaintext password against bcrypt hash
+ * Generate a hash from a plaintext password
  */
-function validatePassword(user: any, plaintextPassword: string): boolean {
-  // To be implemented
-  // const hashedPassword = await Profile.findUnique({
-  //   where: {
-  //     id: user.i
-  //   } 
-  // })
-  bcrypt.compare(plaintextPassword, user.credentials.password_hash, function (err, result) {
-    return true;
-  });
-
-  // Fallthrough response
-  return true;
-}
-
-
 export async function generatePasswordHash(plaintextPassword: string): Promise<string> {
-  const hash = await bcrypt.hash(plaintextPassword, saltRounds);
+  const hash = bcrypt.hash(plaintextPassword, saltRounds);
   return hash;
 }
