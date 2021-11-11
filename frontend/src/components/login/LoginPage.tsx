@@ -1,17 +1,11 @@
 import React from 'react'
 import { useState } from 'react'
-import ReactDOM from 'react-dom'
-import BackgroundSlider from 'react-background-slider' //https://www.npmjs.com/package/react-background-slider
-import { IoLogoClosedCaptioning, IoSchoolOutline } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
+import { IoSchoolOutline } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
 import axios from 'axios';
 
 import {
-  Flex,
   Center,
-  Text,
-  Container,
   Grid,
-  GridItem,
   FormControl,
   FormLabel,
   FormHelperText,
@@ -19,17 +13,12 @@ import {
   Stack,
   Button,
   Heading,
-  Image,
   InputGroup,
   InputRightElement,
   FormErrorMessage
 } from "@chakra-ui/react"
 import styles from '../css/loginpage.css';
 
-// Background images
-import bg1 from '../../../images/samford-bg.jpg';
-import bg2 from '../../../images/au-bg2.png';
-import bg3 from '../../../images/au-bg3.png';
 const server_url = 'https://cms.kltpzyxm.live';
 
 export default function LoginPage() {
@@ -86,14 +75,11 @@ export default function LoginPage() {
   }
 }
 
-
   return (
-
     <Grid
       templateRows="repeat(1, 1fr)"
       templateColumns="repeat(3, 1fr)"
     >
-      <GridItem colSpan={1}>
         <Center w="40vw" h="97vh" bg="white">
           <Stack spacing={8}> 
           <Heading>Log In</Heading>
@@ -136,16 +122,7 @@ export default function LoginPage() {
           </Button>
         </Stack>
         </Center>
-      </GridItem>
-
-      <GridItem colSpan={2}>
-        <BackgroundSlider
-            images={[bg1, bg2, bg3]}
-            duration={8} transition={2} />
-      </GridItem>
     </Grid>
-
-
   )
 }
 

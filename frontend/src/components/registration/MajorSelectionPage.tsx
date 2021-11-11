@@ -1,21 +1,16 @@
-import React from 'react';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import {
   Heading,
-  Container,
   Grid,
   GridItem,
-  Flex,
   Center,
-  Text,
   Button,
   ButtonGroup,
   FormControl,
   FormLabel,
   FormErrorMessage,
   FormHelperText,
-  Input,
   Select,
   Table,
   Thead,
@@ -26,7 +21,6 @@ import {
   Td,
   TableCaption,
 } from "@chakra-ui/react"
-import { exit } from 'process';
 
 export default function MajorSelectionPage() {
   const [programs, setPrograms] = useState<any[]>([]);
@@ -106,78 +100,72 @@ export default function MajorSelectionPage() {
   // Return component
   return (
     // Split up as 1/3 registration and 2/3 photo container
-        <Center w="40vw" h="97vh" bg="white">
-          <Grid templateRows="repeat(8, 1fr)" gap={5}>
-            <GridItem rowSpan={1}>
-              <Heading>Choose a Major</Heading>
-            </GridItem>
-            <GridItem rowSpan={1}>
-              <FormControl id="programs">
-                <FormLabel>Programs</FormLabel>
-                <Select maxWidth="80%" onChange={({ target }) => getMajors(target.value)}>
-                  <option value="default" hidden>Select a program...</option>
-                  {/* Iterate through program elements */}
-                  {programs.map((data: any, i: any) => {
-                    return <option key={data.name}>{data.name}</option>
-                  })}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem rowSpan={1}>
-              <FormControl id="majors">
-                <FormLabel>Majors</FormLabel>
-                <Select maxWidth="80%" onChange={({ target }) => setChosenMajorId(target.value)}>
-                  <option value="default" hidden>Select a major...</option>
-                  {/* Iterate through program elements */}
-                  {majors.map((data: any) => {
-                    return <option value={data.id} key={data.id}>{data.name}</option>
-                  })}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem rowSpan={2}>
-              <FormControl id="sections">
-                <FormLabel>Sections</FormLabel>
-                <Select maxWidth="80%" width="auto" onChange={({ target }) => selectSection(target.value)}>
-                  <option value="default" hidden>Choose sections...</option>
-                  {/* Iterate through section elements */}
-                  {sections.map((data: any) => {
-                    return <option value={data.id} key={data.id}>{data.availability.course.name} with {data.instructor.profile.name}</option>
-                  })}
-                </Select>
-              </FormControl>
-            </GridItem>
-            <GridItem rowSpan={4}>
-              <Table variant="simple" size="sm">
-                <TableCaption>Courses Chosen</TableCaption>
-                <Thead>
-                  <Tr>
-                    <Th>Course ID</Th>
-                    <Th>Name</Th>
-                    <Th isNumeric>Credit Hours</Th>
-                  </Tr>
-                </Thead>
-                <Tbody>
-                {/* Iterate through section selections */}
-                {chosenSections.map((data: any) => {
-                  return <Tr key={data.id}>
-                    <Td>{data.course_tag}</Td>
-                    <Td>{data.availability.course.name}</Td>
-                    <Td>{data.availability.course.credit_hours}</Td>
-                    </Tr>
-                })}
-                </Tbody>
-              </Table>
-            </GridItem>
-          </Grid>
-        </Center>
-      </GridItem>
-      {/* Picture Grid */}
-      <GridItem colSpan={2}>
-        <Center w="60vw" h="97vh" bg="green">
-          <Text>Registration Welcome Image</Text>
-        </Center>
-      </GridItem>
-    </Grid>
+    <Center w="40vw" h="97vh" bg="white">
+      <Grid templateRows="repeat(8, 1fr)" gap={5}>
+        <GridItem rowSpan={1}>
+          <Heading>Choose a Major</Heading>
+        </GridItem>
+        <GridItem rowSpan={1}>
+          <FormControl id="programs">
+            <FormLabel>Programs</FormLabel>
+            <Select maxWidth="100%" onChange={({ target }) => getMajors(target.value)}>
+              <option value="default" hidden>Select a program...</option>
+              {/* Iterate through program elements */}
+              {programs.map((data: any, i: any) => {
+                return <option key={data.name}>{data.name}</option>
+              })}
+            </Select>
+          </FormControl>
+        </GridItem>
+        <GridItem rowSpan={1}>
+          <FormControl id="majors">
+            <FormLabel>Majors</FormLabel>
+            <Select maxWidth="100%" onChange={({ target }) => setChosenMajorId(target.value)}>
+              <option value="default" hidden>Select a major...</option>
+              {/* Iterate through program elements */}
+              {majors.map((data: any) => {
+                return <option value={data.id} key={data.id}>{data.name}</option>
+              })}
+            </Select>
+          </FormControl>
+        </GridItem>
+        <GridItem rowSpan={2}>
+          <FormControl id="sections">
+            <FormLabel>Sections</FormLabel>
+            <Select maxWidth="100%" width="auto" onChange={({ target }) => selectSection(target.value)}>
+              <option value="default" hidden>Choose sections...</option>
+              {/* Iterate through section elements */}
+              {sections.map((data: any) => {
+                return <option value={data.id} key={data.id}>{data.availability.course.name} with {data.instructor.profile.name}</option>
+              })}
+            </Select>
+          </FormControl>
+        </GridItem>
+        <GridItem rowSpan={4}>
+          <Table variant="simple" size="sm">
+            <TableCaption>Courses Chosen</TableCaption>
+            <Thead>
+              <Tr>
+                <Th>Course ID</Th>
+                <Th>Name</Th>
+                <Th>Instructor</Th>
+                <Th>Credit Hours</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {/* Iterate through section selections */}
+              {chosenSections.map((data: any) => {
+                return <Tr key={data.id}>
+                  <Td>{data.course_tag}</Td>
+                  <Td>{data.availability.course.name}</Td>
+                  <Td>{data.instructor.profile.name}</Td>
+                  <Td>{data.availability.course.credit_hours}</Td>
+                </Tr>
+              })}
+            </Tbody>
+          </Table>
+        </GridItem>
+      </Grid>
+    </Center>
   )
 }

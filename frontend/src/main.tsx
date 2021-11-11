@@ -7,12 +7,12 @@ import {
   Routes,
   Route
 } from "react-router-dom";
-import LoginPage from './components/login/LoginPage';
-import RegistrationPage from './components/registration/RegistrationPage';
-import MajorSelectionPage from './components/registration/MajorSelectionPage';
 // import * as Sentry from "@sentry/react";
 // import { Integrations } from "@sentry/tracing";
 // import { RewriteFrames } from "@sentry/integrations";
+import LoginPage from './components/login/LoginPage';
+import RegistrationPage from './components/registration/RegistrationPage';
+import MajorSelectionPage from './components/registration/MajorSelectionPage';
 
 // const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 // const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
@@ -35,13 +35,13 @@ import MajorSelectionPage from './components/registration/MajorSelectionPage';
 
 ReactDOM.render(
   <BrowserRouter>
-  <Routes>
-    <Route path="/" element={<App />} >
-      <Route path="login" element={<LoginPage />} />
-      <Route path="registration" element={<RegistrationPage />} />
-      <Route path="majorselection" element={<MajorSelectionPage />} />
-    </Route>
-  </Routes>
-</BrowserRouter>,
+    <Routes>
+      <Route path="/" element={<App />} >
+        <Route path="login" element={<LoginPage />} />
+        <Route path="registration" element={<RegistrationPage />} />
+        <Route path="majorselection" element={<MajorSelectionPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 )
