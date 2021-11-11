@@ -29,7 +29,9 @@
     "axios": "^0.24.0",
     "framer-motion": "^4.1.17",
     "react": "^17.0.0",
+    "react-background-slider": "^2.0.0",
     "react-dom": "^17.0.0",
+    "react-icons": "^4.3.1",
     "react-router-dom": "^6.0.2",
     "tailwindcss": "^2.2.16"
   },
