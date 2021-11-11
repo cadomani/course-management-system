@@ -31,72 +31,68 @@ export default function LoginPage() {
   const [validCredentials, setValidCredentials] = useState(true);
 
 
-  const handleChangeEmail = (e : any) => {
+  const handleChangeEmail = (e: any) => {
     setValidEmail(true); //remove error indicators when typing new email
     setEmail(e.target.value);
   }
-  const handleChangePassword = (e : any) => {
+  const handleChangePassword = (e: any) => {
     setValidPassword(true); //remove error indictators when typing new password
     setPassword(e.target.value);
   }
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
-  async function handleLogInButtonClicked()  {
+  async function handleLogInButtonClicked() {
     //Validate password and email before sending POST req
     //TODO: Use regex to check email ends with @auburn.edu
     //      Do our passwords have length requirements? special characters etc
-          if(!password || password.length === 0) {
-            setValidPassword(false);
-          }
-          if(!email || email.length === 0) {
-            setValidEmail(false);
-          }
+    if (!password || password.length === 0) {
+      setValidPassword(false);
+    }
+    if (!email || email.length === 0) {
+      setValidEmail(false);
+    }
 
-          if(validEmail && validPassword) {
-            setLoading(true);
-            await axios.post(server_url + '/api/auth', {
-              email: email,
-              password: password
-            })
-            .then(function (response) {
-              console.log(response);
-              //Handle success (200)
-              if(!validCredentials) setValidCredentials(true);
-              alert('successful login'); // placeholder. should redirect to new page instead of alert
-            })
-            .catch(function (error) {
-              console.log(error);
-              //Handle failure
-              setValidCredentials(false);
-            })
-            .finally(() => {
-              setLoading(false);
-          });  
+    if (validEmail && validPassword) {
+      setLoading(true);
+      await axios.post(server_url + '/api/auth', {
+        email: email,
+        password: password
+      })
+        .then(function (response) {
+          console.log(response);
+          //Handle success (200)
+          if (!validCredentials) setValidCredentials(true);
+          alert('successful login'); // placeholder. should redirect to new page instead of alert
+        })
+        .catch(function (error) {
+          console.log(error);
+          //Handle failure
+          setValidCredentials(false);
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }
-}
 
   return (
-    <Grid
-      templateRows="repeat(1, 1fr)"
-      templateColumns="repeat(3, 1fr)"
-    >
-        <Center w="40vw" h="97vh" bg="white">
-          <Stack spacing={8}> 
-          <Heading>Log In</Heading>
-            <FormControl id = "credentials" isInvalid={!validCredentials}>
-            <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
-            <FormControl id="email" isInvalid={!validEmail}>
-              <FormLabel>Your Email</FormLabel>
-              <Input  
-                placeholder="xxx0000@auburn.edu"
-                type="email"
-                onChange={handleChangeEmail}
-                 />
-            </FormControl>
-            <FormControl id="password" isInvalid={!validPassword}>
-              <FormLabel>Password</FormLabel>
-              <InputGroup>
-              <Input 
+    <Center w="40vw" h="97vh" bg="white">
+      <Stack spacing={8}>
+        <Heading>Log In</Heading>
+        <FormControl id="credentials" isInvalid={!validCredentials}>
+          <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
+          <FormControl id="email" isInvalid={!validEmail}>
+            <FormLabel>Your Email</FormLabel>
+            <Input
+              placeholder="xxx0000@auburn.edu"
+              type="email"
+              onChange={handleChangeEmail}
+            />
+          </FormControl>
+          <FormControl id="password" isInvalid={!validPassword}>
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+              <Input
                 type={showPassword ? "text" : "password"}
                 onChange={handleChangePassword}
               />
@@ -105,24 +101,23 @@ export default function LoginPage() {
                   {showPassword ? "Hide" : "Show"}
                 </Button>
               </InputRightElement>
-              </InputGroup>
-            </FormControl>
-            </FormControl>
+            </InputGroup>
+          </FormControl>
+        </FormControl>
 
-            <Button
-            mt={4}
-            colorScheme="orange"
-            onClick={handleLogInButtonClicked}
-            type="submit"
-            rightIcon={<IoSchoolOutline/>}
-            isLoading={loading}
-            loadingText="Validating Credentials"
-          >
-            Log In
-          </Button>
-        </Stack>
-        </Center>
-    </Grid>
+        <Button
+          mt={4}
+          colorScheme="orange"
+          onClick={handleLogInButtonClicked}
+          type="submit"
+          rightIcon={<IoSchoolOutline />}
+          isLoading={loading}
+          loadingText="Validating Credentials"
+        >
+          Log In
+        </Button>
+      </Stack>
+    </Center>
   )
 }
 
