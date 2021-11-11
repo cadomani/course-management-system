@@ -9,6 +9,7 @@ import {
 } from "react-router-dom";
 import LoginPage from './components/login/LoginPage';
 import RegistrationPage from './components/registration/RegistrationPage';
+import MajorSelectionPage from './components/registration/MajorSelectionPage';
 // import * as Sentry from "@sentry/react";
 // import { Integrations } from "@sentry/tracing";
 // import { RewriteFrames } from "@sentry/integrations";
@@ -38,6 +39,7 @@ ReactDOM.render(
     <Route path="/" element={<App />} >
       <Route path="login" element={<LoginPage />} />
       <Route path="registration" element={<RegistrationPage />} />
+      <Route path="majorselection" element={<MajorSelectionPage />} />
     </Route>
   </Routes>
 </BrowserRouter>,
