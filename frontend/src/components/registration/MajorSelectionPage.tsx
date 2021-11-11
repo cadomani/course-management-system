@@ -102,14 +102,11 @@ export default function MajorSelectionPage() {
     }
     return {};
   }
+
+  // Return component
   return (
-    <Grid
-      templateRows="repeat(1, 1fr)"
-      templateColumns="repeat(3, 1fr)"
-    >
-      {/* Registration Grid  */}
-      <GridItem colSpan={1}>
-        <Center w="40vw" h="97vh">
+    // Split up as 1/3 registration and 2/3 photo container
+        <Center w="40vw" h="97vh" bg="white">
           <Grid templateRows="repeat(8, 1fr)" gap={5}>
             <GridItem rowSpan={1}>
               <Heading>Choose a Major</Heading>
@@ -117,7 +114,8 @@ export default function MajorSelectionPage() {
             <GridItem rowSpan={1}>
               <FormControl id="programs">
                 <FormLabel>Programs</FormLabel>
-                <Select placeholder="Select program" onChange={({ target }) => getMajors(target.value)}>
+                <Select maxWidth="80%" onChange={({ target }) => getMajors(target.value)}>
+                  <option value="default" hidden>Select a program...</option>
                   {/* Iterate through program elements */}
                   {programs.map((data: any, i: any) => {
                     return <option key={data.name}>{data.name}</option>
@@ -128,7 +126,8 @@ export default function MajorSelectionPage() {
             <GridItem rowSpan={1}>
               <FormControl id="majors">
                 <FormLabel>Majors</FormLabel>
-                <Select placeholder="Select major" onChange={({ target }) => setChosenMajorId(target.value)}>
+                <Select maxWidth="80%" onChange={({ target }) => setChosenMajorId(target.value)}>
+                  <option value="default" hidden>Select a major...</option>
                   {/* Iterate through program elements */}
                   {majors.map((data: any) => {
                     return <option value={data.id} key={data.id}>{data.name}</option>
@@ -139,10 +138,10 @@ export default function MajorSelectionPage() {
             <GridItem rowSpan={2}>
               <FormControl id="sections">
                 <FormLabel>Sections</FormLabel>
-                <Select placeholder="Select sections" onChange={({ target }) => selectSection(target.value)}>
+                <Select maxWidth="80%" width="auto" onChange={({ target }) => selectSection(target.value)}>
+                  <option value="default" hidden>Choose sections...</option>
                   {/* Iterate through section elements */}
                   {sections.map((data: any) => {
-                    // return <option value={data.id} key={data.id}>{data.availability.course.name} with {data.instructor.profile.name} at {data.building.name} {data.room_num} on { data.schedule}</option>
                     return <option value={data.id} key={data.id}>{data.availability.course.name} with {data.instructor.profile.name}</option>
                   })}
                 </Select>
