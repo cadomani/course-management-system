@@ -63,9 +63,9 @@ app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.json')));
 app.use(
   OpenApiValidator.middleware({
     apiSpec: path.join(__dirname, 'docs/openapi.json'),
-    validateResponses: true,
+    validateResponses: false,
     validateRequests: false,
-    validateApiSpec: true
+    validateApiSpec: false
   }),
 );
 
