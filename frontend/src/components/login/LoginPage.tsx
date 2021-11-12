@@ -135,7 +135,7 @@ export default function LoginPage() {
                 onKeyUp={handleChangePassword}
                 onBlur={({ target }) => warnIfInvalid( target.id )}
               />
-              <InputRightElement width="4.0rem">
+              <InputRightElement width="5.0rem">
                 <Button h="1.75rem" size="sm" onClick={toggleShowPassword}>
                   {showPassword ? "Hide" : "Show"}
                 </Button>
