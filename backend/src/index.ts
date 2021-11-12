@@ -107,7 +107,7 @@ app.use('/', express.static(path.join(__dirname, '../../frontend/dist')));
 app.use('/api/course', courseRoute);
 app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
-app.use('/api/registration', registrationRoute);
+app.use('/api/register', registrationRoute);
 
 app.get("/debug-sentry", function mainHandler(req, res) {
   throw new Error("My first Sentry error!");
