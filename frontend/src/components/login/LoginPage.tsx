@@ -1,72 +1,104 @@
-import React from 'react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { IoSchoolOutline } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
+import { Link as RouterLink, useNavigate } from "react-router-dom";
 import axios from 'axios';
-
 import {
-  Center,
-  Grid,
+  Box,
   FormControl,
   FormLabel,
-  FormHelperText,
   Input,
-  Stack,
+  Link,
   Button,
   Heading,
   InputGroup,
   InputRightElement,
   FormErrorMessage
 } from "@chakra-ui/react"
-import styles from '../css/loginpage.css';
 
-const server_url = 'https://cms.kltpzyxm.live';
+// Dynamically load domain to avoid hardcoding routes
+const DOMAIN = import.meta.env.VITE_DOMAIN;
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
-  const [validEmail, setValidEmail] = useState(true);
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const [validEmailInput, setValidEmailInput] = useState(false);
+  const [validPasswordInput, setValidPasswordInput] = useState(false);
+  const [validEmail, setValidEmail] = useState(true);
   const [validPassword, setValidPassword] = useState(true);
-  const [loading, setLoading] = useState(false);
   const [validCredentials, setValidCredentials] = useState(true);
-
+  const [showPassword, setShowPassword] = useState(false);
+  const [submitDisabled, setSubmitDisabled] = useState(true);
+  const [loading, setLoading] = useState(false);
+  let navigate = useNavigate();
 
   const handleChangeEmail = (e: any) => {
-    setValidEmail(true); //remove error indicators when typing new email
     setEmail(e.target.value);
   }
   const handleChangePassword = (e: any) => {
-    setValidPassword(true); //remove error indictators when typing new password
     setPassword(e.target.value);
   }
   const toggleShowPassword = () => setShowPassword(!showPassword);
 
-  async function handleLogInButtonClicked() {
-    //Validate password and email before sending POST req
-    //TODO: Use regex to check email ends with @auburn.edu
-    //      Do our passwords have length requirements? special characters etc
-    if (!password || password.length === 0) {
-      setValidPassword(false);
+  // We should highlight the element only if the focus is lost
+  function warnIfInvalid(e: string) {
+    if (e === 'email') {
+      if (validEmailInput === false) {
+        setValidEmail(false);
+      } else {
+        setValidEmail(true);
+      }
+    } else if (e === 'password' || e === 'text') {
+      if (validPasswordInput === false) {
+        setValidPassword(false);
+      } else {
+        setValidPassword(true);
+      }
     }
-    if (!email || email.length === 0) {
-      setValidEmail(false);
-    }
+  }
 
+  // Check field validity in real-time to update button availability
+  useEffect(() => {
+    // Reset error message when fields are being modified
+    setValidCredentials(true);
+
+    // Change submit button status only if neither field affects initial value
+    let shouldContinue = true;
+    if (typeof email === 'string' && email.length !== 0 && email.endsWith('@auburn.edu')) {
+      setValidEmailInput(true);
+    } else {
+      setValidEmailInput(false);
+      shouldContinue = false;
+    };
+    
+    if (typeof password === 'string' && password.length >= 8 && password.length <= 16) {
+      setValidPasswordInput(true);
+    } else {
+      setValidPasswordInput(false);
+      shouldContinue = false;
+    };
+
+    if (shouldContinue) {
+      setSubmitDisabled(false);
+    } else {
+      setSubmitDisabled(true);
+    }
+  }, [email, password])
+
+  // Continue with login request
+  async function handleLogInButtonClicked() {
+    // Send request only if fields are valid
     if (validEmail && validPassword) {
       setLoading(true);
-      await axios.post(server_url + '/api/auth', {
+      await axios.post(`${DOMAIN}/api/auth`, {
         email: email,
         password: password
       })
         .then(function (response) {
-          console.log(response);
-          //Handle success (200)
-          if (!validCredentials) setValidCredentials(true);
-          alert('successful login'); // placeholder. should redirect to new page instead of alert
+          // Handle success (200 OK)
+          navigate("/dashboard", { replace: true });
         })
         .catch(function (error) {
-          console.log(error);
-          //Handle failure
+          // Handle failure (401 Forbidden)
           setValidCredentials(false);
         })
         .finally(() => {
@@ -75,26 +107,33 @@ export default function LoginPage() {
     }
   }
 
+  // Return component
   return (
-    <Center w="40vw" h="97vh" bg="white">
-      <Stack spacing={8}>
-        <Heading>Log In</Heading>
-        <FormControl id="credentials" isInvalid={!validCredentials}>
+    <>
+      <Heading>Log In</Heading>
+      <FormControl id="credentials" isInvalid={!validCredentials}>
+        <Box pt={6}>
           <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
           <FormControl id="email" isInvalid={!validEmail}>
-            <FormLabel>Your Email</FormLabel>
+            <FormLabel>Email</FormLabel>
+            {/* Note: OnKeyUp event needed instead because state changes to true immediately as handleChangeEmail is called when error borders appear */}
             <Input
-              placeholder="xxx0000@auburn.edu"
+              placeholder="Enter your email address..."
               type="email"
-              onChange={handleChangeEmail}
+              onKeyUp={handleChangeEmail}
+              onBlur={({ target }) => warnIfInvalid(target.id)}
             />
           </FormControl>
+        </Box>
+        <Box pt={3} pb={7}>
           <FormControl id="password" isInvalid={!validPassword}>
             <FormLabel>Password</FormLabel>
             <InputGroup>
               <Input
+                placeholder="Enter your password..."
                 type={showPassword ? "text" : "password"}
-                onChange={handleChangePassword}
+                onKeyUp={handleChangePassword}
+                onBlur={({ target }) => warnIfInvalid( target.id )}
               />
               <InputRightElement width="4.0rem">
                 <Button h="1.75rem" size="sm" onClick={toggleShowPassword}>
@@ -103,21 +142,29 @@ export default function LoginPage() {
               </InputRightElement>
             </InputGroup>
           </FormControl>
-        </FormControl>
-
-        <Button
-          mt={4}
-          colorScheme="orange"
-          onClick={handleLogInButtonClicked}
-          type="submit"
-          rightIcon={<IoSchoolOutline />}
-          isLoading={loading}
-          loadingText="Validating Credentials"
-        >
-          Log In
-        </Button>
-      </Stack>
-    </Center>
+        </Box>
+      </FormControl>
+      <Button
+        isDisabled={submitDisabled}
+        colorScheme="orange"
+        onClick={handleLogInButtonClicked}
+        type="submit"
+        rightIcon={<IoSchoolOutline />}
+        isLoading={loading}
+        loadingText="Validating Credentials"
+      >
+        Log In
+      </Button>
+      <Link
+        mt={1}
+        alignSelf="center"
+        as={RouterLink}
+        to="/registration"
+        color="teal.500"
+      >
+        New Student?
+      </Link>
+    </>
   )
 }
 

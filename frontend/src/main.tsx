@@ -39,7 +39,7 @@ ReactDOM.render(
       <Route path="/" element={<App />} >
         <Route path="login" element={<LoginPage />} />
         <Route path="registration" element={<RegistrationPage />} />
-        <Route path="majorselection" element={<MajorSelectionPage />} />
+        <Route path="registration-majors" element={<MajorSelectionPage />} />
       </Route>
     </Routes>
   </BrowserRouter>,

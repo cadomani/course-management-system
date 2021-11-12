@@ -1,14 +1,13 @@
+import BackgroundSlider from 'react-background-slider' //https://www.npmjs.com/package/react-background-slider
+import { Outlet } from "react-router-dom";
 import {
   ChakraProvider,
   theme,
   GridItem,
+  Center,
+  Stack,
   Grid
 } from "@chakra-ui/react"
-import {
-  Outlet,
-  Link
-} from "react-router-dom";
-import BackgroundSlider from 'react-background-slider' //https://www.npmjs.com/package/react-background-slider
 
 // TODO: Import as a group and cycle all available images instead of importing individually
 // TODO: Provide attribution and credits for photos
@@ -19,12 +18,14 @@ import bg3 from '../images/au-bg3.png';
 
 export const App = () => (
   <ChakraProvider theme={theme}>
-    <Grid>
+    {/* Split up as 1/3 registration and 2/3 photo container */}
+    <Grid templateColumns="repeat(3, 1fr)">
       <GridItem colSpan={1}>
-        <Link to="/login"><b>Login</b></Link> |{" "}
-        <Link to="/registration"><b>Registration</b></Link> |{" "}
-        <Link to="/majorselection"><b>Majors</b></Link>
-        <Outlet />
+        <Center w="inherit" h="100vh" bg="white">
+          <Stack w="70%" align="stretch">
+            <Outlet />
+          </Stack>
+        </Center>
       </GridItem>
       <GridItem colSpan={2}>
         <BackgroundSlider
