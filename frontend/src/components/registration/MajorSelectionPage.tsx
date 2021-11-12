@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import { IoChevronBackSharp, IoClose } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
 import axios from 'axios';
 import {
@@ -25,8 +24,7 @@ import {
 // Dynamically load domain to avoid hardcoding routes
 const DOMAIN = import.meta.env.VITE_DOMAIN;
 
-
-export default function MajorSelectionPage() {
+export default function MajorSelectionPage({ majorSelectionData, activeViewData }: { majorSelectionData: any, activeViewData: any }) {
   const [programs, setPrograms] = useState<any[]>([]);
   const [majors, setMajors] = useState<any[]>([]);
   const [chosenMajorId, setChosenMajorId] = useState<number>();
@@ -39,8 +37,6 @@ export default function MajorSelectionPage() {
   const [hideMajors, setHideMajors] = useState(true);
   const [hideSections, setHideSections] = useState(true);
   const [hideGrid, setHideGrid] = useState(true);
-  let navigate = useNavigate();
-
 
   // Retrieve programs from server on load
   useEffect(() => {
@@ -57,18 +53,18 @@ export default function MajorSelectionPage() {
         });
     })();
   }, []);
-
-  // Make sure we were successful in retrieving the programs
-  if (typeof programs === "undefined") {
-    console.log('Could not retrieve programs from API.')
-  }
-
+  
   // Get correct majors from selected program
   function getMajors(chosenProgram: string) {
-    setHideMajors(false);
-    for (let x in programs) {
-      if (programs[x].name === chosenProgram) {
-        setMajors(programs[x].major);
+    // Make sure we were successful in retrieving the programs
+    if (typeof programs === "undefined") {
+      console.log('Could not retrieve programs from API.')
+    } else {
+      setHideMajors(false);
+      for (let x in programs) {
+        if (programs[x].name === chosenProgram) {
+          setMajors(programs[x].major);
+        }
       }
     }
   }
@@ -141,29 +137,18 @@ export default function MajorSelectionPage() {
       console.log('Invalid Major ID')
       return;
     }
-    // TODO: Have not brought in content from previous page
+
+    // Set loading without unsetting, it will disappear when redirection occurs
     setLoading(true);
-    await axios.post(`${DOMAIN}/api/register`, {
-      name: 'Placeholder User',
-      email: 'anewemail@auburn.edu',
-      password: 'placeholder2',
-      major_id: chosenMajorId,
+    majorSelectionData({
+      majorId: chosenMajorId,
       sections: chosenSectionIds
     })
-      .then(function (response) {
-        // Handle success (201 Created)
-        navigate("/dashboard", { replace: true });
-      })
-      .catch(function (error) {
-        // Handle failure
-        // TODO: Display a user-friendly registration failed message
-        console.log('Registration failed');
-      });
   }
 
-  // Continue registration flow
+  // Send intent to return to previous registration flow
   async function handlePreviousButtonClicked() {
-    navigate("/registration", { replace: false });
+    activeViewData('registration');
   }
 
   // Remove a course from the grid
@@ -238,6 +223,7 @@ export default function MajorSelectionPage() {
           </Thead>
           <Tbody>
             {/* Iterate through section selections */}
+            {/* TODO: Gray out courses that have already been added, as we cannot subscribe to multiple identical courses */}
             {chosenSections.map((data: any) => {
               return <Tr key={data.id}>
                 <Td>{data.course_tag}</Td>
@@ -261,26 +247,28 @@ export default function MajorSelectionPage() {
         </Table>
       </Box>
 
-      <ButtonGroup pt={7}>
-        <IconButton
-          aria-label="Go back"
-          colorScheme="orange"
-          onClick={handlePreviousButtonClicked}
-          icon={<IoChevronBackSharp />}
-        >
-        </IconButton>
-        <Button
-          isDisabled={registerDisabled}
-          colorScheme="green"
-          onClick={handleRegistrationButtonClicked}
-          type="submit"
-          isLoading={loading}
-          loadingText="Validating Form"
-          isFullWidth={true}
-        >
-          Register
-        </Button>
-      </ButtonGroup>
+      <Box>
+        <ButtonGroup pt={7} display="flex">
+          <IconButton
+            aria-label="Go back"
+            colorScheme="orange"
+            onClick={handlePreviousButtonClicked}
+            icon={<IoChevronBackSharp />}
+          >
+          </IconButton>
+          <Button
+            isDisabled={registerDisabled}
+            colorScheme="green"
+            onClick={handleRegistrationButtonClicked}
+            type="submit"
+            isLoading={loading}
+            loadingText="Validating Form"
+            isFullWidth={true}
+          >
+            Register
+          </Button>
+        </ButtonGroup>
+      </Box>
     </>
   )
 }
