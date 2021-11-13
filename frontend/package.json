@@ -16,7 +16,7 @@
     "dev": "vite",
     "dev:lan": "vite --host",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview --host"
   },
   "dependencies": {
     "@chakra-ui/react": "^1.6.12",

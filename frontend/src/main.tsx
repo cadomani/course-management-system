@@ -12,7 +12,6 @@ import {
 // import { RewriteFrames } from "@sentry/integrations";
 import LoginPage from './components/login/LoginPage';
 import RegistrationPage from './components/registration/RegistrationPage';
-import MajorSelectionPage from './components/registration/MajorSelectionPage';
 
 // const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 // const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
@@ -39,7 +38,6 @@ ReactDOM.render(
       <Route path="/" element={<App />} >
         <Route path="login" element={<LoginPage />} />
         <Route path="registration" element={<RegistrationPage />} />
-        <Route path="registration-majors" element={<MajorSelectionPage />} />
       </Route>
     </Routes>
   </BrowserRouter>,
