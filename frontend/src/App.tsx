@@ -4,7 +4,7 @@ import {
 import AuthenticationPage from "./components/AuthenticationPage";
 
 export const App = () => (
-  <ChakraProvider resetCSS={true}>
+  <ChakraProvider>
     <AuthenticationPage />
   </ChakraProvider>
 )
