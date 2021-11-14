@@ -1,50 +1,10 @@
-import { Outlet, Link as RouterLink } from "react-router-dom";
 import {
   ChakraProvider,
-  theme,
-  GridItem,
-  Center,
-  Stack,
-  Grid,
-  Image,
-  Link,
-  Box
 } from "@chakra-ui/react"
-import { AnimatePresence, motion } from "framer-motion";
-
-
-// TODO: Import as a group and cycle all available images instead of importing individually
-// TODO: Provide attribution and credits for photos
-//Background images
-// import bg1 from '../images/samford-bg.jpg';
-import bg2 from '../images/au-bg2.png';
-// import bg3 from '../images/au-bg3.png';
+import AuthenticationPage from "./components/AuthenticationPage";
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
-    {/* Split up as 1/3 registration and 2/3 photo container */}
-    <Grid templateColumns="repeat(3, 1fr)">
-      <GridItem colSpan={1}>
-        <Center w="inherit" h="100vh" bg="white">
-          <Stack w="70%" align="stretch">
-            <Outlet />
-          </Stack>
-        </Center>
-      </GridItem>
-      <GridItem colSpan={2}>
-        <AnimatePresence exitBeforeEnter>
-          <Box overflow="hidden" position="relative">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              exit={{ opacity: 0, y: -20 }}
-              animate={{ opacity: 1, x: 0, y: 0 }}
-              transition={{ duration: 1.00 }}
-            >
-              <Image maxHeight="100vh" maxWidth="inherit" src={bg2}></Image>
-            </motion.div>
-          </Box>
-        </AnimatePresence>
-      </GridItem>
-    </Grid>
+  <ChakraProvider resetCSS={true}>
+    <AuthenticationPage />
   </ChakraProvider>
 )
