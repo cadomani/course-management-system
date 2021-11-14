@@ -15,7 +15,9 @@ import {
   InputGroup,
   Link,
   Spinner,
-} from "@chakra-ui/react"
+  useToast,
+  UseToastOptions
+} from '@chakra-ui/react'
 
 // Dynamically load domain to avoid hardcoding routes
 const DOMAIN = import.meta.env.VITE_DOMAIN;
@@ -36,6 +38,7 @@ export default function CredentialsPage({ credentialsData, activeViewData }: { c
   const [hideAvailability, setHideAvailability] = useState(true);
   const [hideUnavaiability, setHideUnavailability] = useState(true);
   const [continueDisabled, setContinueDisabled] = useState(true);
+  const [errorToast, setErrorToast] = useState<UseToastOptions>();
   const nameRegex: RegExp = /^[a-zA-Z\s'-]+$/m;  // Regex unit-tests: https://regex101.com/r/2VUsW8/1
   const passwordRegexLetters: RegExp = /[a-zA-Z]{1,16}/;
   const passwordRegexNumbers: RegExp = /[\d]{1,16}/;
@@ -56,6 +59,16 @@ export default function CredentialsPage({ credentialsData, activeViewData }: { c
   }
 
   const toggleShowPassword = () => setShowPassword(!showPassword);
+
+  // Handle error toast notifications
+  const toast = useToast();
+  useEffect(() => {
+    if (typeof errorToast !== 'undefined') {
+      (() =>
+        toast(errorToast)
+      )();
+    }
+  }, [errorToast])
 
   // We should highlight the element only if the focus is lost
   function warnIfInvalid(e: string) {
@@ -153,8 +166,13 @@ export default function CredentialsPage({ credentialsData, activeViewData }: { c
       })
       .catch(function (error) {
         // Handle failure (500 Server Error)
-        // TODO: Throw a 500 error
-        console.log('API error, cannot connect to backend')
+        setErrorToast({
+          title: "API Error",
+          description: "Cannot connect to backend",
+          status: "error",
+          position: "top",
+          isClosable: false
+        })
       }).finally(() => {
         setHideSpinner(true);
       });

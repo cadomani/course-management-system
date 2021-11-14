@@ -19,6 +19,8 @@ import {
   Th,
   Td,
   TableCaption,
+  useToast,
+  UseToastOptions,
 } from "@chakra-ui/react"
 
 // Dynamically load domain to avoid hardcoding routes
@@ -37,6 +39,7 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
   const [hideMajors, setHideMajors] = useState(true);
   const [hideSections, setHideSections] = useState(true);
   const [hideGrid, setHideGrid] = useState(true);
+  const [errorToast, setErrorToast] = useState<UseToastOptions>();
 
   // Retrieve programs from server on load
   useEffect(() => {
@@ -47,9 +50,14 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
           setPrograms(response.data);
         })
         .catch(function (error) {
-          // Handle failure (401 Forbidden)
-          // TODO: Throw a 500 error
-          console.log('API error, cannot connect to backend')
+          // Handle failure
+          setErrorToast({
+            title: "API Error",
+            description: "Cannot connect to backend",
+            status: "error",
+            position: "top",
+            isClosable: false
+          })
         });
     })();
   }, []);
@@ -58,7 +66,13 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
   function getMajors(chosenProgram: string) {
     // Make sure we were successful in retrieving the programs
     if (typeof programs === "undefined") {
-      console.log('Could not retrieve programs from API.')
+      setErrorToast({
+        title: "API Error",
+        description: "Cannot connect to backend",
+        status: "error",
+        position: "top",
+        isClosable: false
+      })
     } else {
       setHideMajors(false);
       for (let x in programs) {
@@ -68,6 +82,16 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
       }
     }
   }
+
+  // Handle error toast notifications
+  const toast = useToast();
+  useEffect(() => {
+    if (typeof errorToast !== 'undefined') {
+      (() =>
+        toast(errorToast)
+      )();
+    }
+  }, [errorToast])
 
   // Retrieve sections from server
   useEffect(() => {
@@ -82,9 +106,14 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
           setHideSections(false);
         })
         .catch(function (error) {
-          // Handle failure (401 Forbidden)
-          // TODO: Throw a 500 error
-          console.log('API error, cannot connect to backend')
+          // Handle failure
+          setErrorToast({
+            title: "API Error",
+            description: "Cannot connect to backend",
+            status: "error",
+            position: "top",
+            isClosable: false
+          })
         });
     })();
   }, [chosenMajorId]);
@@ -133,8 +162,14 @@ export default function MajorSelectionPage({ majorSelectionData, activeViewData 
   // Send request to register user
   async function handleRegistrationButtonClicked() {
     // TODO: All validation is missing for now
-    if (!chosenMajorId || typeof chosenMajorId !== 'number') {
-      console.log('Invalid Major ID')
+    if (typeof chosenMajorId !== 'number') {
+      setErrorToast({
+        title: "Validation Error",
+        description: "An unexpected value was given",
+        status: "error",
+        position: "top",
+        isClosable: false
+      })
       return;
     }
 

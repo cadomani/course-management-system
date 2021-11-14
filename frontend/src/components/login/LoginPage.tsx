@@ -12,8 +12,9 @@ import {
   Heading,
   InputGroup,
   InputRightElement,
-  FormErrorMessage
-} from "@chakra-ui/react"
+  useToast,
+  UseToastOptions
+} from '@chakra-ui/react'
 import { AnimatePresence, motion } from 'framer-motion';
 
 // Dynamically load domain to avoid hardcoding routes
@@ -30,6 +31,7 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [submitDisabled, setSubmitDisabled] = useState(true);
   const [loading, setLoading] = useState(false);
+  const [errorToast, setErrorToast] = useState<UseToastOptions>();
   let navigate = useNavigate();
 
   const handleChangeEmail = (e: any) => {
@@ -57,7 +59,20 @@ export default function LoginPage() {
     }
   }
 
+  // Handle error toast notifications
+  const toast = useToast();
+  useEffect(() => {
+    console.log('in use effect...');
+    console.log(errorToast);
+    if (typeof errorToast !== 'undefined') {
+      (() =>
+        toast(errorToast)
+      )();
+    }
+  }, [errorToast])
+
   // Check field validity in real-time to update button availability
+  // TODO: should use multiple useEffect blocks to avoid checking fields already checked
   useEffect(() => {
     // Reset error message when fields are being modified
     setValidCredentials(true);
@@ -100,6 +115,15 @@ export default function LoginPage() {
         })
         .catch(function (error) {
           // Handle failure (401 Forbidden)
+          setErrorToast({
+            title: 'Login Failure',
+            description: 'Username or password incorrect. Please try again.',
+            status: 'error',
+            isClosable: false,
+            position: 'top'
+          })
+          setValidEmail(false);
+          setValidPassword(false);
           setValidCredentials(false);
         })
         .finally(() => {
@@ -121,7 +145,6 @@ export default function LoginPage() {
           <Heading>Log In</Heading>
           <FormControl id="credentials" isInvalid={!validCredentials}>
             <Box pt={6}>
-              <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
               <FormControl id="email" isInvalid={!validEmail}>
                 <FormLabel>Email</FormLabel>
                 {/* Note: OnKeyUp event needed instead because state changes to true immediately as handleChangeEmail is called when error borders appear */}

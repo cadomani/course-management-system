@@ -4,6 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 import MajorSelectionPage from "./MajorSelectionPage";
 import CredentialsPage from './CredentialsPage';
+import {
+  useToast,
+  UseToastOptions
+} from '@chakra-ui/react'
 
 // Dynamically load domain to avoid hardcoding routes
 const DOMAIN = import.meta.env.VITE_DOMAIN;
@@ -25,6 +29,7 @@ export default function RegistrationPage() {
   const [majorSelection, setMajorSelection] = useState<MajorSelection>()
   const [activeView, setActiveView] = useState('credentials');
   const [activeViewData, setActiveViewData] = useState<JSX.Element>();
+  const [errorToast, setErrorToast] = useState<UseToastOptions>();
   let navigate = useNavigate();
   
   const setIncomingCredentials = (credentialsData: Credentials) => {
@@ -43,6 +48,16 @@ export default function RegistrationPage() {
   const credentialsView = <CredentialsPage credentialsData={setIncomingCredentials} activeViewData={setIncomingActiveView} />
   const majorSelectionView = <MajorSelectionPage majorSelectionData={setIncomingMajorSelection} activeViewData={setIncomingActiveView} />
   
+  // Handle error toast notifications
+  const toast = useToast();
+  useEffect(() => {
+    if (typeof errorToast !== 'undefined') {
+      (() =>
+        toast(errorToast)
+      )();
+    }
+  }, [errorToast])
+
   // Change the active view based on prop changes by child elements
   useEffect(() => {
     console.log(`Desired active view ${activeView}`)
@@ -75,13 +90,17 @@ export default function RegistrationPage() {
         await axios.post(`${DOMAIN}/api/registration`, params.toString())  // URL path is wrong here, on next push, it can be corrected to /api/register
           .then(function (response) {
             // Handle success (201 Created)
-            console.log(response.data)
             navigate("/dashboard", { replace: true });
           })
           .catch(function (error) {
             // Handle failure
-            // TODO: Display a user-friendly registration failed message
-            console.log('Registration failed');
+            setErrorToast({
+              title: "Registration Failed",
+              description: "A server error or other unknown conflict occurred. Please try again later.",
+              status: "error",
+              position: "top",
+              isClosable: false
+            })
           });
       })();
     }
