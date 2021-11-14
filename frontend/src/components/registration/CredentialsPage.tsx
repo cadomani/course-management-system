@@ -66,7 +66,9 @@ export default function CredentialsPage({ credentialsData, activeViewData }: { c
         setValidName(true);
       }
     } else if (e === 'email') {
-      validateEmailAvailability(email);
+      if (email !== '') {
+        validateEmailAvailability(email);
+      }
       if (validEmailInput === false) {
         setValidEmail(false);
       } else {
@@ -163,7 +165,7 @@ export default function CredentialsPage({ credentialsData, activeViewData }: { c
     <>
       <Heading>Register</Heading>
       <Box pt={6}>
-        <FormControl id="name" isRequired>
+        <FormControl id="name" isInvalid={!validName} isRequired>
           <FormLabel>Name</FormLabel>
           <Input
             placeholder="Enter your name..."
