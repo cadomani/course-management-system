@@ -62,8 +62,6 @@ export default function LoginPage() {
   // Handle error toast notifications
   const toast = useToast();
   useEffect(() => {
-    console.log('in use effect...');
-    console.log(errorToast);
     if (typeof errorToast !== 'undefined') {
       (() =>
         toast(errorToast)

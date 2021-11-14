@@ -60,7 +60,6 @@ export default function RegistrationPage() {
 
   // Change the active view based on prop changes by child elements
   useEffect(() => {
-    console.log(`Desired active view ${activeView}`)
     if (activeView === "majorSelection") {
       setActiveViewData(majorSelectionView)
     } else {
