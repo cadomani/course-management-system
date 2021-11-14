@@ -21,7 +21,7 @@ import bg2 from '../images/au-bg2.png';
 // import bg3 from '../images/au-bg3.png';
 
 export const App = () => (
-  <ChakraProvider theme={theme}>
+  <ChakraProvider>
     {/* Split up as 1/3 registration and 2/3 photo container */}
     <Grid templateColumns="repeat(3, 1fr)">
       <GridItem colSpan={1}>
