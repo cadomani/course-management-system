@@ -14,6 +14,7 @@ import {
   InputRightElement,
   FormErrorMessage
 } from "@chakra-ui/react"
+import { AnimatePresence, motion } from 'framer-motion';
 
 // Dynamically load domain to avoid hardcoding routes
 const DOMAIN = import.meta.env.VITE_DOMAIN;
@@ -69,7 +70,7 @@ export default function LoginPage() {
       setValidEmailInput(false);
       shouldContinue = false;
     };
-    
+
     if (typeof password === 'string' && password.length >= 8 && password.length <= 16) {
       setValidPasswordInput(true);
     } else {
@@ -110,60 +111,73 @@ export default function LoginPage() {
   // Return component
   return (
     <>
-      <Heading>Log In</Heading>
-      <FormControl id="credentials" isInvalid={!validCredentials}>
-        <Box pt={6}>
-          <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
-          <FormControl id="email" isInvalid={!validEmail}>
-            <FormLabel>Email</FormLabel>
-            {/* Note: OnKeyUp event needed instead because state changes to true immediately as handleChangeEmail is called when error borders appear */}
-            <Input
-              placeholder="Enter your email address..."
-              type="email"
-              onKeyUp={handleChangeEmail}
-              onBlur={({ target }) => warnIfInvalid(target.id)}
-            />
+      <AnimatePresence exitBeforeEnter>
+        <motion.div
+          initial={{ opacity: 0, x: 100 }}
+          exit={{ opacity: 0, x: -100 }}
+          animate={{ opacity: 1, x: 0, y: 0 }}
+          transition={{ duration: 0.18 }}
+        >
+          <Heading>Log In</Heading>
+          <FormControl id="credentials" isInvalid={!validCredentials}>
+            <Box pt={6}>
+              <FormErrorMessage>Invalid email or password. Please try again.</FormErrorMessage>
+              <FormControl id="email" isInvalid={!validEmail}>
+                <FormLabel>Email</FormLabel>
+                {/* Note: OnKeyUp event needed instead because state changes to true immediately as handleChangeEmail is called when error borders appear */}
+                <Input
+                  placeholder="Enter your email address..."
+                  type="email"
+                  onKeyUp={handleChangeEmail}
+                  onBlur={({ target }) => warnIfInvalid(target.id)}
+                />
+              </FormControl>
+            </Box>
+            <Box pt={3} pb={7}>
+              <FormControl id="password" isInvalid={!validPassword}>
+                <FormLabel>Password</FormLabel>
+                <InputGroup>
+                  <Input
+                    placeholder="Enter your password..."
+                    type={showPassword ? "text" : "password"}
+                    onKeyUp={handleChangePassword}
+                    onBlur={({ target }) => warnIfInvalid(target.id)}
+                  />
+                  <InputRightElement width="5.0rem">
+                    <Button h="1.75rem" size="sm" onClick={toggleShowPassword}>
+                      {showPassword ? "Hide" : "Show"}
+                    </Button>
+                  </InputRightElement>
+                </InputGroup>
+              </FormControl>
+            </Box>
           </FormControl>
-        </Box>
-        <Box pt={3} pb={7}>
-          <FormControl id="password" isInvalid={!validPassword}>
-            <FormLabel>Password</FormLabel>
-            <InputGroup>
-              <Input
-                placeholder="Enter your password..."
-                type={showPassword ? "text" : "password"}
-                onKeyUp={handleChangePassword}
-                onBlur={({ target }) => warnIfInvalid( target.id )}
-              />
-              <InputRightElement width="5.0rem">
-                <Button h="1.75rem" size="sm" onClick={toggleShowPassword}>
-                  {showPassword ? "Hide" : "Show"}
-                </Button>
-              </InputRightElement>
-            </InputGroup>
-          </FormControl>
-        </Box>
-      </FormControl>
-      <Button
-        isDisabled={submitDisabled}
-        colorScheme="orange"
-        onClick={handleLogInButtonClicked}
-        type="submit"
-        rightIcon={<IoSchoolOutline />}
-        isLoading={loading}
-        loadingText="Validating Credentials"
-      >
-        Log In
-      </Button>
-      <Link
-        mt={1}
-        alignSelf="center"
-        as={RouterLink}
-        to="/registration"
-        color="teal.500"
-      >
-        New Student?
-      </Link>
+          <Box>
+            <Button
+              isFullWidth={true}
+              isDisabled={submitDisabled}
+              colorScheme="orange"
+              onClick={handleLogInButtonClicked}
+              type="submit"
+              rightIcon={<IoSchoolOutline />}
+              isLoading={loading}
+              loadingText="Validating Credentials"
+            >
+              Log In
+            </Button>
+          </Box>
+          <Box justifyContent="center" display="flex">
+            <Link
+              mt={1}
+              as={RouterLink}
+              to="/registration"
+              color="teal.500"
+            >
+              New Student?
+            </Link>
+          </Box>
+        </motion.div>
+      </AnimatePresence>
     </>
   )
 }
