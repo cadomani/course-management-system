@@ -1,4 +1,3 @@
-// import BackgroundSlider from 'react-background-slider' //https://www.npmjs.com/package/react-background-slider
 import { Outlet, Link as RouterLink } from "react-router-dom";
 import {
   ChakraProvider,
@@ -7,15 +6,18 @@ import {
   Center,
   Stack,
   Grid,
-  Link
+  Image,
+  Link,
+  Box
 } from "@chakra-ui/react"
+import { AnimatePresence, motion } from "framer-motion";
 
 
 // TODO: Import as a group and cycle all available images instead of importing individually
 // TODO: Provide attribution and credits for photos
-// Background images
+//Background images
 // import bg1 from '../images/samford-bg.jpg';
-// import bg2 from '../images/au-bg2.png';
+import bg2 from '../images/au-bg2.png';
 // import bg3 from '../images/au-bg3.png';
 
 export const App = () => (
@@ -30,9 +32,18 @@ export const App = () => (
         </Center>
       </GridItem>
       <GridItem colSpan={2}>
-        {/* <BackgroundSlider
-          images={[bg1, bg2, bg3]}
-          duration={8} transition={2} /> */}
+        <AnimatePresence exitBeforeEnter>
+          <Box overflow="hidden" position="relative">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              exit={{ opacity: 0, y: -20 }}
+              animate={{ opacity: 1, x: 0, y: 0 }}
+              transition={{ duration: 1.00 }}
+            >
+              <Image maxHeight="100vh" maxWidth="inherit" src={bg2}></Image>
+            </motion.div>
+          </Box>
+        </AnimatePresence>
       </GridItem>
     </Grid>
   </ChakraProvider>
