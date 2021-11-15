@@ -109,6 +109,13 @@ export default function LoginPage() {
       })
         .then(function (response) {
           // Handle success (200 OK)
+          setErrorToast({
+            title: `Welcome, ${response.data.name}!`,
+            description: 'Redirecting...',
+            status: 'success',
+            isClosable: false,
+            position: 'top'
+          })
           navigate("/dashboard", { replace: true });
         })
         .catch(function (error) {
