@@ -2,18 +2,18 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
-
-// Dynamically load domain to avoid hardcoding routes
 const DOMAIN = import.meta.env.VITE_DOMAIN;
-import CoursesContainer from './courses/CoursesContainer';
-
-
+import AnnouncementItem from './AnnouncementItem';
 /**
- * Main view after login. Every element should be accessible directly from here or through here.
+ * Custom view for the announcements page
  */
-export default function DashboardPage() {
+export default function AnnouncementsContainer() {
+
+  // Return component
   return (
     <>
+      <h1>AnnouncementsContainer</h1>
+      <AnnouncementItem/>
     </>
   )
 }

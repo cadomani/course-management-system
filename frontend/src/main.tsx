@@ -11,6 +11,7 @@ import { Integrations } from "@sentry/tracing";
 import { RewriteFrames } from "@sentry/integrations";
 import LoginPage from './components/login/LoginPage';
 import RegistrationPage from './components/registration/RegistrationPage';
+import DashboardPage from './components/DashboardPage';
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
