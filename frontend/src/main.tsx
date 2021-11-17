@@ -1,10 +1,16 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
-import './index.css'
-import { App } from './App'
+import ReactDOM from 'react-dom';
+import './static/css/index.css';
+import { App } from './App';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from "react-router-dom";
 import * as Sentry from "@sentry/react";
 import { Integrations } from "@sentry/tracing";
 import { RewriteFrames } from "@sentry/integrations";
+import LoginPage from './components/login/LoginPage';
+import RegistrationPage from './components/registration/RegistrationPage';
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
@@ -12,7 +18,6 @@ const HEROKU_ROOT = import.meta.env.VITE_HEROKU_ROOT_FRONTEND_DIR;
 if (typeof (SENTRY_DSN) !== 'string' || typeof (SENTRY_ENVIRONMENT) !== 'string' || typeof (HEROKU_ROOT) !== 'string') {
   throw new Error('Sentry environment variables are missing.')
 } else {
-  console.log(SENTRY_DSN);
   Sentry.init({
     dsn: SENTRY_DSN,
     integrations: [
@@ -26,8 +31,13 @@ if (typeof (SENTRY_DSN) !== 'string' || typeof (SENTRY_ENVIRONMENT) !== 'string'
 }
 
 ReactDOM.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} >
+        <Route path="login" element={<LoginPage />} />
+        <Route path="registration" element={<RegistrationPage />} />
+      </Route>
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 )

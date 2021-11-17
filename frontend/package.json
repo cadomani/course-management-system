@@ -10,35 +10,38 @@
     "Trejon Goldsborough"
   ],
   "license": "UNLICENSED",
+  "proxy": "http://localhost:5070",
   "homepage": "https://cms.kltpzyxm.live/",
   "scripts": {
     "dev": "vite",
     "dev:lan": "vite --host",
     "build": "tsc && vite build",
-    "serve": "vite preview"
+    "serve": "vite preview --host"
   },
+  "eslintConfig": {},
   "dependencies": {
-    "@chakra-ui/react": "^1.6.12",
+    "@chakra-ui/react": "^1.7.1",
     "@emotion/react": "^11.5.0",
     "@emotion/styled": "^11.3.0",
-    "@headlessui/react": "^1.4.1",
-    "@sentry/integrations": "^6.13.3",
-    "@sentry/react": "^6.13.3",
-    "@sentry/tracing": "^6.13.3",
+    "@sentry/integrations": "^6.14.3",
+    "@sentry/react": "^6.14.3",
+    "@sentry/tracing": "^6.14.3",
+    "axios": "^0.24.0",
     "framer-motion": "^4.1.17",
-    "react": "^17.0.0",
-    "react-dom": "^17.0.0",
-    "tailwindcss": "^2.2.16"
+    "history": "^5.1.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-icons": "^4.3.1",
+    "react-router-dom": "^6.0.2"
   },
   "devDependencies": {
-    "@types/node": "^16.11.6",
-    "@types/react": "^17.0.0",
-    "@types/react-dom": "^17.0.0",
-    "@vitejs/plugin-react": "^1.0.0",
-    "autoprefixer": "^10.3.6",
-    "postcss": "^8.3.8",
-    "typescript": "^4.3.2",
-    "vite": "^2.5.4"
+    "@types/node": "^16.11.7",
+    "@types/react": "^17.0.34",
+    "@types/react-dom": "^17.0.11",
+    "@vitejs/plugin-react": "^1.0.9",
+    "eslint": "^8.2.0",
+    "typescript": "^4.4.4",
+    "vite": "^2.6.14"
   },
   "engines": {
     "node": ">=16.10.0",

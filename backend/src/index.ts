@@ -60,14 +60,14 @@ app.use(cors({
 app.use('/docs', express.static(path.join(__dirname, 'docs/openapi.json')));
 
 // Set up OpenAPI Validator
-app.use(
-  OpenApiValidator.middleware({
-    apiSpec: path.join(__dirname, 'docs/openapi.json'),
-    validateResponses: false,
-    validateRequests: false,
-    validateApiSpec: false
-  }),
-);
+// app.use(
+//   OpenApiValidator.middleware({
+//     apiSpec: path.join(__dirname, 'docs/openapi.json'),
+//     validateResponses: false,
+//     validateRequests: false,
+//     validateApiSpec: false
+//   }),
+// );
 
 // API routers
 import courseRoute from './routes/course.route';
@@ -109,8 +109,9 @@ app.use('/api/user', userRoute);
 app.use('/api/auth', authRoute);
 app.use('/api/registration', registrationRoute);
 
-app.get("/debug-sentry", function mainHandler(req, res) {
-  throw new Error("My first Sentry error!");
+// Handles non-api requests, such as those from react router
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../frontend/dist/index.html'));
 });
 
 // Add error-handling middleware support

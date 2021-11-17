@@ -8,8 +8,8 @@ export default defineConfig({
   build: {
     rollupOptions: {
       input: {
-        main: path.resolve(__dirname, 'index.html'),
-        Login: path.resolve(__dirname, 'login.html'),
+        main: path.resolve(__dirname, './index.html'),
+        Dashboard: path.resolve(__dirname, './src/static/dashboard.html')
       }
     },
     sourcemap: true,
