@@ -2,9 +2,26 @@ import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import { getUserProfile, updateUserProfile, getUserProfilePhoto, replaceUserProfilePhoto } from '../services/user';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import { generateFakeEnrollment } from 'src/services/user';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
+
+
+
+router.get('/:id/enrollments', async (req, res, next) => {
+  try {
+    // const result = await listCourses(options);
+    let fakeEnrollments = await generateFakeEnrollment(5);
+    res.status(200).send(fakeEnrollments);
+  } catch (err) {
+    return res.status(500).send({
+      error: err || 'Something went wrong.',
+    });
+  }
+  return res;
+});
+
 
 router.get('/user/:id/profile', async (req, res, next) => {
   try {

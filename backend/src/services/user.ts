@@ -8,9 +8,37 @@ import {
   NonQualifiedProfile,
   ResponseFormat
 } from '../schemas/user';
+import faker, { fake } from 'faker';
+
 
 // ORM convenience mapping
 const User = prisma.profile;
+
+// Types
+type Enrollment = {
+  id: number
+  name: string
+  courseId: string
+  instructor: string
+  start: string
+  end: string
+}
+
+// Fake Information
+export async function generateFakeEnrollment(amount: number) {
+  let enrollments: Enrollment[] = []
+  for (var i = 0; i < amount; i++) {
+    enrollments.push({
+      id: faker.datatype.number(),
+      name: faker.commerce.productName(),
+      instructor: faker.name.findName(),
+      courseId: `${faker.hacker.abbreviation()} ${faker.datatype.number()}`,
+      start: faker.date.recent(3, '08-16-2021').toLocaleDateString('en-US'),
+      end: faker.date.recent(5, '12-7-2021').toLocaleDateString('en-US')
+    })
+  }
+  return enrollments;
+}
 
 /**
  * Retrieve the user profile
