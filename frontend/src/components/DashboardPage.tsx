@@ -2,7 +2,7 @@ import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
-import CoursesContainer from './courses/CoursesContainer';
+import CoursesIconContainer from './courses/CoursesIconContainer';
 import CourseContainer from './courses/course/CourseContainer';
 import { IoHappyOutline, IoSchool } from "react-icons/io5";
 import {
@@ -148,7 +148,7 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
       {/* direction="column" alignItems="center" justifyContent="center" height="93vh" width="100vw" borderRight="2px" borderColor="rgb(226, 232, 240)" */}
       <Flex width="100vw">
         <Flex direction="column" flex={1} height="92.9vh" width="inherit" alignItems="flex-start">
-          <CoursesContainer key={1} enrollment={enrollments} activeCourse={ setActiveCourse }/>
+          <CoursesIconContainer key={1} enrollment={enrollments} activeCourse={ setActiveCourse }/>
 
           <Spacer />
           <Divider/>

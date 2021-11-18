@@ -16,7 +16,7 @@ type Enrollment = {
   end: string
 }
 
-export default function CoursesContainer({enrollment, activeCourse}: {enrollment : Enrollment[], activeCourse: any}) {
+export default function CoursesIconContainer({enrollment, activeCourse}: {enrollment : Enrollment[], activeCourse: any}) {
 
   // Return component
   return (
