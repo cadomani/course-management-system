@@ -1,3 +1,4 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './static/css/index.css';
 import { App } from './App';
@@ -31,14 +32,28 @@ if (typeof (SENTRY_DSN) !== 'string' || typeof (SENTRY_ENVIRONMENT) !== 'string'
   })
 }
 
+export const DOMAIN = import.meta.env.VITE_DOMAIN;
+const DomainContext = React.createContext('http://localhost:5070')
+
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} >
-        <Route path="login" element={<LoginPage />} />
-        <Route path="registration" element={<RegistrationPage />} />
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  <DomainContext.Provider value={(DOMAIN as string)}>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} >
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="dashboard" element={<DashboardPage userId={12345} />} />
+          {/* <Route
+            path="*"
+            element={
+              <main>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </DomainContext.Provider>,
   document.getElementById('root')
 )
