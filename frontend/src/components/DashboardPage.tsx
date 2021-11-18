@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 import CoursesContainer from './courses/CoursesContainer';
-import AssignmentsContainer from './courses/course/assignments/AssignmentsContainer';
+import CourseContainer from './courses/course/CourseContainer';
 import { IoHappyOutline, IoSchool } from "react-icons/io5";
 import {
   Heading,
@@ -34,7 +34,6 @@ import {
   HStack,
   Grid
 } from "@chakra-ui/react"
-import CourseContainer from './courses/course/CourseContainer';
 
 const DOMAIN = import.meta.env.VITE_MOCK_SERVER;
 
