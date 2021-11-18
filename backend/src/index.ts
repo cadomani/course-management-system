@@ -53,7 +53,7 @@ app.use(helmet({
 }));
 app.disable("x-powered-by")
 app.use(cors({
-  origin: process.env.CORS_ORIGIN,
+  origin: '*',
 }));
 
 // Serve the OpenAPI spec
