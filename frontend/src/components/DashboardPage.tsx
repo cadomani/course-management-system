@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
 import CoursesContainer from './courses/CoursesContainer';
+import AssignmentsContainer from './courses/course/assignments/AssignmentsContainer';
 import { IoHappyOutline, IoSchool } from "react-icons/io5";
 import {
   Heading,
@@ -30,8 +31,10 @@ import {
   Flex,
   Divider,
   Spacer,
-  HStack
+  HStack,
+  Grid
 } from "@chakra-ui/react"
+import CourseContainer from './courses/course/CourseContainer';
 
 const DOMAIN = import.meta.env.VITE_MOCK_SERVER;
 
@@ -143,8 +146,9 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
       <NavigationBar />
       
       {/* Left-side courses bar */}
-      <Flex direction="column" alignItems="center" justifyContent="center" height="93vh" width="9vw" borderRight="2px" borderColor="rgb(226, 232, 240)">
-        <Flex direction="column" flex={1}>
+      {/* direction="column" alignItems="center" justifyContent="center" height="93vh" width="100vw" borderRight="2px" borderColor="rgb(226, 232, 240)" */}
+      <Flex width="100vw">
+        <Flex direction="column" flex={1} height="92.9vh" width="inherit" alignItems="flex-start">
           <CoursesContainer key={1} enrollment={enrollments} activeCourse={ setActiveCourse }/>
 
           <Spacer />
@@ -152,8 +156,12 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
 
           <ProfileButton userId={ userId } navigationRequest={ setRedirect }/>
         </Flex>
-      </Flex>
 
+        <Flex width="95vw" backgroundColor="white" >
+          <CourseContainer />
+          
+        </Flex>
+      </Flex>
     </>
   )
 }
