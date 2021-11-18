@@ -20,7 +20,7 @@ export async function generateFakeAssignments(amount: number) {
       title: faker.commerce.productName(),
       description: faker.commerce.productDescription(),
       isComplete: faker.datatype.boolean(),
-      dueDate: faker.date.soon(30, new Date()).toLocaleDateString('en-US')
+      dueDate: faker.date.soon(15, new Date()).toLocaleDateString('en-US')
     })
   }
 
