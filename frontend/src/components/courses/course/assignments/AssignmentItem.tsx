@@ -31,7 +31,7 @@ export default function AssignmentItem() {
 }
 
 
-export function StudentAssignmentItem() {
+export function StudentAssignmentItem(props: any) {
   const [value, setValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [submitToast, setSubmitToast] = useState<UseToastOptions>();
@@ -45,14 +45,16 @@ export function StudentAssignmentItem() {
 
   let handleSubmitButtonPressed = () => {
     console.log('Submitting assignment: ' + {value})
-    setSubmitted(true);
-    toast({
+
+     toast({
       title: 'Assignment submitted!',
       description: 'Instructor has been notified of your assignment submission.',
       status: 'success',
       isClosable: true,
       position: 'bottom'
     });
+    setSubmitted(true);
+   
   }
 
   // Return component
@@ -61,9 +63,9 @@ export function StudentAssignmentItem() {
     <Accordion defaultIndex={[0]} allowMultiple>
   <AccordionItem>
     <h2>
-      <AccordionButton bg='grey'>
+      <AccordionButton bg="orange.300">
         <Box flex="1" textAlign="left">
-          Assignment 1
+          {props.title}
         </Box>
         <Box flex="1" textAlign="right">
            <Checkbox colorScheme="green" isReadOnly isChecked={submitted}>
@@ -74,7 +76,7 @@ export function StudentAssignmentItem() {
       </AccordionButton>
     </h2>
     <AccordionPanel pb={4}>
-    <Text mb="8px"> Assignment instructions that were created by the instructor.</Text>
+    <Text mb="8px">  {props.description} </Text>
       <Textarea
         value={value}
         onChange={handleInputChange}
@@ -87,7 +89,8 @@ export function StudentAssignmentItem() {
        colorScheme="teal"
        size="xs"
        type="submit"
-       onClick={handleSubmitButtonPressed}>
+       onClick={handleSubmitButtonPressed}
+       >
          Submit
       </Button>
         </Box>
