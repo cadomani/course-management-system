@@ -1,0 +1,6 @@
+This favicon was generated using the following font:
+
+- Font Title: Graduate
+- Font Author: Copyright (c) 2012, Eduardo Tunni (http://www.tipo.net.ar), with Reserved Font Name "Graduate"
+- Font Source: http://fonts.gstatic.com/s/graduate/v8/C8cg4cs3o2n15t_2YxgR6X2NZAn2.ttf
+- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))
