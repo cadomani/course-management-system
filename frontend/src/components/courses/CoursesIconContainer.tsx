@@ -32,6 +32,8 @@ export default function CoursesIconContainer({enrollment, activeCourse}: {enroll
                 tag: (course[0] as string).toUpperCase(),
                 num: course[1],
                 instructor: data.instructor,
+                start: data.start,
+                end: data.end,
                 index: i
               }}
               activeCourse={activeCourse}

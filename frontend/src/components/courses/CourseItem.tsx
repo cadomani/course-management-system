@@ -37,7 +37,7 @@ export default function CourseItem( { course, activeCourse }: { course: any, act
           colorScheme={colorFromIndex(course.index)}
           variant="solid"
           textAlign="center"
-          onClick={() => activeCourse(course.id)}
+          onClick={() => activeCourse(course)}
           // onMouseEnter={() => activeCourse(course.id)}
         >
           <VStack>
