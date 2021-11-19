@@ -2,7 +2,7 @@ import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import { getUserProfile, updateUserProfile, getUserProfilePhoto, replaceUserProfilePhoto } from '../services/user';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { generateFakeEnrollment } from 'src/services/user';
+import { generateFakeEnrollment } from '../services/user';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));

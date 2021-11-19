@@ -1,7 +1,7 @@
 import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 // import { listCourses, createCourse, replaceCourse, updateCourse } from '../services/course';
-import { generateFakeAssignments } from 'src/services/course';
+import { generateFakeAssignments } from '../services/course';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
