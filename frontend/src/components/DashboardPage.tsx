@@ -10,7 +10,6 @@ import { IoHappyOutline, IoSchool } from "react-icons/io5";
 import CoursesIconContainer from './courses/CoursesIconContainer';
 import CourseContainer from './courses/course/CourseContainer';
 import ProfileContainer from './profile/ProfileContainer';
-import AnnouncementContainer from './courses/course/announcements/announcement/AnnouncementContainer';
 
 // Types
 import { Enrollment, DOMAIN } from '../shared/types'
@@ -69,11 +68,15 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
   // Retrieve fake course enrollments from server
   useEffect(() => {
     (async function getEnrollments() {
-      await axios.get(`${DOMAIN}/api/user/${userId}/enrollments`)
+      await axios.get(`${DOMAIN}/api/user/${userId}/enrollments/v2`)
         .then(function (res) {
           // Handle success (200 OK)
           setActiveCourse(res.data[0])
           setEnrollments(res.data)
+          // processEnrollments({
+          //   enrollments: res.data,
+          //   setEnrollments: setEnrollments
+          // })
         })
         .catch(function (err) {
           // Handle failure
@@ -97,7 +100,12 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
   // Switch active view when courses roll in
   useEffect(() => {
     if (typeof enrollments !== 'undefined' && enrollments.length > 1) {
-      setActiveView(<CoursesIconContainer key={1} enrollment={enrollments} activeCourse={setActiveCourse} />)
+      setActiveView(
+        <CoursesIconContainer
+          key={1}
+          enrollment={enrollments}
+          activeCourse={setActiveCourse}
+        />)
     }
   }, [enrollments])
 
@@ -168,3 +176,9 @@ function ProfileButton({ userId, navigationRequest }: { userId: number, navigati
       />
   )
 }
+
+
+// function processEnrollments({ enrollments, setEnrollments }: { enrollments: any, setEnrollments: any }) {
+//   console.log(enrollments);
+//   setEnrollments(enrollments);
+// }
