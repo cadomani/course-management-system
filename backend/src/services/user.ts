@@ -13,9 +13,11 @@ import faker, { fake } from 'faker';
 
 // ORM convenience mapping
 const User = prisma.profile;
+const Student = prisma.student;
+const Enrollment = prisma.enrollment;
 
 // Types
-type Enrollment = {
+type EnrollmentData = {
   id: number
   name: string
   courseId: string
@@ -24,9 +26,33 @@ type Enrollment = {
   end: string
 }
 
+type EnrollmentDataV2 = {
+  id: number
+  name: string
+  tag: string
+  schedule: string
+  creditHours: string,
+  courseStart: string
+  courseEnd: string
+  registrationStart: string
+  registrationEnd: string
+  major: string
+  academicYear: number
+  term: string
+  building: string
+  college: string
+  room: string
+  instructor: {
+    name: string,
+    university: string,
+    college: string
+  }
+}
+
+
 // Fake Information
 export async function generateFakeEnrollment(amount: number) {
-  let enrollments: Enrollment[] = []
+  let enrollments: EnrollmentData[] = []
   for (var i = 0; i < amount; i++) {
     enrollments.push({
       id: faker.datatype.number(),
@@ -38,6 +64,85 @@ export async function generateFakeEnrollment(amount: number) {
     })
   }
   return enrollments;
+}
+
+export async function getStudentEnrollment(userId: number) {
+  let data: any;
+  data = await Student.findFirst({
+    where: {
+      profile_id: userId 
+    },
+    select: {
+      enrollment: {
+        select: {
+          section: {
+            select: {
+              id: true,
+              availability: {
+                select: {
+                  course: {
+                    select: {
+                      name: true,
+                      credit_hours: true,
+                      major: {
+                        select: {
+                          name: true
+                        }
+                      }
+                    }
+                  },
+                  academic_year: true,
+                  term: true,
+                  registration_start: true,
+                  registration_end: true
+                }
+              },
+              instructor: {
+                select: {
+                  profile: {
+                    select: {
+                      name: true,
+                      university: true
+                    }
+                  },
+                  department: {
+                    select: {
+                      college: {
+                        select: {
+                          name: true       
+                        }
+                      },
+                    }
+                  }
+                }
+              },
+              building: {
+                select: {
+                  name: true,
+                  college: {
+                    select: {
+                      name: true
+                    }
+                  },
+                },
+              },
+              section_start: true,
+              section_end: true,
+              course_tag: true,
+              schedule: true,
+              room_num: true
+            }
+          }
+        }
+      }
+    }
+  });
+
+  // Send success in either case
+  return {
+    status: 200,
+    data: (typeof data === null || Object.keys(data.enrollment).length == 0) ? {} : data.enrollment,
+  };
 }
 
 /**
