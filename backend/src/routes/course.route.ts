@@ -1,7 +1,7 @@
 import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 // import { listCourses, createCourse, replaceCourse, updateCourse } from '../services/course';
-import { generateFakeAssignments } from '../services/course';
+import { generateFakeAssignment, generateFakeAnnouncement } from '../services/course';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
@@ -10,8 +10,21 @@ router.use(urlencoded({ extended: true }));
 router.get('/:courseId/assignments', async (req, res, next) => {
   try {
     // const result = await listCourses(options);
-    let fakeAssignments = await generateFakeAssignments(7);
+    let fakeAssignments = await generateFakeAssignment(7);
     res.status(200).send(fakeAssignments);
+  } catch (err) {
+    return res.status(500).send({
+      error: err || 'Something went wrong.',
+    });
+  }
+  return res;
+});
+
+router.get('/:courseId/announcements', async (req, res, next) => {
+  try {
+    // const result = await listCourses(options);
+    let fakeAnnouncements = await generateFakeAnnouncement(7);
+    res.status(200).send(fakeAnnouncements);
   } catch (err) {
     return res.status(500).send({
       error: err || 'Something went wrong.',

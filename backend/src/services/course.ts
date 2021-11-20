@@ -13,7 +13,13 @@ export type CourseAssignment = {
   dueDate: string
 }
 
-export async function generateFakeAssignments(amount: number) {
+export type CourseAnnouncement = {
+  title: string
+  description: string
+  announcementDate: string
+}
+
+export async function generateFakeAssignment(amount: number) {
   let assignments: CourseAssignment[] = []
   for (var i = 0; i < amount; i++) {
     assignments.push({
@@ -25,6 +31,19 @@ export async function generateFakeAssignments(amount: number) {
   }
 
   return assignments;
+}
+
+export async function generateFakeAnnouncement(amount: number) {
+  let announcements: CourseAnnouncement[] = []
+  for (var i = 0; i < amount; i++) {
+    announcements.push({
+      title: faker.commerce.productName(),
+      description: faker.commerce.productDescription(),
+      announcementDate: faker.date.soon(15, new Date()).toLocaleDateString('en-US')
+    })
+  }
+
+  return announcements;
 }
 
 // /**

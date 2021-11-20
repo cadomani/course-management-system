@@ -1,10 +1,21 @@
-import { useState, useEffect, useContext } from 'react';
+
+// Libraries
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
+import { IoHappyOutline, IoSchool } from "react-icons/io5";
+
+// Views
 import CoursesIconContainer from './courses/CoursesIconContainer';
 import CourseContainer from './courses/course/CourseContainer';
-import { IoHappyOutline, IoSchool } from "react-icons/io5";
+import ProfileContainer from './profile/ProfileContainer';
+import AnnouncementContainer from './courses/course/announcements/announcement/AnnouncementContainer';
+
+// Types
+import { Enrollment, DOMAIN } from '../shared/types'
+
+// Chakra
 import {
   Heading,
   Button,
@@ -14,16 +25,6 @@ import {
   Box,
   Icon,
   IconButton,
-  FormErrorMessage,
-  FormHelperText,
-  Select,
-  Table,
-  Thead,
-  Tbody,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
   useToast,
   UseToastOptions,
   VStack,
@@ -35,16 +36,6 @@ import {
   Grid
 } from "@chakra-ui/react"
 
-const DOMAIN = import.meta.env.VITE_DOMAIN;
-
-type Enrollment = {
-  id: number
-  name: string
-  courseId: string
-  instructor: string
-  start: string
-  end: string
-}
 
 /**
  * Main view after login. Every element should be accessible directly from here or through here.
@@ -54,6 +45,7 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
   const [enrollments, setEnrollments] = useState<Enrollment[]>();
   const [activeCourse, setActiveCourse] = useState<any>();
   const [redirectRequest, setRedirectRequest] = useState<string>();
+  const [activeView, setActiveView] = useState<JSX.Element>(<></>);
   const navigate = useNavigate();
 
   // Handle error toast notifications
@@ -69,6 +61,7 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
   // A component-level redirect handler
   const setRedirect = (redirectPath: string) => {
     if (typeof redirectPath !== 'undefined' && redirectPath !== '') {
+      setActiveView(<ProfileContainer />)
       // navigate(redirectPath, { replace: false })
     }
   }
@@ -100,26 +93,38 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
     // navigate("/login", { replace: true });
   }, [])
 
+
+  // Switch active view when courses roll in
+  useEffect(() => {
+    if (typeof enrollments !== 'undefined' && enrollments.length > 1) {
+      setActiveView(<CoursesIconContainer key={1} enrollment={enrollments} activeCourse={setActiveCourse} />)
+    }
+  }, [enrollments])
+
   return (
     <>
       {/* Top Bar */}
       <NavigationBar />
-      
+
       {/* Left-side courses bar */}
-      <Flex width="100vw">
-        <Flex direction="column" flex={1} height="92.9vh" width="inherit" alignItems="flex-start">
-          {typeof enrollments !== 'undefined' && enrollments.length > 0 && <CoursesIconContainer key={1} enrollment={enrollments} activeCourse={setActiveCourse} />}
-    
-          <Spacer />
-          <Divider/>
+      <Flex direction="row" height="92.9vh" alignItems="flex-start" flexWrap="nowrap" justifyContent="center">
+        {/* Course Icons View */}
+        {/* <Box width="5%" height="inherit"> */}
+          <Flex direction="column" height="100%" alignItems="center" justifyContent="space-between" padding="25px 0px 10px 20px">
+            {activeView}
 
-          <ProfileButton userId={ userId } navigationRequest={ setRedirect }/>
-        </Flex>
+            <Spacer />
+            <Divider />
+            <ProfileButton userId={userId} navigationRequest={setRedirect} />
 
-        <Flex width="95vw" backgroundColor="white" justifyContent="flex-start">
+          </Flex>
+
+        {/* </Box> */}
+
+        {/* Main Course View */}
+        <Box width="95%" paddingLeft="20px">
           {typeof activeCourse !== 'undefined' && typeof enrollments !== 'undefined' && <CourseContainer courseInfo={activeCourse} />}
-          
-        </Flex>
+        </Box>
       </Flex>
     </>
   )
@@ -132,15 +137,15 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
 function NavigationBar(): JSX.Element {
   return (
     <>
-    <Flex bg="orange.300" height="7vh" alignItems="center">
-      <Box p="3">
-        <HStack>
-          <Icon as={IoSchool} boxSize={5} color="white"/>
-          <Heading color="white" size="md">Course Management System</Heading>
-        </HStack>
-      </Box>
-    </Flex>
-    <Divider />
+      <Flex bg="orange.300" height="7vh" alignItems="center">
+        <Box p="3">
+          <HStack>
+            <Icon as={IoSchool} boxSize={5} color="white" />
+            <Heading color="white" size="md">Course Management System</Heading>
+          </HStack>
+        </Box>
+      </Flex>
+      <Divider />
     </>
   )
 }
@@ -149,17 +154,17 @@ function NavigationBar(): JSX.Element {
  * Bottom-left profile icon.
  * Leads to profile viewer/editor
  */
-function ProfileButton({ userId, navigationRequest }: { userId: number, navigationRequest : any }): JSX.Element {
+function ProfileButton({ userId, navigationRequest }: { userId: number, navigationRequest: any }): JSX.Element {
   return (
-    <IconButton
-      aria-label="Profile"
-      colorScheme="orange"
-      size="lg"
-      isRound={true}
+      <IconButton
+        aria-label="Profile"
+        colorScheme="orange"
+        size="lg"
+        isRound={true}
       variant="outline"
-      margin="10px"
-      icon={<IoHappyOutline />}
-      onClick={() => navigationRequest(`/user/profile`)}
-    />
+      marginTop="10px"
+        icon={<IoHappyOutline />}
+        onClick={() => navigationRequest(`/user/profile`)}
+      />
   )
 }

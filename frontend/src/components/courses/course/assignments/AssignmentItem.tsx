@@ -1,7 +1,10 @@
+// Libraries
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import axios from 'axios';
+
+// Chakra
 import {
   Accordion,
   AccordionItem,
@@ -16,14 +19,9 @@ import {
   useToast,
   UseToastOptions
 } from "@chakra-ui/react"
-const DOMAIN = import.meta.env.VITE_DOMAIN;
 
-export type CourseAssignment = {
-  title: string
-  description: string
-  isComplete: boolean
-  dueDate: string
-}
+// Types
+import { CourseAssignment } from '../../../../shared/types'
 
 /**
  * A single assignment list element
@@ -84,11 +82,11 @@ export function StudentAssignmentItem({ courseAssignment }: { courseAssignment: 
 
   // Return component
   return (
-    <Box w="80vw">
+    <Box w="100%">
       <Accordion allowMultiple>
         <AccordionItem isDisabled={submitted || courseInfo.isComplete}>
           <h2>
-            <AccordionButton bg="orange.300">
+            <AccordionButton bg="gray.200">
               <Box flex="1" textAlign="left">
                 {courseInfo.title}
               </Box>

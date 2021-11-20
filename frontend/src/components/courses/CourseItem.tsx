@@ -1,15 +1,20 @@
+// Libraries
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import axios from 'axios';
-import { Square, VStack, Box, Button, Tooltip } from '@chakra-ui/react';
-const DOMAIN = import.meta.env.VITE_DOMAIN;
+
+// Chakra
+import {
+  Square,
+  VStack,
+  Box,
+  Button,
+  Tooltip
+} from '@chakra-ui/react';
 
 /**
  * Lays out all the courses being taken by this student
  */
 export default function CourseItem( { course, activeCourse }: { course: any, activeCourse: any }): JSX.Element {
-
 
   // Return component
   return (
@@ -31,9 +36,10 @@ export default function CourseItem( { course, activeCourse }: { course: any, act
       >
         <Button
           rounded="15px"
-          margin="20px"
+
           height="70px"
           width="70px"
+          marginBottom="30px"
           colorScheme={colorFromIndex(course.index)}
           variant="solid"
           textAlign="center"

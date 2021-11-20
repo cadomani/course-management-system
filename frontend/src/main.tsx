@@ -1,7 +1,6 @@
+//Libraries
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './static/css/index.css';
-import { App } from './App';
 import {
   BrowserRouter,
   Routes,
@@ -10,6 +9,10 @@ import {
 // import * as Sentry from "@sentry/react";
 // import { Integrations } from "@sentry/tracing";
 // import { RewriteFrames } from "@sentry/integrations";
+
+// Views
+import './static/css/index.css';
+import { App } from './App';
 import LoginPage from './components/login/LoginPage';
 import RegistrationPage from './components/registration/RegistrationPage';
 import DashboardPage from './components/DashboardPage';
@@ -32,28 +35,23 @@ import DashboardPage from './components/DashboardPage';
 //   })
 // }
 
-export const DOMAIN = import.meta.env.VITE_DOMAIN;
-const DomainContext = React.createContext('http://localhost:5070')
-
 ReactDOM.render(
-  <DomainContext.Provider value={(DOMAIN as string)}>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} >
-          <Route path="login" element={<LoginPage />} />
-          <Route path="registration" element={<RegistrationPage />} />
-          <Route path="dashboard" element={<DashboardPage userId={12345} />} />
-          {/* <Route
-            path="*"
-            element={
-              <main>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          /> */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
-  </DomainContext.Provider>,
+  <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<App />} >
+        <Route path="login" element={<LoginPage />} />
+        <Route path="registration" element={<RegistrationPage />} />
+        <Route path="dashboard" element={<DashboardPage userId={12345} />} />
+        {/* <Route
+          path="*"
+          element={
+            <main>
+              <p>There's nothing here!</p>
+            </main>
+          }
+        /> */}
+      </Route>
+    </Routes>
+  </BrowserRouter>,
   document.getElementById('root')
 )

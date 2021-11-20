@@ -1,6 +1,9 @@
+// Libraries
 import { useEffect } from "react";
 import { Outlet, useNavigate } from 'react-router-dom';
 import { AnimatePresence, motion } from "framer-motion";
+
+// Chakra
 import {
   ChakraProvider,
   theme,

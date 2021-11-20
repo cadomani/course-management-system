@@ -1,7 +1,10 @@
+// Libraries
 import { useState, useEffect } from 'react';
 import { Link as RouterLink } from "react-router-dom";
 import { IoChevronForwardSharp, IoCheckmarkSharp, IoClose } from 'react-icons/io5';
 import axios from 'axios';
+
+// Chakra
 import {
   Button,
   Box,
@@ -19,8 +22,8 @@ import {
   UseToastOptions
 } from '@chakra-ui/react'
 
-// Dynamically load domain to avoid hardcoding routes
-const DOMAIN = import.meta.env.VITE_DOMAIN;
+// Types
+import { DOMAIN } from '../../shared/types'
 
 export default function CredentialsPage({ credentialsData, activeViewData }: { credentialsData: any, activeViewData: any }) {
   const [name, setName] = useState("")
