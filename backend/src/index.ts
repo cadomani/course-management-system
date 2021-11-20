@@ -26,24 +26,28 @@ const app = express();
 app.use(urlencoded({ extended: true }));
 
 // Initialize Sentry
-logger.info(`Backend Sentry DSN ${process.env.EXPRESS_SENTRY_DSN} for environment ${process.env.EXPRESS_SENTRY_ENVIRONMENT}`);
-Sentry.init({
-  dsn: process.env.EXPRESS_SENTRY_DSN,
-  integrations: [
-    // @ts-ignore
-    new RewriteFrames({ root: process.env.HEROKU_ROOT_BACKEND_DIR}),
-    new Sentry.Integrations.Http({ tracing: true }), // enable HTTP calls tracing
-    new Tracing.Integrations.Express({ app }), // enable Express.js middleware tracing
-  ],
+const EXPRESS_SENTRY_ENABLE = process.env.EXPRESS_SENTRY_ENABLE || "false";
+if (EXPRESS_SENTRY_ENABLE === 'true') {
+  logger.info(`Backend Sentry DSN ${process.env.EXPRESS_SENTRY_DSN} for environment ${process.env.EXPRESS_SENTRY_ENVIRONMENT}`);
+  Sentry.init({
+    dsn: process.env.EXPRESS_SENTRY_DSN,
+    integrations: [
+      // @ts-ignore
+      new RewriteFrames({ root: process.env.HEROKU_ROOT_BACKEND_DIR}),
+      new Sentry.Integrations.Http({ tracing: true }), // enable HTTP calls tracing
+      new Tracing.Integrations.Express({ app }), // enable Express.js middleware tracing
+    ],
+  
+    // Capture every transaction
+    tracesSampleRate: 1.0,
+    environment: process.env.EXPRESS_SENTRY_ENVIRONMENT
+  });
+  
+  // Sentry middlewares loaded first
+  app.use(Sentry.Handlers.requestHandler()); // Creates a separate execution context using domains
+  app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
+}
 
-  // Capture every transaction
-  tracesSampleRate: 1.0,
-  environment: process.env.EXPRESS_SENTRY_ENVIRONMENT
-});
-
-// Sentry middlewares loaded first
-app.use(Sentry.Handlers.requestHandler()); // Creates a separate execution context using domains
-app.use(Sentry.Handlers.tracingHandler()); // TracingHandler creates a trace for every incoming request
 
 // Library Middlewares
 app.use(morgan('common'));
@@ -115,7 +119,9 @@ app.get('*', (req, res) => {
 });
 
 // Add error-handling middleware support
-app.use(Sentry.Handlers.errorHandler());
+if (EXPRESS_SENTRY_ENABLE === "true") {
+  app.use(Sentry.Handlers.errorHandler());
+}
 app.use(errorHandler);
 
 // Log all requests with morgan and show listening port
