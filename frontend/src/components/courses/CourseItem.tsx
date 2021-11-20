@@ -44,7 +44,6 @@ export default function CourseItem( { course, activeCourse }: { course: any, act
           variant="solid"
           textAlign="center"
           onClick={() => activeCourse(course)}
-          // onMouseEnter={() => activeCourse(course.id)}
         >
           <VStack>
             <Box>
