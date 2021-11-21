@@ -39,7 +39,7 @@
     "@shared": "dist/common"
   },
   "dependencies": {
-    "@prisma/client": "^3.4.2",
+    "@prisma/client": "^3.5.0",
     "@sentry/integrations": "^6.14.3",
     "@sentry/node": "^6.14.3",
     "@sentry/tracing": "^6.14.3",
@@ -95,7 +95,7 @@
     "fs-extra": "^10.0.0",
     "jasmine": "^3.10.0",
     "nodemon": "^2.0.14",
-    "prisma": "^3.4.2",
+    "prisma": "^3.5.0",
     "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
