@@ -2,14 +2,14 @@ import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
 import { getUserProfile, updateUserProfile, getUserProfilePhoto, replaceUserProfilePhoto } from '../services/user';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
-import { generateFakeEnrollment, getStudentEnrollment } from '../services/user';
+import { generateFakeEnrollment, getStudentEnrollment, getStudentAssignments } from '../services/user';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
 
 
 
-router.get('/:id/enrollments', async (req, res, next) => {
+router.get('/:id/enrollmentsFake', async (req, res, next) => {
   try {
     // const result = await listCourses(options);
     let fakeEnrollments = await generateFakeEnrollment(5);
@@ -22,11 +22,24 @@ router.get('/:id/enrollments', async (req, res, next) => {
   return res;
 });
 
-router.get('/:id/enrollments/v2', async (req, res, next) => {
+router.get('/:id/enrollments', async (req, res, next) => {
   try {
     const userId = Number.parseInt(req.params.id);
     const enrollments = await getStudentEnrollment(userId);
-    res.status(200).send(enrollments);
+    res.status(200).send(enrollments.data);
+  } catch (err) {
+    return res.status(500).send({
+      error: err || 'Something went wrong.',
+    });
+  }
+  return res;
+});
+
+router.get('/:id/course/:courseId/assignments', async (req, res, next) => {
+  try {
+    const userId = Number.parseInt(req.params.id);
+    const assignments = await getStudentAssignments(userId);
+    res.status(200).send(assignments.data);
   } catch (err) {
     return res.status(500).send({
       error: err || 'Something went wrong.',
