@@ -1,7 +1,11 @@
+// Libraries
 import { useState, useEffect } from 'react'
-import { IoSchoolOutline } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
 import { Link as RouterLink, useNavigate } from "react-router-dom";
+import { AnimatePresence, motion } from 'framer-motion';
+import { IoSchoolOutline } from 'react-icons/io5'; //https://react-icons.github.io/react-icons/#/
 import axios from 'axios';
+
+// Chakra
 import {
   Box,
   FormControl,
@@ -15,10 +19,9 @@ import {
   useToast,
   UseToastOptions
 } from '@chakra-ui/react'
-import { AnimatePresence, motion } from 'framer-motion';
 
-// Dynamically load domain to avoid hardcoding routes
-const DOMAIN = import.meta.env.VITE_DOMAIN;
+// Types
+import { DOMAIN } from '../../shared/types'
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -109,6 +112,13 @@ export default function LoginPage() {
       })
         .then(function (response) {
           // Handle success (200 OK)
+          setErrorToast({
+            title: `Welcome, ${response.data.name}!`,
+            description: 'Redirecting...',
+            status: 'success',
+            isClosable: false,
+            position: 'top'
+          })
           navigate("/dashboard", { replace: true });
         })
         .catch(function (error) {

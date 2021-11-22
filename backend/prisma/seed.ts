@@ -14,7 +14,7 @@ const processFile = async () => {
   // name|course_id|credit_hours|crn|college|major|levels|reg_start|reg_end|term|year|campus|section|course_type|time|days|where|course_start|course_end|sched_type|instructors|instr_email|info_url|options
   var records = []
   const parser = fs
-    .createReadStream(`/server/school/cms/backend/src/core/db/masterlist_fall_v1.1.csv`)
+    .createReadStream(`${process.env.ENVIRONMENT_ROOT}/backend/src/core/db/masterlist_fall_v1.1.csv`)
     .pipe(parse({
       quote: '`',
       delimiter: '|',
@@ -26,7 +26,6 @@ const processFile = async () => {
   }
   return records
 }
-
 
 async function main() {
   const records = await processFile();
@@ -272,8 +271,28 @@ async function main() {
       }
     })
   }
-
 }
+
+// async function main() {
+//   // Write sections (all records)
+//   const records = await processFile();
+//   for (let c of records) {
+//     await prisma.section.create({
+//       data: {
+//         instructor: {
+//           connectOrCreate: {
+//             where: {
+
+//             },
+//             create: {
+
+//             }
+//           }
+//         }
+//       }
+//     })
+//   }
+// }
 
 main()
   .catch((e) => {
