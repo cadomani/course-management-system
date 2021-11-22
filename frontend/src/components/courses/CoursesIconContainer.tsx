@@ -1,9 +1,5 @@
-// Libraries
-import { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from "framer-motion";
-
 // Views
-import CourseItem from './CourseItem';
+import CourseIcon from './CourseIcon';
 
 // Chakra
 import {
@@ -12,29 +8,24 @@ import {
 } from '@chakra-ui/react';
 
 // Types
-import { Enrollment } from '../../shared/types'
+import { StudentEnrollment } from '../../shared/types'
 
-export default function CoursesIconContainer({enrollment, activeCourse}: {enrollment : Enrollment[], activeCourse: any}) {
-
+/**
+ * Lays out all the courses being taken by this student
+ */
+export default function CoursesIconContainer({enrollment, activeCourse}: {enrollment : StudentEnrollment[], activeCourse: any}) {
   // Return component
   return (
     <>
-      {enrollment.map((data: any, i: number) => {
-        let course = data.courseId.split(" ");
+      {enrollment.map((data: StudentEnrollment, i: number) => {
+        let section = data.tag.split(" ");
+        // This may not be needed, send full course and access things inside
         return (
-          <Box key={data.id}>
-            <CourseItem
-              course={{
-                id: data.id,
-                name: data.name,
-                tag: (course[0] as string).toUpperCase(),
-                num: course[1],
-                instructor: data.instructor,
-                start: data.start,
-                end: data.end,
-                index: i
-              }}
-              activeCourse={activeCourse}
+          <Box key={i}>
+            <CourseIcon
+              index={i}
+              course={data}
+              activeCourse={ activeCourse }
             />
             <Spacer />
           </Box>

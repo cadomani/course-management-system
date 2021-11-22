@@ -11,6 +11,32 @@ export type Enrollment = {
   end: string
 }
 
+// User -> StudentEnrollment
+export type StudentEnrollment = {
+  id: number
+  name: string
+  creditHours: number
+  major: string
+  academicYear: number
+  term: string
+  registrationStart: Date
+  registrationEnd: Date
+  sectionStart: Date
+  sectionEnd: Date
+  college: string
+  instructor: {
+    name: string
+    university: string
+    department: string
+  }
+  building: string
+  tag: string
+  schedule: string
+  roomNumber: string
+}
+
+
+
 // User -> Login
 export type Credentials = {
   name: string

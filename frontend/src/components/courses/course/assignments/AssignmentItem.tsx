@@ -1,8 +1,5 @@
 // Libraries
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import axios from 'axios';
 
 // Chakra
 import {
@@ -17,34 +14,16 @@ import {
   Textarea,
   Button,
   useToast,
-  UseToastOptions
 } from "@chakra-ui/react"
 
 // Types
 import { CourseAssignment } from '../../../../shared/types'
-
-/**
- * A single assignment list element
- */
-export default function AssignmentItem() {
-
-  // Return component
-  return (
-    <>
-    </>
-  )
-}
+import { AssignmentSubmissionToast } from '../../../../shared/common';
 
 /**
  * A student assignment that can be submitted to be graded by an instructor
  */
 export function StudentAssignmentItem({ courseAssignment }: { courseAssignment: CourseAssignment }) {
-  const [courseInfo, setCourseInfo] = useState<CourseAssignment>({
-    title: "",
-    description: "",
-    isComplete: false,
-    dueDate: ""
-  })
   const [value, setValue] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [canSubmit, setCanSubmit] = useState(false);
@@ -64,42 +43,29 @@ export function StudentAssignmentItem({ courseAssignment }: { courseAssignment: 
   // Submit content when button is pressed
   let handleSubmitButtonPressed = () => {
     setSubmitted(true);
-    toast({
-      title: 'Assignment submitted!',
-      description: 'Instructor has been notified of your assignment submission.',
-      status: 'success',
-      isClosable: true,
-      position: 'bottom'
-    });
+    toast(AssignmentSubmissionToast);
   }
-
-  // Update assignment information once it rolls in
-  useEffect(() => {
-    if (typeof courseAssignment !== 'undefined') {
-      setCourseInfo(courseAssignment)
-    }
-  }, [courseAssignment])
 
   // Return component
   return (
     <Box w="100%">
       <Accordion allowMultiple>
-        <AccordionItem isDisabled={submitted || courseInfo.isComplete}>
+        <AccordionItem isDisabled={submitted || courseAssignment.isComplete}>
           <h2>
             <AccordionButton bg="gray.200">
               <Box flex="1" textAlign="left">
-                {courseInfo.title}
+                {courseAssignment.title}
               </Box>
               <Box flex="1" textAlign="right">
-                <Checkbox colorScheme="green" isReadOnly isChecked={submitted || courseInfo.isComplete}>
-                  {submitted ? 'Submitted' : `Due ${courseInfo.dueDate}`}
+                <Checkbox colorScheme="green" isReadOnly isChecked={submitted || courseAssignment.isComplete}>
+                  {submitted ? 'Submitted' : `Due ${courseAssignment.dueDate}`}
                 </Checkbox>
               </Box>
               <AccordionIcon />
             </AccordionButton>
           </h2>
           <AccordionPanel pb={4}>
-            <Text mb="8px">  {courseInfo.description} </Text>
+            <Text mb="8px">  {courseAssignment.description} </Text>
             <Textarea
               value={value}
               onChange={handleInputChange}
@@ -124,5 +90,3 @@ export function StudentAssignmentItem({ courseAssignment }: { courseAssignment: 
     </Box>
   )
 }
-
-

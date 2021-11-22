@@ -1,9 +1,3 @@
-// Libraries
-import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import axios from 'axios';
-
 // Chakra
 import {
   Accordion,
@@ -12,22 +6,16 @@ import {
   AccordionPanel,
   AccordionIcon,
   Box,
-  Checkbox,
   Text,
-  Textarea,
-  Button,
-  useToast,
-  UseToastOptions
 } from "@chakra-ui/react"
 
 // Types
-import { DOMAIN, CourseAnnouncement } from '../../../../shared/types'
+import { CourseAnnouncement } from '../../../../shared/types'
 
 /**
  * A single announcement list element
  */
 export default function StudentAnnouncementItem({ courseAnnouncement }: { courseAnnouncement: CourseAnnouncement }) {
-
   // Return component
   return (
     <Box w="100%">

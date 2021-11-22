@@ -2,8 +2,6 @@
 // Libraries
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
-import { motion, AnimatePresence } from "framer-motion";
-import axios from 'axios';
 import { IoHappyOutline, IoSchool } from "react-icons/io5";
 
 // Views
@@ -12,27 +10,20 @@ import CourseContainer from './courses/course/CourseContainer';
 import ProfileContainer from './profile/ProfileContainer';
 
 // Types
-import { Enrollment, DOMAIN } from '../shared/types'
+import { StudentEnrollment } from '../shared/types'
+import { BackendAuthenticationToast, BackendBadRequestToast, BackendConnectionToast, BackendParseErrorToast, getEnrollments } from '../shared/common'
 
 // Chakra
 import {
   Heading,
-  Button,
-  ButtonGroup,
-  FormControl,
-  FormLabel,
   Box,
   Icon,
   IconButton,
   useToast,
-  UseToastOptions,
-  VStack,
-  Square,
   Flex,
   Divider,
   Spacer,
   HStack,
-  Grid
 } from "@chakra-ui/react"
 
 
@@ -40,65 +31,46 @@ import {
  * Main view after login. Every element should be accessible directly from here or through here.
  */
 export default function DashboardPage({ userId }: { userId: number }): JSX.Element {
-  const [errorToast, setErrorToast] = useState<UseToastOptions>();
-  const [enrollments, setEnrollments] = useState<Enrollment[]>();
-  const [activeCourse, setActiveCourse] = useState<any>();
-  const [redirectRequest, setRedirectRequest] = useState<string>();
-  const [activeView, setActiveView] = useState<JSX.Element>(<></>);
+  const [enrollments, setEnrollments] = useState<StudentEnrollment[]>();
+  const [activeCourse, setActiveCourse] = useState<number>(0);
+  const [activeView, setActiveView] = useState<JSX.Element>();
   const navigate = useNavigate();
-
-  // Handle error toast notifications
   const toast = useToast();
-  useEffect(() => {
-    if (typeof errorToast !== 'undefined') {
-      (() =>
-        toast(errorToast)
-      )();
-    }
-  }, [errorToast])
 
   // A component-level redirect handler
   const setRedirect = (redirectPath: string) => {
     if (typeof redirectPath !== 'undefined' && redirectPath !== '') {
       setActiveView(<ProfileContainer />)
-      // navigate(redirectPath, { replace: false })
     }
   }
 
-  // Retrieve fake course enrollments from server
+  // Retrieve course enrollments from server
   useEffect(() => {
-    (async function getEnrollments() {
-      await axios.get(`${DOMAIN}/api/user/${userId}/enrollments/v2`)
-        .then(function (res) {
-          // Handle success (200 OK)
-          setActiveCourse(res.data[0])
-          setEnrollments(res.data)
-          // processEnrollments({
-          //   enrollments: res.data,
-          //   setEnrollments: setEnrollments
-          // })
-        })
-        .catch(function (err) {
-          // Handle failure
-          setErrorToast({
-            title: "API Error",
-            description: "Cannot connect to backend",
-            status: "error",
-            position: "top",
-            isClosable: false
-          })
-        });
+    (async () => {
+      const res = await getEnrollments(userId)
+      if (typeof res !== 'undefined') {
+        if (res.success) {
+          setActiveCourse(res.data[0]);
+          setEnrollments(res.data);
+        } else {
+          if (res.data == "parseError") {
+            toast(BackendParseErrorToast);
+          } else if (res.data == "authenticationError") {
+            toast(BackendAuthenticationToast)
+            navigate("/login", { replace: true })
+          } else {
+            toast(BackendBadRequestToast)
+          }
+        }
+      } else {
+        toast(BackendConnectionToast)
+      }
     })();
   }, []);
 
-  // TODO: Verify login status and redirect to login page
-  useEffect(() => {
-    // navigate("/login", { replace: true });
-  }, [])
-
-
   // Switch active view when courses roll in
   useEffect(() => {
+    // Guard against early run
     if (typeof enrollments !== 'undefined' && enrollments.length > 1) {
       setActiveView(
         <CoursesIconContainer
@@ -117,21 +89,18 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
       {/* Left-side courses bar */}
       <Flex direction="row" height="92.9vh" alignItems="flex-start" flexWrap="nowrap" justifyContent="center">
         {/* Course Icons View */}
-        {/* <Box width="5%" height="inherit"> */}
-          <Flex direction="column" height="100%" alignItems="center" justifyContent="space-between" padding="25px 0px 10px 20px">
-            {activeView}
+        <Flex direction="column" height="100%" alignItems="center" justifyContent="space-between" padding="25px 0px 10px 20px">
+          {activeView}
 
-            <Spacer />
-            <Divider />
-            <ProfileButton userId={userId} navigationRequest={setRedirect} />
+          <Spacer />
+          <Divider />
+          <ProfileButton userId={userId} navigationRequest={ setRedirect } />
 
-          </Flex>
-
-        {/* </Box> */}
+        </Flex>
 
         {/* Main Course View */}
         <Box width="95%" paddingLeft="20px">
-          {typeof activeCourse !== 'undefined' && typeof enrollments !== 'undefined' && <CourseContainer courseInfo={activeCourse} />}
+          {typeof activeCourse !== 'undefined' && typeof enrollments !== 'undefined' && <CourseContainer course={ activeCourse } />}
         </Box>
       </Flex>
     </>
@@ -176,9 +145,3 @@ function ProfileButton({ userId, navigationRequest }: { userId: number, navigati
       />
   )
 }
-
-
-// function processEnrollments({ enrollments, setEnrollments }: { enrollments: any, setEnrollments: any }) {
-//   console.log(enrollments);
-//   setEnrollments(enrollments);
-// }
