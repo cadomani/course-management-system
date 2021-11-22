@@ -32,15 +32,15 @@ import {
  */
 export default function DashboardPage({ userId }: { userId: number }): JSX.Element {
   const [enrollments, setEnrollments] = useState<StudentEnrollment[]>();
-  const [activeCourse, setActiveCourse] = useState<number>(0);
-  const [activeView, setActiveView] = useState<JSX.Element>();
+  const [activeCourse, setActiveCourse] = useState<StudentEnrollment>();
+  const [iconView, setIconView] = useState<JSX.Element>();
   const navigate = useNavigate();
   const toast = useToast();
 
   // A component-level redirect handler
   const setRedirect = (redirectPath: string) => {
     if (typeof redirectPath !== 'undefined' && redirectPath !== '') {
-      setActiveView(<ProfileContainer />)
+      setIconView(<ProfileContainer />)
     }
   }
 
@@ -72,7 +72,7 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
   useEffect(() => {
     // Guard against early run
     if (typeof enrollments !== 'undefined' && enrollments.length > 1) {
-      setActiveView(
+      setIconView(
         <CoursesIconContainer
           key={1}
           enrollment={enrollments}
@@ -90,7 +90,7 @@ export default function DashboardPage({ userId }: { userId: number }): JSX.Eleme
       <Flex direction="row" height="92.9vh" alignItems="flex-start" flexWrap="nowrap" justifyContent="center">
         {/* Course Icons View */}
         <Flex direction="column" height="100%" alignItems="center" justifyContent="space-between" padding="25px 0px 10px 20px">
-          {activeView}
+          {iconView}
 
           <Spacer />
           <Divider />
@@ -138,8 +138,8 @@ function ProfileButton({ userId, navigationRequest }: { userId: number, navigati
         colorScheme="orange"
         size="lg"
         isRound={true}
-      variant="outline"
-      marginTop="10px"
+        variant="outline"
+        marginTop="10px"
         icon={<IoHappyOutline />}
         onClick={() => navigationRequest(`/user/profile`)}
       />
