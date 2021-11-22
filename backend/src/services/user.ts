@@ -145,6 +145,38 @@ export async function getStudentEnrollment(userId: number) {
   };
 }
 
+
+export async function getStudentAssignments(userId: number) {
+ let data: any;
+  data = await Student.findFirst({  
+    where: {
+      profile_id: userId
+    },
+    select: {
+      enrollment: {
+        select: {
+          assignment: {
+            select: {
+              id: true,
+              uuid: true,
+              content_type: true,
+              points: true,
+              possible: true,
+              due_date: true
+            }
+          }
+        }
+      }
+    }
+  })
+
+  // Send success in either case
+  return {
+    status: 200,
+    data: (typeof data === null || Object.keys(data.enrollment).length == 0) ? {} : data.enrollment,
+  };
+}
+
 /**
  * Retrieve the user profile
  */
