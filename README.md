@@ -1,5 +1,8 @@
 # Course Management System (COMP3700)
 
+
+<p><a href="https://gitpod.io/#https://github.com/cadomani/course-management-system" rel="nofollow noopener noreferrer" target="_blank" class="link-with-image-as-only-child"><img src="https://gitpod.io/button/open-in-gitpod.svg" alt="Open in Gitpod (Pulled code from Gitpod)"></a></p>
+
 ## Tools
 - **Development Environment**
   + IDE &rarr; [Visual Studio Code](https://code.visualstudio.com/)
