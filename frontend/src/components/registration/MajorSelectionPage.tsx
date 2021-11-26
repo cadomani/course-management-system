@@ -23,8 +23,8 @@ import {
   UseToastOptions,
 } from "@chakra-ui/react"
 
-// Dynamically load domain to avoid hardcoding routes
-const DOMAIN = import.meta.env.VITE_DOMAIN;
+// Types
+import { DOMAIN } from '../../shared/types'
 
 export default function MajorSelectionPage({ majorSelectionData, activeViewData }: { majorSelectionData: any, activeViewData: any }) {
   const [programs, setPrograms] = useState<any[]>([]);
