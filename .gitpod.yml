@@ -1,0 +1,29 @@
+ports:
+- port: 5070
+  visibility: public
+  onOpen: ignore
+- port: 5080
+  visibility: public
+  onOpen: open-browser
+tasks:
+- init: npm run heroku-prebuild
+github:
+  prebuilds:
+    branches: true
+    addCheck: true
+    addComment: true
+    addBadge: true
+vscode:
+  extensions:
+  - "christian-kohler.npm-intellisense"
+  - "christian-kohler.path-intellisense"
+  -	"dbaeumer.vscode-eslint"
+  -	"eg2.vscode-npm-script"
+  -	"GitHub.vscode-pull-request-github"
+  -	"dsznajder.es7-react-js-snippets"
+  -	"coenraads.bracket-pair-colorizer"
+  -	"eamodio.gitlens"
+  -	"mhutchie.git-graph"
+  -	"42crunch.vscode-openapi"
+  - "teamhub.teamhub"
+  - "humao.rest-client"
