@@ -49,6 +49,15 @@ type EnrollmentDataV2 = {
   }
 }
 
+export type StudentProfile = {
+  id: number
+  name: string
+  major: string
+  email: string
+  biography: string
+  university: string
+  photo: string
+}
 
 // Fake Information
 export async function generateFakeEnrollment(amount: number) {
@@ -180,36 +189,27 @@ export async function getStudentAssignments(userId: number) {
 /**
  * Retrieve the user profile
  */
-export async function getUserProfile(identity: ProfileIdentity): Promise<ResponseFormat> {
+export async function getUserProfile(id: number): Promise<ResponseFormat> {
   // Obtain data for profiles
   // TODO: Unstable behavior - type predicates don't seem to work when interfaces contain the same properties
   let data;
-  if (identity as QualifiedProfile) {
-    data = await User.findFirst({
-      where: {
-        id: Number.parseInt(identity.publicId),
-      },
-      select: {
-        name: true,
-        email: true,
-        biography: true,
-        university: true,
+  data = await User.findUnique({
+    where: {
+      id: id,
+    },
+    select: {
+      name: true,
+      email: true,
+      biography: true,
+      university: true,
+      photo: true,
+      student: {
+        select: {
+          major: true
+        }
       }
-    });
-  } else if (identity as NonQualifiedProfile) {
-    data = await User.findFirst({
-      where: {
-        id: Number.parseInt(identity.publicId),
-      },
-      select: {
-        name: true,
-        biography: true,
-        university: true,
-      }
-    });
-  } else {
-    data = [];
-  }
+    }
+  });
 
   // Send success in either case
   return {

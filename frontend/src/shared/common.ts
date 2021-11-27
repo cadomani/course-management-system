@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react"
 
 // Types
-import { StudentEnrollment, DOMAIN } from '../shared/types'
+import { StudentEnrollment, StudentProfile, DOMAIN } from '../shared/types'
 
 
 // Toasts
@@ -52,6 +52,58 @@ export const AssignmentSubmissionToast: UseToastOptions = {
   isClosable: true,
   position: 'bottom'
 }
+
+// App
+export async function getStudentProfile(userId: number): Promise<any> {
+  return await axios.get(`${DOMAIN}/api/user/${userId}/profile`)
+    .then(function (res) {
+      if (res.status === 200) {
+        // Process incoming data
+        try {
+          let studentProfile: StudentProfile = {
+            id: res.data.id,
+            name: res.data.name,
+            major: res.data.student[0].major,
+            email: res.data.email,
+            biography: res.data.biograpy,
+            university: res.data.university,
+            photo: res.data.photo
+          }
+          // Send back parsed data
+          return {
+            success: true,
+            data: studentProfile
+          }
+        } catch {
+          return {
+            success: false,
+            data: "parseError"
+          }
+        }
+      } else if (res.status === 401) {
+          return {
+            success: false,
+            data: "authenticationError"
+          }
+      } else {
+          return {
+            success: false,
+            data: "badRequestError"
+          }
+      }
+    })
+    .catch(function (err) {
+      // Handle failure
+      console.log(`Axios error retrieving student profile: ${err}`)
+
+      // Unknown error occurred
+      return {
+        success: false,
+        data: "axiosError"
+      }
+    });
+}
+
 
 // Dashboard
 export async function getEnrollments(userId: number): Promise<any> {
