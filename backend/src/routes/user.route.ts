@@ -49,7 +49,7 @@ router.get('/:id/course/:courseId/assignments', async (req, res, next) => {
 });
 
 
-router.get('/user/:id/profile', async (req, res, next) => {
+router.get('/:id/profile', async (req, res, next) => {
   try {
     const result = await getUserProfile(req.body.id);
     res.status(result.status || 200).send(result.data);

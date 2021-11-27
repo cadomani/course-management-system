@@ -75,3 +75,13 @@ export type CourseAnnouncement = {
   description: string
   announcementDate: string
 }
+
+export type StudentProfile = {
+  id: number
+  name: string
+  major: string
+  email: string
+  biography: string
+  university: string
+  photo: string
+}
