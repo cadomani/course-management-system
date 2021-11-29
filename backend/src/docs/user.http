@@ -1,0 +1,15 @@
+@domain = http://localhost:5070
+@id = 102073
+@courseId = 4120
+
+GET {{domain}}/api/user/{{id}}/profile
+
+###
+
+
+GET {{domain}}/api/user/{{id}}/enrollments
+
+
+### 
+
+GET {{domain}}/api/user/{{id}}/course/{{courseId}}/assignments
