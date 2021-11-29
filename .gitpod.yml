@@ -3,7 +3,10 @@ ports:
   visibility: public
   onOpen: ignore
 - port: 5080
-  visibility: public
+  visibility: private
+  onOpen: open-browser
+- port: 6006
+  visibility: private
   onOpen: open-browser
 tasks:
 - init: npm run heroku-prebuild
