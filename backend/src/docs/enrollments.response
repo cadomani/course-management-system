@@ -1,0 +1,230 @@
+HTTP/1.1 200 OK
+Content-Security-Policy: default-src 'self';base-uri 'self';block-all-mixed-content;font-src 'self' https: data:;frame-ancestors 'self';img-src 'self' data:;object-src 'none';script-src 'self';script-src-attr 'none';style-src 'self' https: 'unsafe-inline';upgrade-insecure-requests
+X-DNS-Prefetch-Control: off
+Expect-CT: max-age=0
+X-Frame-Options: SAMEORIGIN
+Strict-Transport-Security: max-age=15552000; includeSubDomains
+X-Download-Options: noopen
+X-Content-Type-Options: nosniff
+X-Permitted-Cross-Domain-Policies: none
+Referrer-Policy: no-referrer
+X-XSS-Protection: 0
+Access-Control-Allow-Origin: *
+Content-Type: application/json; charset=utf-8
+Content-Length: 3323
+ETag: W/"cfb-CWGxwYH5jyz3hZHL6IJboIOuL4I"
+Date: Sun, 28 Nov 2021 22:49:13 GMT
+Connection: close
+
+[
+  {
+    "section": {
+      "id": 3714,
+      "availability": {
+        "course": {
+          "name": "Global Studies Human Sciences",
+          "credit_hours": 3,
+          "major": {
+            "name": "Global Studies/Human Sciences"
+          }
+        },
+        "academic_year": 2021,
+        "term": "fall",
+        "registration_start": "2021-04-05T00:00:00.000Z",
+        "registration_end": "2021-08-20T00:00:00.000Z"
+      },
+      "instructor": {
+        "profile": {
+          "name": "Abbi-Storm McCann",
+          "university": "Auburn University"
+        },
+        "department": [
+          {
+            "college": {
+              "name": "College of Human Sciences"
+            }
+          }
+        ]
+      },
+      "building": {
+        "name": "Mell Street Classroom Bldg",
+        "college": {
+          "name": "College of Human Sciences"
+        }
+      },
+      "section_start": "2021-08-16T00:00:00.000Z",
+      "section_end": "2021-12-10T00:00:00.000Z",
+      "course_tag": "GSHS 2000",
+      "schedule": "TR",
+      "room_num": "3510A"
+    }
+  },
+  {
+    "section": {
+      "id": 4120,
+      "availability": {
+        "course": {
+          "name": "CHS at AU in Italy: Integrated Global Studies",
+          "credit_hours": 6,
+          "major": {
+            "name": "Human Sciences, General"
+          }
+        },
+        "academic_year": 2021,
+        "term": "fall",
+        "registration_start": "2021-04-05T00:00:00.000Z",
+        "registration_end": "2021-08-20T00:00:00.000Z"
+      },
+      "instructor": {
+        "profile": {
+          "name": "Lacey Marie Armstrong",
+          "university": "Auburn University"
+        },
+        "department": [
+          {
+            "college": {
+              "name": "College of Human Sciences"
+            }
+          }
+        ]
+      },
+      "building": {
+        "name": "Charles E Davis Aerospace Hall",
+        "college": {
+          "name": "College of Human Sciences"
+        }
+      },
+      "section_start": "2021-08-16T00:00:00.000Z",
+      "section_end": "2021-12-10T00:00:00.000Z",
+      "course_tag": "HUSC 4010",
+      "schedule": "",
+      "room_num": null
+    }
+  },
+  {
+    "section": {
+      "id": 4117,
+      "availability": {
+        "course": {
+          "name": "Study Abroad Opportunities in Human Sciences",
+          "credit_hours": 2,
+          "major": {
+            "name": "Human Sciences, General"
+          }
+        },
+        "academic_year": 2021,
+        "term": "fall",
+        "registration_start": "2021-04-05T00:00:00.000Z",
+        "registration_end": "2021-08-20T00:00:00.000Z"
+      },
+      "instructor": {
+        "profile": {
+          "name": "Lacey Marie Armstrong",
+          "university": "Auburn University"
+        },
+        "department": [
+          {
+            "college": {
+              "name": "College of Human Sciences"
+            }
+          }
+        ]
+      },
+      "building": {
+        "name": "Charles E Davis Aerospace Hall",
+        "college": {
+          "name": "College of Human Sciences"
+        }
+      },
+      "section_start": "2021-08-16T00:00:00.000Z",
+      "section_end": "2021-12-10T00:00:00.000Z",
+      "course_tag": "HUSC 3380",
+      "schedule": "",
+      "room_num": null
+    }
+  },
+  {
+    "section": {
+      "id": 5502,
+      "availability": {
+        "course": {
+          "name": "Nutrition And Health",
+          "credit_hours": 3,
+          "major": {
+            "name": "Nutrition"
+          }
+        },
+        "academic_year": 2021,
+        "term": "fall",
+        "registration_start": "2021-04-05T00:00:00.000Z",
+        "registration_end": "2021-08-20T00:00:00.000Z"
+      },
+      "instructor": {
+        "profile": {
+          "name": "Onikia Nicole Brown",
+          "university": "Auburn University"
+        },
+        "department": [
+          {
+            "college": {
+              "name": "College of Human Sciences"
+            }
+          }
+        ]
+      },
+      "building": {
+        "name": "Langdon Hall",
+        "college": {
+          "name": "College of Human Sciences"
+        }
+      },
+      "section_start": "2021-08-16T00:00:00.000Z",
+      "section_end": "2021-12-10T00:00:00.000Z",
+      "course_tag": "NTRI 2000",
+      "schedule": "TR",
+      "room_num": "101"
+    }
+  },
+  {
+    "section": {
+      "id": 5514,
+      "availability": {
+        "course": {
+          "name": "Advanced Culinary Arts",
+          "credit_hours": 3,
+          "major": {
+            "name": "Nutrition"
+          }
+        },
+        "academic_year": 2021,
+        "term": "fall",
+        "registration_start": "2021-04-05T00:00:00.000Z",
+        "registration_end": "2021-08-20T00:00:00.000Z"
+      },
+      "instructor": {
+        "profile": {
+          "name": "Ana C Plana",
+          "university": "Auburn University"
+        },
+        "department": [
+          {
+            "college": {
+              "name": "College of Human Sciences"
+            }
+          }
+        ]
+      },
+      "building": {
+        "name": "Draughon Library",
+        "college": {
+          "name": "College of Human Sciences"
+        }
+      },
+      "section_start": "2021-08-16T00:00:00.000Z",
+      "section_end": "2021-12-10T00:00:00.000Z",
+      "course_tag": "NTRI 4970",
+      "schedule": "W",
+      "room_num": "3127"
+    }
+  }
+]
