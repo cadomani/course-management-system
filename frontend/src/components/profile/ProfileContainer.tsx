@@ -17,12 +17,12 @@ import {
   Avatar,
   AvatarBadge,
 } from "@chakra-ui/react";
-const DOMAIN = import.meta.env.VITE_DOMAIN;
+// const DOMAIN = import.meta.env.VITE_DOMAIN;
 
 /**
  * Container for the profile viewer
  */
-export default function ProfileContainer({userInfo}: {userInfo: object}) {
+export default function ProfileContainer({userInfo}: {userInfo: any}) {
   /*
    * Return component
    * Make image changeable? Put a variable instead of
