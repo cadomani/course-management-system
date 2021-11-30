@@ -1,40 +1,42 @@
-import logger from '@shared/Logger';
-import { Router, urlencoded } from 'express';
-import { getUserProfile, updateUserProfile, getUserProfilePhoto, replaceUserProfilePhoto } from '../services/user';
-import { generateFakeEnrollment, getStudentEnrollment, getStudentAssignments } from '../services/user';
-import { generateFakeAssignment, generateFakeAnnouncement } from '../services/course';
-
+import logger from "@shared/Logger";
+import { Router, urlencoded } from "express";
+import {
+  getUserProfile,
+  updateUserProfile,
+  getUserProfilePhoto,
+  replaceUserProfilePhoto,
+  generateFakeEnrollment,
+  getStudentEnrollment,
+  getStudentAssignments,
+} from "../services/user";
+import { 
+  generateFakeAssignment, 
+  generateFakeAnnouncement 
+} from "../services/course";
+import "../core/auth";
+import { loginRequired } from "src/util/dependencies";
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
 
-
-router.get('/:id/enrollmentsFake', async (_, res) => {
-  try {
-    const fakeEnrollments = await generateFakeEnrollment(5);
-    res.status(200).send(fakeEnrollments);
-  } catch (err) {
-    return res.status(500).send({
-      error: err || 'Something went wrong.',
-    });
-  }
-  return res;
+router.get("/:id/enrollmentsFake", async (_, res) => {
+  const fakeEnrollments = await generateFakeEnrollment(5);
+  res.status(200).send(fakeEnrollments);
 });
 
-router.get('/:id/enrollments', async (req, res, next) => {
-  try {
-    const userId = Number.parseInt(req.params.id);
-    const enrollments = await getStudentEnrollment(userId);
-    res.status(200).send(enrollments.data);
-  } catch (err) {
-    return res.status(500).send({
-      error: err || 'Something went wrong.',
-    });
+router.get("/:id/enrollments", loginRequired, async (req, res) => {
+  const userId = Number.parseInt(req.params.id);
+  if (isNaN(userId)) {
+    return res.status(422).send({
+      status: "error",
+      details: "An invalid userId was sent."
+    })
   }
-  return res;
+  const enrollments = await getStudentEnrollment(userId);
+  res.status(200).send(enrollments.data);
 });
 
-router.get('/:id/course/:courseId/assignments', async (req, res, next) => {
+router.get("/:id/course/:courseId/assignments", loginRequired, async (req, res) => {
   try {
     const userId = Number.parseInt(req.params.id);
     let fakeAssignments = await generateFakeAssignment(7);
@@ -43,28 +45,26 @@ router.get('/:id/course/:courseId/assignments', async (req, res, next) => {
     res.status(200).send(fakeAssignments);
   } catch (err) {
     return res.status(500).send({
-      error: err || 'Something went wrong.',
+      error: err || "Something went wrong.",
     });
   }
   return res;
 });
 
-
-router.get('/:id/profile', async (req, res, next) => {
+router.get("/:id/profile", loginRequired, async (req, res) => {
   try {
     const userId = Number.parseInt(req.params.id);
     const result = await getUserProfile(userId);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
-      error: err || 'Something went wrong.',
+      error: err || "Something went wrong.",
     });
   }
   return res;
 });
 
-
-router.patch('/user/:id/profile', async (req, res, next) => {  
+router.patch("/user/:id/profile", loginRequired, async (req, res) => {
   try {
     const options = {
       id: req.body.id,
@@ -75,31 +75,31 @@ router.patch('/user/:id/profile', async (req, res, next) => {
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
-      error: err || 'Something went wrong.',
+      error: err || "Something went wrong.",
     });
   }
   return res;
 });
 
-router.get('/user/:id/profilePhoto', async (req, res, next) => {
+router.get("/user/:id/profilePhoto", loginRequired, async (req, res) => {
   try {
     const result = await getUserProfilePhoto(req.body.id);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
-      error: err || 'Something went wrong.',
+      error: err || "Something went wrong.",
     });
   }
   return res;
 });
 
-router.put('/user/:id/profilePhoto', async (req, res, next) => {
+router.put("/user/:id/profilePhoto", loginRequired, async (req, res) => {
   try {
     const result = await replaceUserProfilePhoto(req.body.id);
     res.status(result.status || 200).send(result.data);
   } catch (err) {
     return res.status(500).send({
-      error: err || 'Something went wrong.',
+      error: err || "Something went wrong.",
     });
   }
   return res;
