@@ -36,7 +36,8 @@ model assessment {
 model assignment {
   id              Int         @id @default(autoincrement())
   uuid            Int         @unique(map: "uuid")
-  content_type    String      @db.VarChar(255)
+  title           String?     @db.VarChar(255)
+  content         String?     @db.VarChar(1000)
   points          Float?
   possible        Float?
   due_date        DateTime?   @db.DateTime(0)
@@ -149,8 +150,9 @@ model major {
 
 model messaging {
   id            Int         @id @default(autoincrement())
-  enrollment_id Int?
   sent_date     DateTime    @db.DateTime(0)
+  enrollment_id Int?
+  title         String?     @db.VarChar(255)
   content       String      @db.VarChar(1000)
   enrollment    enrollment? @relation(fields: [enrollment_id], references: [id], onDelete: NoAction, onUpdate: NoAction, map: "messaging_ibfk_1")
 
