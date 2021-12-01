@@ -1,3 +1,4 @@
+/* tslint:disable */
 // Libraries
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -19,7 +20,7 @@ import {
  * Main launching point
  */
 export const App = () => {
-  const [authenticated, setAuthenticated] = useState<boolean>(true);
+  const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [presentedView, setPresentedView] = useState<JSX.Element>();
   const [userInfo, setUserInfo] = useState<StudentProfile>();
   const toast = useToast();
@@ -27,31 +28,10 @@ export const App = () => {
 
   // Check authentication status on load
   useEffect(() => {
-    // TODO: Submit cookie/jwt and follow based on response
-    setAuthenticated(true);
-    (async () => {
-      const res = await getStudentProfile(102073)
-      if (typeof res !== 'undefined') {
-        if (res.success) {
-          setPresentedView(<DashboardPage userInfo={ res.data }/>);
-        } else {
-          if (res.data == "parseError") {
-            toast(BackendParseErrorToast);
-            setPresentedView(<AuthenticationPage />)
-          } else if (res.data == "authenticationError") {
-            toast(BackendAuthenticationToast)
-            // navigate("/login", { replace: true })
-            setPresentedView(<AuthenticationPage />)
-          } else {
-            toast(BackendBadRequestToast)
-            setPresentedView(<AuthenticationPage />)
-          }
-        }
-      } else {
-        toast(BackendConnectionToast)
-        setPresentedView(<AuthenticationPage />)
-      }
-    })();
+    // TODO: Submit cookie
+    //navigate('/dashboard/102073');
+    setPresentedView(<AuthenticationPage />);
+    //setPresentedView(<DashboardPage />)
   }, [])
 
   return (

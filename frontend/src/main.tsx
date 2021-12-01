@@ -45,7 +45,7 @@ ReactDOM.render(
       <Route path="/" element={<App />} >
         <Route path="login" element={<LoginPage />} />
         <Route path="registration" element={<RegistrationPage />} />
-        <Route path="dashboard" element={<DashboardPage userId={12345} />} />
+        <Route path="dashboard/:userId" element={<DashboardPage />} />
         {/* <Route
           path="*"
           element={

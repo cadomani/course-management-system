@@ -1,7 +1,7 @@
 
 // Libraries
 import { useState, useEffect } from 'react';
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { IoSchool } from "react-icons/io5";
 
 // Views
@@ -11,7 +11,7 @@ import ProfileContainer from './profile/ProfileContainer';
 
 // Types
 import { StudentEnrollment, StudentProfile } from '../shared/types'
-import { BackendAuthenticationToast, BackendBadRequestToast, BackendConnectionToast, BackendParseErrorToast, getEnrollments } from '../shared/common'
+import { BackendAuthenticationToast, BackendBadRequestToast, BackendConnectionToast, BackendParseErrorToast, getEnrollments, getStudentProfile } from '../shared/common'
 
 // Chakra
 import {
@@ -30,33 +30,60 @@ import {
 /**
  * Main view after login. Every element should be accessible directly from here or through here.
  */
-export default function DashboardPage({ userInfo }: { userInfo: StudentProfile }): JSX.Element {
+export default function DashboardPage(): JSX.Element {
   const [enrollments, setEnrollments] = useState<StudentEnrollment[]>();
+  const [studentProfile, setStudentProfile] = useState<StudentProfile>();
   const [activeCourse, setActiveCourse] = useState<StudentEnrollment>();
   const [activeLeftPanelView, setActiveLeftPanelView] = useState<JSX.Element>();
   const navigate = useNavigate();
   const toast = useToast();
-
-  // Retrieve course enrollments from server
+  let params = useParams()
+  console.log(params);
+  
+  // Retrieve student profile and course enrollments from server
   useEffect(() => {
     (async () => {
-      const res = await getEnrollments(userInfo.id)
-      if (typeof res !== 'undefined') {
-        if (res.success) {
-          setActiveCourse(res.data[0]);
-          setEnrollments(res.data);
-        } else {
-          if (res.data == "parseError") {
-            toast(BackendParseErrorToast);
-          } else if (res.data == "authenticationError") {
-            toast(BackendAuthenticationToast)
-            navigate("/login", { replace: true })
+      if (typeof params !== 'undefined' && typeof params.userId !== 'undefined') {
+        const res = await getStudentProfile(Number.parseInt(params.userId))
+        if (typeof res !== 'undefined') {
+          if (res.success) {
+            setStudentProfile(res.data[0]);
           } else {
-            toast(BackendBadRequestToast)
-          }
+            if (res.data == "parseError") {
+              navigate("/login", { replace: true })
+            } else if (res.data == "authenticationError") {
+              navigate("/login", { replace: true })
+            } else {
+              navigate("/login", { replace: true })
+            }
+          }      
         }
       } else {
-        toast(BackendConnectionToast)
+        navigate("/login", { replace: true })
+      }
+    })();
+
+    (async () => {
+      if (typeof params !== 'undefined' && typeof params.userId !== 'undefined') {
+        const res = await getEnrollments(Number.parseInt(params.userId));
+        if (typeof res !== 'undefined') {
+          if (res.success) {
+            setActiveCourse(res.data[0]);
+            setEnrollments(res.data);
+          } else {
+            console.log(res.data)
+            if (res.data == "parseError") {
+              toast(BackendParseErrorToast);
+            } else if (res.data == "authenticationError") {
+              toast(BackendAuthenticationToast)
+              navigate("/login", { replace: true })
+            } else {
+              toast(BackendBadRequestToast)
+            }
+          }
+        } else {
+          toast(BackendConnectionToast)
+        }
       }
     })();
   }, []);
@@ -87,8 +114,13 @@ export default function DashboardPage({ userInfo }: { userInfo: StudentProfile }
 
           <Spacer />
           <Divider />
-          <Avatar name="Oshigaki Kisame" iconLabel="Profile" src="https://bit.ly/broken-link" marginTop="10px" onClick={() => setActiveLeftPanelView(<ProfileContainer userInfo={userInfo} />)} />
-
+          <Avatar 
+            name="Oshigaki Kisame" 
+            iconLabel="Profile" 
+            src="" 
+            marginTop="10px" 
+            onClick={() => setActiveLeftPanelView(<ProfileContainer userInfo={ studentProfile } />)} 
+          />
         </Flex>
 
         {/* Main Course View */}
