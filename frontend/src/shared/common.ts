@@ -9,7 +9,7 @@ import {
 } from "@chakra-ui/react"
 
 // Types
-import { StudentEnrollment, StudentProfile, DOMAIN } from '../shared/types'
+import { StudentEnrollment, StudentProfile, DOMAIN, CourseAssignment, CourseAnnouncement } from '../shared/types'
 
 
 // Toasts
@@ -175,13 +175,52 @@ export async function getEnrollments(userId: number): Promise<any> {
 }
 
 // Course Container
-export async function getCourseDeliverables(courseId: number, context: string): Promise<any> {
-  return await axios.get(`${DOMAIN}/api/course/${courseId}/${context}`)
+export async function getCourseDeliverables(courseId: number, userId: number, context: string): Promise<any> {
+  return await axios.get(`${DOMAIN}/api/user/${userId}/course/${courseId}/${context}`)
     .then(function (res) {
-      return {
-        success: true,
-        data: res.data
+      // Process incoming data 
+      try {
+        if (context === "assignments") {
+          let assignments: CourseAssignment[] = [];
+          for(let x in res.data.assignment) {
+            assignments.push({
+              id: res.data.assignment[x].id,
+              title: res.data.assignment[x].title,
+              description: res.data.assignment[x].content,
+              isComplete: res.data.assignment[x].submission_date ? true : false,
+              dueDate: dateToHumanReadable(new Date(res.data.assignment[x].due_date))
+            })
+          }
+          
+          // Send back parsed data
+          return {
+            success: true,
+            data: assignments
+          }
+        } else if (context === "announcements") {
+          let announcements: CourseAnnouncement[] = [];
+          for (let x in res.data.messaging) {
+            announcements.push({
+              id: res.data.messaging[x].id,
+              title: res.data.messaging[x].title,
+              description: res.data.messaging[x].content,
+              announcementDate: dateToHumanReadable(new Date(res.data.messaging[x].sent_date))
+            })
+          }
+
+          // Send back parsed data
+          return {
+            success: true,
+            data: announcements
+          }
+        }
+      } catch {
+        return {
+          success: false,
+          data: "parseError"
+        }
       }
+    
     })
     .catch(function (err) {
       // Handle failure

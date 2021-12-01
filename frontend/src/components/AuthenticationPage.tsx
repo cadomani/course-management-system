@@ -23,17 +23,17 @@ import {
 import bg2 from '../../images/au-bg2.png';
 // import bg3 from '../images/au-bg3.png';
 
-export default function AuthenticationPage() {
+export default function AuthenticationPage({context}: {context: string}) {
   let navigate = useNavigate();
 
   // TODO: Verify login status and redirect to login page
   useEffect(() => {
-    navigate("/login", { replace: true });
+    navigate(`/${context}`, { replace: true });
   }, [])
 
   // Return component
   return (
-    <ChakraProvider theme={theme}>
+    <ChakraProvider>
       {/* Split up as 1/3 registration and 2/3 photo container */}
       <Grid templateColumns="repeat(3, 1fr)">
         <GridItem colSpan={1}>
@@ -58,7 +58,7 @@ export default function AuthenticationPage() {
           </AnimatePresence>
         </GridItem>
       </Grid>
-    </ChakraProvider>
+    </ ChakraProvider>
   )
 }
 

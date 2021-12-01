@@ -9,7 +9,6 @@ export function PopToast({ toastOptions }: { toastOptions: UseToastOptions }): n
   // Run only during initial call
   const toast = useToast();
   useEffect(() => {
-    console.log('popping toast');
     (() =>
       toast(toastOptions)
     )();

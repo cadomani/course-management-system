@@ -1,6 +1,5 @@
 import prisma from '@shared/Database'; 
 import logger from '@shared/Logger';
-import faker, { fake } from 'faker';
 
 // ORM convenience mapping
 const Course = prisma.course;
@@ -19,52 +18,44 @@ export type CourseAnnouncement = {
   announcementDate: string
 }
 
-export async function generateFakeAssignment(amount: number) {
-  let assignments: CourseAssignment[] = []
-  for (var i = 0; i < amount; i++) {
-    assignments.push({
-      title: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      isComplete: faker.datatype.boolean(),
-      dueDate: faker.date.soon(15, new Date()).toLocaleDateString('en-US')
-    })
-  }
+export async function getCourseAnnouncements(userId: number) {
+  let data: any;
+  let assignments: CourseAnnouncement[]
 
-  return assignments;
+  // data = await prisma.student.findFirst({  
+  //   where: {
+  //     profile_id: userId
+  //   },
+  //   select: {
+  //     enrollment: {
+  //       select: {
+  //         an: {
+  //           select: {
+  //             id: true,
+  //             uuid: true,
+  //             title: true,
+  //             content: true,
+  //             points: true,
+  //             possible: true,
+  //             submission_date: true,
+  //             due_date: true
+  //           }
+  //         }
+  //       }
+  //     }
+  //   }
+  // })
+
+  // for (var i = 0; i < amount; i++) {
+  //   assignments.push({
+  //     title: faker.commerce.productName(),
+  //     description: faker.commerce.productDescription(),
+  //     dueDate: faker.date.soon(15, new Date()).toLocaleDateString('en-US')
+  //   })
+  // }
+
+  return data;
 }
-
-export async function generateFakeAnnouncement(amount: number) {
-  let announcements: CourseAnnouncement[] = []
-  for (var i = 0; i < amount; i++) {
-    announcements.push({
-      title: faker.commerce.productName(),
-      description: faker.commerce.productDescription(),
-      announcementDate: faker.date.soon(15, new Date()).toLocaleDateString('en-US')
-    })
-  }
-
-  return announcements;
-}
-
-// /**
-//  * DEBUG: List all users in the database
-//  * Access: Restricted
-//  * @param {*} options 
-//  * @returns 
-//  */
-// export async function listCourses(options: any) {
-  
-//   const data = await Course.findMany();
-//   if (!data) {
-//     throw new Error('Data not found in database.');
-//   }
-//   const status = 200;
-
-//   return {
-//     status,
-//     data,
-//   };
-// }
 
 // /**
 //  * Create a new course

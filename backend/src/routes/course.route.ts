@@ -1,83 +1,23 @@
 import logger from '@shared/Logger';
 import { Router, urlencoded } from 'express';
-// import { listCourses, createCourse, replaceCourse, updateCourse } from '../services/course';
-import { generateFakeAssignment, generateFakeAnnouncement } from '../services/course';
+import { getCourseAnnouncements } from '../services/course';
 
 const router = Router();
 router.use(urlencoded({ extended: true }));
 
-// TEMPORARY MAPPINGS
-router.get('/:courseId/assignments', async (req, res, next) => {
-  try {
-    // const result = await listCourses(options);
-    let fakeAssignments = await generateFakeAssignment(7);
-    res.status(200).send(fakeAssignments);
-  } catch (err) {
-    return res.status(500).send({
-      error: err || 'Something went wrong.',
-    });
-  }
-  return res;
-});
 
 router.get('/:courseId/announcements', async (req, res, next) => {
-  try {
-    // const result = await listCourses(options);
-    let fakeAnnouncements = await generateFakeAnnouncement(7);
-    res.status(200).send(fakeAnnouncements);
-  } catch (err) {
-    return res.status(500).send({
-      error: err || 'Something went wrong.',
-    });
+  const courseId = Number.parseInt(req.params.courseId);
+  if (isNaN(courseId)) {
+    return res.status(422).send({
+      status: "error",
+      details: "An invalid userId was sent."
+    })
   }
-  return res;
+
+  // const result = await listCourses(options);
+  let announcements = await getCourseAnnouncements(courseId);
+  return res.status(200).send(announcements);
 });
-
-// router.post('/', async (req, res, next) => {
-//   const options = {
-//   };
-
-//   try {
-//     const result = await createCourse(options);
-//     res.status(result.status || 200).send(result.data);
-//   } catch (err) {
-//     return res.status(500).send({
-//       error: err || 'Something went wrong.',
-//     });
-//   }
-//   return res;
-// });
-
-// router.put('/:id', async (req, res, next) => {
-//   const options = {
-//     id: req.params.id,
-//   };
-
-//   try {
-//     const result = await replaceCourse(options);
-//     res.status(result.status || 200).send(result.data);
-//   } catch (err) {
-//     return res.status(500).send({
-//       error: err || 'Something went wrong.',
-//     });
-//   }
-//   return res;
-// });
-
-// router.patch('/:id', async (req, res, next) => {
-//   const options = {
-//     id: req.params.id,
-//   };
-
-//   try {
-//     const result = await updateCourse(options);
-//     res.status(result.status || 200).send(result.data);
-//   } catch (err) {
-//     return res.status(500).send({
-//       error: err || 'Something went wrong.',
-//     });
-//   }
-//   return res;
-// });
 
 export default router;

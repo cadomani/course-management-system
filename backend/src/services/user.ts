@@ -1,20 +1,13 @@
-import { Prisma } from '@prisma/client';
 import prisma from '@shared/Database';
 import logger from '@shared/Logger';
 import {
-  ProfileIdentity,
-  UpdateProfile,
-  QualifiedProfile,
-  NonQualifiedProfile,
   ResponseFormat
 } from '../schemas/user';
-import faker, { fake } from 'faker';
 
 
 // ORM convenience mapping
 const User = prisma.profile;
 const Student = prisma.student;
-const Enrollment = prisma.enrollment;
 
 // Types
 type EnrollmentData = {
@@ -57,22 +50,6 @@ export type StudentProfile = {
   biography: string
   university: string
   photo: string
-}
-
-// Fake Information
-export async function generateFakeEnrollment(amount: number) {
-  let enrollments: EnrollmentData[] = []
-  for (var i = 0; i < amount; i++) {
-    enrollments.push({
-      id: faker.datatype.number(),
-      name: faker.commerce.productName(),
-      instructor: faker.name.findName(),
-      courseId: `${faker.hacker.abbreviation()} ${faker.datatype.number()}`,
-      start: faker.date.recent(3, '08-16-2021').toLocaleDateString('en-US'),
-      end: faker.date.recent(5, '12-7-2021').toLocaleDateString('en-US')
-    })
-  }
-  return enrollments;
 }
 
 export async function getStudentEnrollment(userId: number) {
@@ -155,36 +132,51 @@ export async function getStudentEnrollment(userId: number) {
 }
 
 
-export async function getStudentAssignments(userId: number) {
+export async function getStudentAssignments(userId: number, courseId: number) {
  let data: any;
-  data = await Student.findFirst({  
+  data = await prisma.enrollment.findFirst({  
     where: {
-      profile_id: userId
+      AND: {
+        student: {
+          profile_id: userId
+        },
+        section_id: courseId,
+      }
     },
     select: {
-      enrollment: {
-        select: {
-          assignment: {
-            select: {
-              id: true,
-              uuid: true,
-              content_type: true,
-              points: true,
-              possible: true,
-              due_date: true
-            }
-          }
-        }
-      }
+      assignment: true
     }
   })
 
   // Send success in either case
   return {
     status: 200,
-    data: (typeof data === null || Object.keys(data.enrollment).length == 0) ? {} : data.enrollment,
+    data: (typeof data === null || Object.keys(data.assignment).length == 0) ? {} : data,
   };
 }
+
+export async function getStudentAnnouncements(userId: number, courseId: number) {
+  let data: any;
+   data = await prisma.enrollment.findFirst({  
+     where: {
+       AND: {
+         student: {
+           profile_id: userId
+         },
+         section_id: courseId,
+       }
+     },
+     select: {
+       messaging: true
+     }
+   })
+   console.log(data);
+   // Send success in either case
+   return {
+     status: 200,
+     data: (typeof data === null || Object.keys(data.messaging).length == 0) ? {} : data,
+   };
+ }
 
 /**
  * Retrieve the user profile
@@ -217,73 +209,3 @@ export async function getUserProfile(id: number): Promise<ResponseFormat> {
     data: (data === null || Object.keys(data).length == 0) ? {} : data,
   };
 }
-
-/**
- * Update the user profile
- */
-export async function updateUserProfile(options: any): Promise<ResponseFormat> {
-  // Create the base profile from options
-  let newProfile: Prisma.profileUpdateInput = {
-    name: options.name,
-    biography: options.biography,
-  };
-
-  const data = await User.update({
-    where: {
-      id: options.id
-    },
-    data: newProfile
-  })
-
-  return {
-    status: 200,
-    data: {
-      publicId: data.id,
-    },
-  };
-}
-
-
-/**
-* Replace public profile photo of a user
-*/
-export async function getUserProfilePhoto(options: string) {
-  // Check for presence of UUID header
-  if (options == undefined) {
-    logger.err('This resource cannot be retrieved.');
-    return {
-      status: 400,
-      data: "This resource cannot be retrieved."
-    };
-  }
-
-  const data = {};
-  const status = 200;
-
-  return {
-    status,
-    data,
-  };
-}
-
-/**
-* Replace public profile photo of a user
-*/
-export async function replaceUserProfilePhoto(options: string) {
-  // Check for presence of UUID header
-  if (options === undefined) {
-    logger.err('This resource cannot be retrieved');
-    return {
-      status: 400,
-      data: "This resource cannot be retrieved."
-    };
-  }
-  const data = {};
-  const status = 200;
-
-  return {
-    status,
-    data,
-  };
-}
-

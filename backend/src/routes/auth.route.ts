@@ -22,14 +22,7 @@ router.post(
     session: true
   }),
   function (req, res, next) {
-    try {
-      res.status(200).send(req.user);
-    } catch (err) {
-      logger.err('An error occurred while attempting to log in: ' + err);
-      return res.status(500).send({
-        error: err || 'Something went wrong.',
-      });
-    }
+    res.status(200).send(req.user);
   });
 
 

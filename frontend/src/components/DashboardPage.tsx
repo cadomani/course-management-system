@@ -37,8 +37,7 @@ export default function DashboardPage(): JSX.Element {
   const [activeLeftPanelView, setActiveLeftPanelView] = useState<JSX.Element>();
   const navigate = useNavigate();
   const toast = useToast();
-  let params = useParams()
-  console.log(params);
+  const params = useParams()
   
   // Retrieve student profile and course enrollments from server
   useEffect(() => {
@@ -65,7 +64,6 @@ export default function DashboardPage(): JSX.Element {
             setActiveCourse(res.data[0]);
             setEnrollments(res.data);
           } else {
-            console.log(res.data)
             if (res.data == "parseError") {
               toast(BackendParseErrorToast);
             } else if (res.data == "authenticationError") {
@@ -119,8 +117,14 @@ export default function DashboardPage(): JSX.Element {
         </Flex>
 
         {/* Main Course View */}
-        <Box width="95%" paddingLeft="20px">
-          {typeof activeCourse !== 'undefined' && typeof enrollments !== 'undefined' && <CourseContainer course={ activeCourse } />}
+        <Box width="95%" paddingLeft="20px"> 
+          {
+            typeof activeCourse !== 'undefined' 
+            && typeof enrollments !== 'undefined' 
+            && typeof params !== 'undefined' 
+            && typeof params.userId !== 'undefined' 
+            && <CourseContainer course={ activeCourse } user={ Number.parseInt(params.userId) } />
+          }
         </Box>
       </Flex>
     </>

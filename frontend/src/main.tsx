@@ -21,6 +21,7 @@ import DashboardPage from './components/DashboardPage';
 import {
   ChakraProvider
 } from "@chakra-ui/react"
+import AuthenticationPage from './components/AuthenticationPage';
 
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
@@ -50,16 +51,8 @@ ReactDOM.render(
       <Routes>
         <Route path="/" element={<App />} >
           <Route path="login" element={<LoginPage />} />
-          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="registration" element={<RegistrationPage/>} />
           <Route path="user/:userId/dashboard" element={<DashboardPage />} />
-          {/* <Route
-            path="*"
-            element={
-              <main>
-                <p>There's nothing here!</p>
-              </main>
-            }
-          /> */}
         </Route>
       </Routes>
     </BrowserRouter>

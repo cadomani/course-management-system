@@ -17,7 +17,7 @@ import { BackendConnectionToast, BackendBadRequestToast, BackendAuthenticationTo
 /**
  * Root view when accessing a course. Becomes a launching point for modules, assignments, assessments, syllabus, and more.
  */
-export default function CourseContainer({ course }: { course: StudentEnrollment }) {
+export default function CourseContainer({ course, user }: { course: StudentEnrollment, user: number }) {
   const [assignments, setAssignments] = useState<CourseAssignment[]>();
   const [announcements, setAnnouncements] = useState<CourseAnnouncement[]>();
   const toast = useToast();
@@ -26,7 +26,7 @@ export default function CourseContainer({ course }: { course: StudentEnrollment 
   // Retrieve assignments and assessments using a common handler
   useEffect(() => {
     const init = async (context: string, setter: any) => {
-      const resAssignments = await getCourseDeliverables(course.id, context);
+      const resAssignments = await getCourseDeliverables(course.id, user, context);
       if (typeof resAssignments !== 'undefined') {
         if (resAssignments.success) {
           setter(resAssignments.data);
@@ -46,7 +46,7 @@ export default function CourseContainer({ course }: { course: StudentEnrollment 
     // Pull assignments
     init('assignments', setAssignments);
 
-    // Pull announcements
+    //Pull announcements
     init('announcements', setAnnouncements);
   }, []);
 
