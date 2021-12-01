@@ -159,12 +159,12 @@ export async function createStudent(newStudent: any): Promise<ResponseFormat> {
   if (student === null || Object.keys(student).length == 0) {
     return {
       status: 403,
-      data: { publicId: '' }
+      data: {}
     };
   }
   return {
     status: 201,
-    data: { publicId: student.profile_id },
+    data: { id: student.profile_id },
   };
 }
 

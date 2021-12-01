@@ -22,23 +22,18 @@ import {
 export const App = () => {
   const [authenticated, setAuthenticated] = useState<boolean>(false);
   const [presentedView, setPresentedView] = useState<JSX.Element>();
-  const [userInfo, setUserInfo] = useState<StudentProfile>();
-  const toast = useToast();
   let navigate = useNavigate();
 
   // Check authentication status on load
   useEffect(() => {
-    // TODO: Submit cookie
-    //navigate('/dashboard/102073');
+    // TODO: Attempt to return to dashboard using previously set cookie
     setPresentedView(<AuthenticationPage />);
     //setPresentedView(<DashboardPage />)
   }, [])
 
   return (
     <>
-      <ChakraProvider>
-        {presentedView}
-      </ChakraProvider>
+      {presentedView}
     </>
   )
 }

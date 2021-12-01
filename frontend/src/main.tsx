@@ -17,6 +17,11 @@ import LoginPage from './components/login/LoginPage';
 import RegistrationPage from './components/registration/RegistrationPage';
 import DashboardPage from './components/DashboardPage';
 
+// Chakra
+import {
+  ChakraProvider
+} from "@chakra-ui/react"
+
 const SENTRY_DSN = import.meta.env.VITE_SENTRY_DSN;
 const SENTRY_ENVIRONMENT = import.meta.env.VITE_SENTRY_ENVIRONMENT;
 const SENTRY_ENABLE = import.meta.env.VITE_SENTRY_ENABLE || "false";
@@ -40,22 +45,25 @@ if (typeof SENTRY_ENABLE !== 'string' || SENTRY_ENABLE === 'false') {
 }
 
 ReactDOM.render(
-  <BrowserRouter>
-    <Routes>
-      <Route path="/" element={<App />} >
-        <Route path="login" element={<LoginPage />} />
-        <Route path="registration" element={<RegistrationPage />} />
-        <Route path="dashboard/:userId" element={<DashboardPage />} />
-        {/* <Route
-          path="*"
-          element={
-            <main>
-              <p>There's nothing here!</p>
-            </main>
-          }
-        /> */}
-      </Route>
-    </Routes>
-  </BrowserRouter>,
+  <ChakraProvider>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<App />} >
+          <Route path="login" element={<LoginPage />} />
+          <Route path="registration" element={<RegistrationPage />} />
+          <Route path="user/:userId/dashboard" element={<DashboardPage />} />
+          {/* <Route
+            path="*"
+            element={
+              <main>
+                <p>There's nothing here!</p>
+              </main>
+            }
+          /> */}
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </ChakraProvider>
+  ,
   document.getElementById('root')
 )

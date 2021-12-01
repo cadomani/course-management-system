@@ -49,13 +49,7 @@ export default function DashboardPage(): JSX.Element {
           if (res.success) {
             setStudentProfile(res.data[0]);
           } else {
-            if (res.data == "parseError") {
-              navigate("/login", { replace: true })
-            } else if (res.data == "authenticationError") {
-              navigate("/login", { replace: true })
-            } else {
-              navigate("/login", { replace: true })
-            }
+            navigate("/login", { replace: true })
           }      
         }
       } else {
@@ -76,13 +70,14 @@ export default function DashboardPage(): JSX.Element {
               toast(BackendParseErrorToast);
             } else if (res.data == "authenticationError") {
               toast(BackendAuthenticationToast)
-              navigate("/login", { replace: true })
             } else {
               toast(BackendBadRequestToast)
             }
+            navigate("/login", { replace: true })
           }
         } else {
           toast(BackendConnectionToast)
+          navigate("/login", { replace: true })
         }
       }
     })();
@@ -115,7 +110,7 @@ export default function DashboardPage(): JSX.Element {
           <Spacer />
           <Divider />
           <Avatar 
-            name="Oshigaki Kisame" 
+            name={studentProfile?.name || ""} 
             iconLabel="Profile" 
             src="" 
             marginTop="10px" 

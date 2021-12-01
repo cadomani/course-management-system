@@ -110,16 +110,16 @@ export default function LoginPage() {
         email: email,
         password: password
       })
-        .then(function (response) {
+        .then(function (res) {
           // Handle success (200 OK)
           setErrorToast({
-            title: `Welcome, ${response.data.name}!`,
+            title: `Welcome, ${res.data.name}!`,
             description: 'Redirecting...',
             status: 'success',
             isClosable: false,
             position: 'top'
           })
-          navigate("/dashboard", { replace: true });
+          navigate(`/user/${res.data.id}/dashboard`, { replace: true });
         })
         .catch(function (error) {
           // Handle failure (401 Forbidden)

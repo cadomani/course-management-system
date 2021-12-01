@@ -81,9 +81,9 @@ export default function RegistrationPage() {
       // Push the request out to the server
       (async () => {
         await axios.post(`${DOMAIN}/api/registration`, params.toString())  // URL path is wrong here, on next push, it can be corrected to /api/register
-          .then(function (response) {
+          .then(function (res) {
             // Handle success (201 Created)
-            navigate("/dashboard", { replace: true });
+            navigate(`/user/${res.data.id}/dashboard`, { replace: true });
           })
           .catch(function (error) {
             // Handle failure
