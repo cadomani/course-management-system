@@ -48,7 +48,7 @@ export default function CourseContainer({ course, user }: { course: StudentEnrol
 
     //Pull announcements
     init('announcements', setAnnouncements);
-  }, []);
+  }, [,course]);
 
   // Return component
   return (

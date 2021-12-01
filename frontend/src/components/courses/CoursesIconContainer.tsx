@@ -18,8 +18,6 @@ export default function CoursesIconContainer({enrollment, activeCourse}: {enroll
   return (
     <>
       {enrollment.map((data: StudentEnrollment, i: number) => {
-        let section = data.tag.split(" ");
-        // This may not be needed, send full course and access things inside
         return (
           <Box key={i}>
             <CourseIcon
