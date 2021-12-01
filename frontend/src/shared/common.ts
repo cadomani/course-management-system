@@ -23,7 +23,7 @@ export const BackendConnectionToast: UseToastOptions = {
 
 export const BackendAuthenticationToast: UseToastOptions = {
   title: "Authentication Warning",
-  description: "Please log in first to make that request.",
+  description: "Please log in before making that request.",
   status: "warning",
   position: "top",
   isClosable: false
@@ -57,50 +57,51 @@ export const AssignmentSubmissionToast: UseToastOptions = {
 export async function getStudentProfile(userId: number): Promise<any> {
   return await axios.get(`${DOMAIN}/api/user/${userId}/profile`)
     .then(function (res) {
-      if (res.status === 200) {
-        // Process incoming data
-        try {
-          let studentProfile: StudentProfile = {
-            id: res.data.id,
-            name: res.data.name,
-            major: res.data.student[0].major,
-            email: res.data.email,
-            biography: res.data.biograpy,
-            university: res.data.university,
-            photo: res.data.photo
-          }
-          // Send back parsed data
-          return {
-            success: true,
-            data: studentProfile
-          }
-        } catch {
-          return {
-            success: false,
-            data: "parseError"
-          }
+      // Process incoming data
+      try {
+        let studentProfile: StudentProfile = {
+          id: res.data.id,
+          name: res.data.name,
+          major: res.data.student[0].major,
+          email: res.data.email,
+          biography: res.data.biograpy,
+          university: res.data.university,
+          photo: res.data.photo
         }
-      } else if (res.status === 401) {
-          return {
-            success: false,
-            data: "authenticationError"
-          }
-      } else {
-          return {
-            success: false,
-            data: "badRequestError"
-          }
+        // Send back parsed data
+        return {
+          success: true,
+          data: studentProfile
+        }
+      } catch {
+        return {
+          success: false,
+          data: "parseError"
+        }
       }
     })
     .catch(function (err) {
       // Handle failure
       console.log(`Axios error retrieving student profile: ${err}`)
-
-      // Unknown error occurred
-      return {
-        success: false,
-        data: "axiosError"
-      }
+      
+      // Handle error responses
+      if (err.response.status === 401) {
+        return {
+          success: false,
+          data: "authenticationError"
+        }
+      } else if (err.response.status === 400) {
+        return {
+          success: false,
+          data: "badRequestError"
+        }
+      } else {
+        // Unknown error occurred
+        return {
+          success: false,
+          data: "axiosError"
+        }
+      } 
     });
 }
 
@@ -109,66 +110,67 @@ export async function getStudentProfile(userId: number): Promise<any> {
 export async function getEnrollments(userId: number): Promise<any> {
   return await axios.get(`${DOMAIN}/api/user/${userId}/enrollments`)
     .then(function (res) {
-      if (res.status === 200) {
-        // Process incoming data
-        try {
-          let studentEnrollment: StudentEnrollment[] = [];
-          for (let x in res.data) {
-            studentEnrollment.push({
-              id: res.data[x].section.id,
-              name: res.data[x].section.availability.course.name,
-              creditHours: res.data[x].section.availability.course.credit_hours,
-              major: res.data[x].section.availability.course.major.name,
-              academicYear: res.data[x].section.availability.academic_year,
-              term: res.data[x].section.availability.term,
-              registrationStart: new Date(res.data[x].section.availability.registration_start),
-              registrationEnd: new Date(res.data[x].section.availability.registration_end),
-              sectionStart: new Date(res.data[x].section.section_start),
-              sectionEnd: new Date(res.data[x].section.section_end),
-              instructor: {
-                name: res.data[x].section.instructor.profile.name,
-                university: res.data[x].section.instructor.profile.university,
-                department: res.data[x].section.instructor.department[0].college.name
-              },
-              college: res.data[x].section.building.college.name,
-              building: res.data[x].section.building.name,
-              tag: res.data[x].section.course_tag,
-              schedule: res.data[x].section.schedule,
-              roomNumber: res.data[x].section.room_num
-            })
-          }
-          // Send back parsed data
-          return {
-            success: true,
-            data: studentEnrollment
-          }
-        } catch {
-          return {
-            success: false,
-            data: "parseError"
-          }
+      // Process incoming data
+      try {
+        let studentEnrollment: StudentEnrollment[] = [];
+        for (let x in res.data) {
+          studentEnrollment.push({
+            id: res.data[x].section.id,
+            name: res.data[x].section.availability.course.name,
+            creditHours: res.data[x].section.availability.course.credit_hours,
+            major: res.data[x].section.availability.course.major.name,
+            academicYear: res.data[x].section.availability.academic_year,
+            term: res.data[x].section.availability.term,
+            registrationStart: new Date(res.data[x].section.availability.registration_start),
+            registrationEnd: new Date(res.data[x].section.availability.registration_end),
+            sectionStart: new Date(res.data[x].section.section_start),
+            sectionEnd: new Date(res.data[x].section.section_end),
+            instructor: {
+              name: res.data[x].section.instructor.profile.name,
+              university: res.data[x].section.instructor.profile.university,
+              department: res.data[x].section.instructor.department[0].college.name
+            },
+            college: res.data[x].section.building.college.name,
+            building: res.data[x].section.building.name,
+            tag: res.data[x].section.course_tag,
+            schedule: res.data[x].section.schedule,
+            roomNumber: res.data[x].section.room_num
+          })
         }
-      } else if (res.status === 401) {
-          return {
-            success: false,
-            data: "authenticationError"
-          }
-      } else {
-          return {
-            success: false,
-            data: "badRequestError"
-          }
+        // Send back parsed data
+        return {
+          success: true,
+          data: studentEnrollment
+        }
+      } catch {
+        return {
+          success: false,
+          data: "parseError"
+        }
       }
     })
     .catch(function (err) {
       // Handle failure
       console.log(`Axios error retrieving enrollments: ${err}`)
 
-      // Unknown error occurred
-      return {
-        success: false,
-        data: "axiosError"
-      }
+      // Handle error responses
+      if (err.response.status === 401) {
+        return {
+          success: false,
+          data: "authenticationError"
+        }
+      } else if (err.response.status === 400) {
+        return {
+          success: false,
+          data: "badRequestError"
+        }
+      } else {
+        // Unknown error occurred
+        return {
+          success: false,
+          data: "axiosError"
+        }
+      } 
     });
 }
 
@@ -176,32 +178,33 @@ export async function getEnrollments(userId: number): Promise<any> {
 export async function getCourseDeliverables(courseId: number, context: string): Promise<any> {
   return await axios.get(`${DOMAIN}/api/course/${courseId}/${context}`)
     .then(function (res) {
-      if (res.status === 200) {
-        return {
-          success: true,
-          data: res.data
-        }
-      } else if (res.status === 401) {
-        return {
-          success: false,
-          data: "authenticationError"
-        }
-      } else {
-        return {
-          success: false,
-          data: "badRequestError"
-        }
+      return {
+        success: true,
+        data: res.data
       }
     })
     .catch(function (err) {
       // Handle failure
       console.log(`Axios error retrieving assignments: ${err}`)
 
-      // Unknown error occurred
-      return {
-        success: false,
-        data: "axiosError"
-      }
+      // Handle error responses
+      if (err.response.status === 401) {
+        return {
+          success: false,
+          data: "authenticationError"
+        }
+      } else if (err.response.status === 400) {
+        return {
+          success: false,
+          data: "badRequestError"
+        }
+      } else {
+        // Unknown error occurred
+        return {
+          success: false,
+          data: "axiosError"
+        }
+      } 
     });
 }
 
