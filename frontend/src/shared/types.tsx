@@ -63,6 +63,7 @@ export type CourseInfo = {
 
 // Student -> CourseAssignment
 export type CourseAssignment = {
+  id: number,
   title: string
   description: string
   isComplete: boolean
@@ -71,6 +72,7 @@ export type CourseAssignment = {
 
 // Student -> CourseAnnouncement
 export type CourseAnnouncement = {
+  id: number
   title: string
   description: string
   announcementDate: string
