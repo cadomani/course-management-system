@@ -17,7 +17,6 @@ import {
   Avatar,
   AvatarBadge,
 } from "@chakra-ui/react";
-// const DOMAIN = import.meta.env.VITE_DOMAIN;
 
 /**
  * Container for the profile viewer
